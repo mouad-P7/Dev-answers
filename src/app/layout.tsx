@@ -1,6 +1,7 @@
 import React from "react";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@context/ThemeProvider";
 import type { Metadata } from "next";
 import "@styles/globals.css";
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description: "Platform for asking and answering programming questions.",
 };
 
-export default function RootLayout({
+export default function GlobalLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -20,7 +21,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <main>{children}</main>
+          <ThemeProvider>
+            <main>{children}</main>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
