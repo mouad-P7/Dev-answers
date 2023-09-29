@@ -3,6 +3,7 @@ import Image from "next/image";
 import { UserButton, SignedIn } from "@clerk/nextjs";
 import Theme from "./Theme";
 import MobileNavbar from "./MobileNavbar";
+import GlobalSearch from "./GlobalSearch";
 
 export default function Navbar() {
   return (
@@ -18,7 +19,7 @@ export default function Navbar() {
           Dev <span className="text-primary-500">Answers</span>
         </p>
       </Link>
-      GlobalSearch
+      <GlobalSearch />
       <div className="flex-between gap-5">
         <Theme />
         <SignedIn>
