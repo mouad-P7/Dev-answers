@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { UserButton, SignedIn } from "@clerk/nextjs";
 import Theme from "./Theme";
+import MobileNavbar from "./MobileNavbar";
 
 export default function Navbar() {
   return (
@@ -29,7 +30,7 @@ export default function Navbar() {
             }}
           />
         </SignedIn>
-        MobileNavbar
+        <MobileNavbar />
       </div>
     </nav>
   );
