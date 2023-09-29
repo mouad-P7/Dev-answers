@@ -19,7 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
+      "@/*": ["./src/*"],
       "@ui/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@context/*": ["./src/context/*"],
