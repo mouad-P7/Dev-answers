@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { HomePageFilters } from "@/constants/filters";
 import { Button } from "@/components/ui/button";
 import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
-import { HomePageFilters } from "@/constants/filters";
+import HomeFilter from "@/components/home/HomeFilter";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
           otherClasses="w-36 sm:w-40"
         />
       </div>
+      <HomeFilter />
       <div>
         <p>Card</p>
         <p>Card</p>
