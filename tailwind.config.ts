@@ -13,6 +13,7 @@ const config: Config = {
     },
     extend: {
       colors: {
+        "accent-blue": "#1DA1F2",
         primary: {
           500: "#FF7000",
           100: "#FFF1E6",
@@ -32,7 +33,6 @@ const config: Config = {
           500: "#7B8EC8",
           400: "#858EAD",
         },
-        "accent-blue": "#1DA1F2",
       },
       fontFamily: {
         inter: ["var(--font-inter)"],
@@ -40,11 +40,11 @@ const config: Config = {
       },
       boxShadow: {
         "light-100":
-          "0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px rgba(184, 184, 184, 0.02), 0px 2px 4px 0px rgba(184, 184, 184, 0.03)",
-        "light-200": "10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
-        "light-300": "-10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
-        "dark-100": "0px 2px 10px 0px rgba(46, 52, 56, 0.10)",
-        "dark-200": "2px 0px 20px 0px rgba(39, 36, 36, 0.04)",
+          "0px 12px 20px 0px #b8b8b808, 0px 6px 12px 0px #b8b8b805, 0px 2px 4px 0px #b8b8b808",
+        "light-200": "10px 10px 20px 0px #dad5d51a",
+        "light-300": "-10px 10px 20px 0px #dad5d51a",
+        "dark-100": "0px 2px 10px 0px #2e34381a",
+        "dark-200": "2px 0px 20px 0px #2724240a",
       },
       backgroundImage: {
         "auth-dark": "url('/assets/images/auth-dark.png')",
