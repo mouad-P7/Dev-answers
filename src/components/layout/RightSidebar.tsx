@@ -16,15 +16,16 @@ const hotQuestions = [
     title: "What is an example of 3 numbers that do not make up a vector?",
   },
 ];
+
 const popularTags = [
-  { id: 1, name: "javascript", num: 20152 },
-  { id: 2, name: "next.js", num: 20152 },
-  { id: 3, name: "react.js", num: 18493 },
-  { id: 4, name: "node.js", num: 16378 },
-  { id: 5, name: "python", num: 15152 },
-  { id: 6, name: "microsoft azure", num: 14142 },
-  { id: 7, name: "postgre sql", num: 9445 },
-  { id: 8, name: "machine learning", num: 9400 },
+  { id: "1", name: "javascript", num: 20152 },
+  { id: "2", name: "next.js", num: 20152 },
+  { id: "3", name: "react.js", num: 18493 },
+  { id: "4", name: "node.js", num: 16378 },
+  { id: "5", name: "python", num: 15152 },
+  { id: "6", name: "microsoft azure", num: 14142 },
+  { id: "7", name: "postgre sql", num: 9445 },
+  { id: "8", name: "machine learning", num: 9400 },
 ];
 
 export default function RightSidebar() {

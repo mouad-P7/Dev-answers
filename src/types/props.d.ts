@@ -10,7 +10,7 @@ export interface QuestionCardProps {
 }
 
 export interface TagProps {
-  tag: { id: number; name: string; num?: number };
+  tag: { id: string; name: string; num?: number };
 }
 
 export interface FilterProps {
