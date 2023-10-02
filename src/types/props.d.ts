@@ -1,16 +1,20 @@
+export interface QuestionCardProps {
+  id: string;
+  title: string;
+  tags: { id: string; name: string }[];
+  author: { id: string; name: string; picture: string };
+  upvotes: number;
+  views: number;
+  answers: Array;
+  createdAt: Date;
+}
+
 export interface TagProps {
-  tag: {
-    id: number;
-    name: string;
-    num?: number;
-  };
+  tag: { id: number; name: string; num?: number };
 }
 
 export interface FilterProps {
-  filters: {
-    name: string;
-    value: string;
-  }[];
+  filters: { name: string; value: string }[];
   containerClasses?: string;
   otherClasses?: string;
 }

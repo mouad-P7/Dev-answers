@@ -4,11 +4,64 @@ import { Button } from "@/components/ui/button";
 import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
 import HomeFilter from "@/components/home/HomeFilter";
+import QuestionCard from "@/components/cards/QuestionCard";
+
+const questions = [
+  {
+    id: "1",
+    title:
+      "JavaScript validation for a form stops the form data from being submitted to mysql database",
+    tags: [
+      { id: "1", name: "javascript" },
+      { id: "2", name: "sql" },
+    ],
+    author: {
+      id: "1",
+      name: "John Doe",
+      picture: "john-doe.jpg",
+    },
+    upvotes: 1500000,
+    views: 500552,
+    answers: [],
+    createdAt: new Date("2023-09-01T12:00:00.000Z"),
+  },
+  {
+    id: "2",
+    title: "How to center a div?",
+    tags: [
+      { id: "3", name: "css" },
+      { id: "4", name: "html" },
+    ],
+    author: {
+      id: "2",
+      name: "Jane Smith",
+      picture: "jane-smith.jpg",
+    },
+    upvotes: 5,
+    views: 50,
+    answers: [],
+    createdAt: new Date("2021-09-02T10:30:00.000Z"),
+  },
+  {
+    id: "3",
+    title: "How to create a SAAS?",
+    tags: [{ id: "5", name: "saas" }],
+    author: {
+      id: "3",
+      name: "Mouad Ananouch",
+      picture: "mouad-ananouch.jpg",
+    },
+    upvotes: 0,
+    views: 0,
+    answers: [],
+    createdAt: new Date("2023-10-01T10:30:00.000Z"),
+  },
+];
 
 export default function Home() {
   return (
-    <div className="text-dark100_light900">
-      <div className="flex-between">
+    <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
+      <div className="flex-between w-full">
         <p className="h3-bold sm:h2-bold">All Questions</p>
         <Link href="/ask-question">
           <Button className="paragraph-medium primary-gradient w-36 text-light-900 sm:w-40">
@@ -16,7 +69,7 @@ export default function Home() {
           </Button>
         </Link>
       </div>
-      <div className="mt-6 flex items-center justify-between gap-5">
+      <div className="flex w-full items-center justify-between gap-5">
         <LocalSearch otherClasses="sm:w-full">Search a question...</LocalSearch>
         <Filter
           filters={HomePageFilters}
@@ -25,10 +78,22 @@ export default function Home() {
         />
       </div>
       <HomeFilter />
-      <div>
-        <p>Card</p>
-        <p>Card</p>
-        <p>Card</p>
+      <div className="flex-start w-full flex-col gap-4">
+        {questions.length > 0
+          ? questions.map((qst) => (
+              <QuestionCard
+                key={qst.id}
+                id={qst.id}
+                title={qst.title}
+                tags={qst.tags}
+                author={qst.author}
+                upvotes={qst.upvotes}
+                views={qst.views}
+                answers={qst.answers}
+                createdAt={qst.createdAt}
+              />
+            ))
+          : "No Results Found"}
       </div>
     </div>
   );
