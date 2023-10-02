@@ -1,3 +1,13 @@
+export interface MetricProps {
+  imgUrl: string;
+  alt: string;
+  value: string | number;
+  title: string;
+  textClasses?: string;
+  href?: string;
+  isAuthor?: boolean;
+}
+
 export interface NoResultProps {
   title: string;
   description: string;
