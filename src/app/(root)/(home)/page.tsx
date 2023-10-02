@@ -5,6 +5,7 @@ import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
 import HomeFilter from "@/components/home/HomeFilter";
 import QuestionCard from "@/components/cards/QuestionCard";
+import NoResult from "@/components/shared/NoResult";
 
 const questions = [
   {
@@ -79,21 +80,28 @@ export default function Home() {
       </div>
       <HomeFilter />
       <div className="flex-start w-full flex-col gap-4">
-        {questions.length > 0
-          ? questions.map((qst) => (
-              <QuestionCard
-                key={qst.id}
-                id={qst.id}
-                title={qst.title}
-                tags={qst.tags}
-                author={qst.author}
-                upvotes={qst.upvotes}
-                views={qst.views}
-                answers={qst.answers}
-                createdAt={qst.createdAt}
-              />
-            ))
-          : "No Results Found"}
+        {questions.length > 0 ? (
+          questions.map((qst) => (
+            <QuestionCard
+              key={qst.id}
+              id={qst.id}
+              title={qst.title}
+              tags={qst.tags}
+              author={qst.author}
+              upvotes={qst.upvotes}
+              views={qst.views}
+              answers={qst.answers}
+              createdAt={qst.createdAt}
+            />
+          ))
+        ) : (
+          <NoResult
+            title="There’s no question to show"
+            description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
+            link="/ask-question"
+            linkTitle="Ask a Question"
+          />
+        )}
       </div>
     </div>
   );

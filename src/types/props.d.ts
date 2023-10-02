@@ -1,3 +1,10 @@
+export interface NoResultProps {
+  title: string;
+  description: string;
+  link: string;
+  linkTitle: string;
+}
+
 export interface QuestionCardProps {
   id: string;
   title: string;
