@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { questionSchema } from "@/lib/schema";
+import { postQuestion } from "@/lib/actions/question.action";
 
 export default function Question() {
   const editorRef = useRef(null);
@@ -35,11 +36,11 @@ export default function Question() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof questionSchema>) {
+  async function onSubmit(values: z.infer<typeof questionSchema>) {
     setIsSubmitting(true);
     try {
-      // make async call to database
-      // go to home page
+      await postQuestion({});
+      // navigate to home page
     } catch (error) {
       // handle any error
     } finally {
@@ -121,7 +122,9 @@ export default function Question() {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Editor
-                  apiKey={process.env.TINY_EDITOR_API_KEY}
+                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   onInit={(evt, editor) =>
                     // @ts-ignore
                     (editorRef.current = editor)
