@@ -4,7 +4,7 @@ import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import { questionSchema } from "@/lib/schema";
 
 export default function Question() {
   const editorRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionSchema>>({
@@ -35,7 +36,15 @@ export default function Question() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
-    console.log(values);
+    setIsSubmitting(true);
+    try {
+      // make async call to database
+      // go to home page
+    } catch (error) {
+      // handle any error
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function handleInputKeyDown(
@@ -200,7 +209,13 @@ export default function Question() {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          className="primary-gradient w-fit !text-light-900"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? <>Posting...</> : <>Ask a Question</>}
+        </Button>
       </form>
     </Form>
   );
