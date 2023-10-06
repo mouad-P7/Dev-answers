@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { usePathname, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +22,11 @@ import {
 import { questionSchema } from "@/lib/schema";
 import { postQuestion } from "@/lib/actions/question.action";
 
-export default function Question() {
+export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionSchema>>({
@@ -39,8 +42,14 @@ export default function Question() {
   async function onSubmit(values: z.infer<typeof questionSchema>) {
     setIsSubmitting(true);
     try {
-      await postQuestion({});
-      // navigate to home page
+      await postQuestion({
+        title: values.title,
+        explanation: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+      router.push("/");
     } catch (error) {
       // handle any error
     } finally {
