@@ -2,7 +2,7 @@ import { Schema, model, models, Document } from "mongoose";
 
 export interface QuestionType extends Document {
   title: string;
-  description: string;
+  explanation: string;
   tags: Schema.Types.ObjectId[];
   author: Schema.Types.ObjectId;
   views: number;
@@ -14,7 +14,7 @@ export interface QuestionType extends Document {
 
 const QuestionSchema = new Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
+  explanation: { type: String, required: true },
   tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   author: { type: Schema.Types.ObjectId, ref: "User" },
   views: { type: Number, default: 0 },
