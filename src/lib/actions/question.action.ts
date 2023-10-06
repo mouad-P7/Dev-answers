@@ -1,10 +1,27 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/mongoose";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
+import User from "@/database/user.model";
+import { getAllQuestionsParams, postQuestionParams } from "@/types/actions";
 
-export async function postQuestion(params: any) {
+export async function getAllQuestions(params: getAllQuestionsParams) {
+  try {
+    await connectToDatabase();
+    const questions = await Question.find({})
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User })
+      .sort({ createdAt: -1 });
+    return { questions };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function postQuestion(params: postQuestionParams) {
   try {
     await connectToDatabase();
     const { title, explanation, tags, author, path } = params;
@@ -29,8 +46,9 @@ export async function postQuestion(params: any) {
     });
 
     // Create an interaction record for the user's ask_question action
-
     // Increment author's reputation by +5 for creating a question
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;

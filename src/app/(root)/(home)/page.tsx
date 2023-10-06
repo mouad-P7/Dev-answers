@@ -6,60 +6,11 @@ import Filter from "@/components/shared/Filter";
 import HomeFilter from "@/components/home/HomeFilter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
+import { getAllQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    id: "1",
-    title:
-      "JavaScript validation for a form stops the form data from being submitted to mysql database",
-    tags: [
-      { id: "1", name: "javascript" },
-      { id: "2", name: "sql" },
-    ],
-    author: {
-      id: "1",
-      name: "John Doe",
-      picture: "john-doe.jpg",
-    },
-    upvotes: 1500000,
-    views: 500552,
-    answers: [],
-    createdAt: new Date("2023-09-01T12:00:00.000Z"),
-  },
-  {
-    id: "2",
-    title: "How to center a div?",
-    tags: [
-      { id: "3", name: "css" },
-      { id: "4", name: "html" },
-    ],
-    author: {
-      id: "2",
-      name: "Jane Smith",
-      picture: "jane-smith.jpg",
-    },
-    upvotes: 5,
-    views: 50,
-    answers: [],
-    createdAt: new Date("2021-09-02T10:30:00.000Z"),
-  },
-  {
-    id: "3",
-    title: "How to create a SAAS?",
-    tags: [{ id: "5", name: "saas" }],
-    author: {
-      id: "3",
-      name: "Mouad Ananouch",
-      picture: "mouad-ananouch.jpg",
-    },
-    upvotes: 0,
-    views: 0,
-    answers: [],
-    createdAt: new Date("2023-10-01T10:30:00.000Z"),
-  },
-];
+export default async function Home() {
+  const result = await getAllQuestions({});
 
-export default function Home() {
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
       <div className="flex-between w-full">
@@ -80,15 +31,15 @@ export default function Home() {
       </div>
       <HomeFilter />
       <div className="flex-start w-full flex-col gap-4">
-        {questions.length > 0 ? (
-          questions.map((qst) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((qst) => (
             <QuestionCard
               key={qst.id}
               id={qst.id}
               title={qst.title}
               tags={qst.tags}
               author={qst.author}
-              upvotes={qst.upvotes}
+              upvotes={qst.upvotes.length}
               views={qst.views}
               answers={qst.answers}
               createdAt={qst.createdAt}
