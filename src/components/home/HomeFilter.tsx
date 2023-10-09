@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 
 export default function HomeFilter() {
-  const active = "frequent";
+  const active = "newest";
 
   return (
     <div className="hidden flex-wrap gap-3 lg:flex">

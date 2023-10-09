@@ -8,7 +8,19 @@ import {
   createUserParams,
   updateUserParams,
   deleteUserParams,
+  getAllUsersParams,
 } from "@/types/actions";
+
+export async function getAllUsers(params: getAllUsersParams) {
+  try {
+    connectToDatabase();
+    const users = await User.find({}).sort({ createdAt: -1 });
+    return { users };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function deleteUser(params: deleteUserParams) {
   try {

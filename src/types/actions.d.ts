@@ -1,6 +1,18 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/database/user.model";
 
+export interface getTopInteractedTagsParams {
+  userId: string;
+  limit?: number;
+}
+
+export interface getAllUsersParams {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+}
+
 export interface deleteUserParams {
   clerkId: string;
 }

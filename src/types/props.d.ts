@@ -1,3 +1,11 @@
+export interface UserCardProps {
+  id: string;
+  clerkId?: string;
+  picture: string;
+  name: string;
+  userName: string;
+}
+
 export interface MetricProps {
   imgUrl: string;
   alt: string;
