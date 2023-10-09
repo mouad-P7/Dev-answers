@@ -18,9 +18,7 @@ export default function Metric({
         width={16}
         height={16}
         alt={alt}
-        className={`object-contain invert dark:invert-0 ${
-          href ? "rounded-full" : ""
-        }`}
+        className={`object-contain ${href ? "rounded-full" : ""}`}
       />
       <p className={`flex items-center gap-1 ${textClasses}`}>
         {value}
