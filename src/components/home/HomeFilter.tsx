@@ -5,7 +5,7 @@ export default function HomeFilter() {
   const active = "frequent";
 
   return (
-    <div className="mt-10 hidden flex-wrap gap-3 lg:flex">
+    <div className="hidden flex-wrap gap-3 lg:flex">
       {HomePageFilters.map((filter) => (
         <Button
           key={filter.value}
