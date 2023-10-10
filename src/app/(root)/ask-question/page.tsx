@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
-import { getUserById } from "@/lib/actions/user.action";
+import { getUserById } from "@/server/actions/user.action";
 import QuestionForm from "@/components/forms/QuestionForm";
 
 export default async function AskQuestion() {

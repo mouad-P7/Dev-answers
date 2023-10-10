@@ -1,9 +1,9 @@
 "use server";
 
-import User from "@/database/user.model";
-import Tag from "@/database/tag.model";
-import { connectToDatabase } from "../mongoose";
-import { getTopInteractedTagsParams } from "@/types/actions";
+import User from "@/server/database/user.model";
+import Tag from "@/server/database/tag.model";
+import { connectToDatabase } from "@/server/mongoose";
+import { getTopInteractedTagsParams } from "./actions";
 
 export async function getAllTags(params: any) {
   try {

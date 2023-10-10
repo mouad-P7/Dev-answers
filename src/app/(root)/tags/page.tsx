@@ -2,7 +2,7 @@ import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
 import TagCard from "@/components/cards/TagCard";
 import { TagsPageFilters } from "@/constants/filters";
-import { getAllTags } from "@/lib/actions/tag.action";
+import { getAllTags } from "@/server/actions/tag.action";
 
 export default async function Tags() {
   const result = await getAllTags({});

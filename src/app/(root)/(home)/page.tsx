@@ -6,7 +6,7 @@ import Filter from "@/components/shared/Filter";
 import HomeFilter from "@/components/home/HomeFilter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
-import { getAllQuestions } from "@/lib/actions/question.action";
+import { getAllQuestions } from "@/server/actions/question.action";
 
 export default async function Home() {
   const result = await getAllQuestions({});

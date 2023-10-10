@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { connectToDatabase } from "@/lib/mongoose";
-import Question from "@/database/question.model";
-import Tag from "@/database/tag.model";
-import User from "@/database/user.model";
-import { getAllQuestionsParams, postQuestionParams } from "@/types/actions";
+import { connectToDatabase } from "@/server/mongoose";
+import Question from "@/server/database/question.model";
+import Tag from "@/server/database/tag.model";
+import User from "@/server/database/user.model";
+import { getAllQuestionsParams, postQuestionParams } from "./actions";
 
 export async function getAllQuestions(params: getAllQuestionsParams) {
   try {

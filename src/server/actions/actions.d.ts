@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { UserType } from "@/database/user.model";
+import { UserType } from "@/server/database/user.model";
 
 export interface getTopInteractedTagsParams {
   userId: string;

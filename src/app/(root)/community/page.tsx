@@ -2,7 +2,7 @@ import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
 import UserCard from "@/components/cards/UserCard";
 import { CommunityPageFilters } from "@/constants/filters";
-import { getAllUsers } from "@/lib/actions/user.action";
+import { getAllUsers } from "@/server/actions/user.action";
 
 export default async function Community() {
   const result = await getAllUsers({});

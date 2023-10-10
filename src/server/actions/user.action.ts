@@ -1,15 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import User from "@/database/user.model";
-import Question from "@/database/question.model";
-import { connectToDatabase } from "@/lib/mongoose";
+import User from "@/server/database/user.model";
+import Question from "@/server/database/question.model";
+import { connectToDatabase } from "@/server/mongoose";
 import {
   createUserParams,
   updateUserParams,
   deleteUserParams,
   getAllUsersParams,
-} from "@/types/actions";
+} from "./actions";
 
 export async function getAllUsers(params: getAllUsersParams) {
   try {

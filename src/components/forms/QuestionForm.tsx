@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { questionSchema } from "@/lib/schema";
-import { postQuestion } from "@/lib/actions/question.action";
+import { postQuestion } from "@/server/actions/question.action";
 
 export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
   const editorRef = useRef(null);
