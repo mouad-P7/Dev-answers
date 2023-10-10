@@ -1,3 +1,10 @@
+export const TagsPageFilters = [
+  { name: "Popular", value: "popular" },
+  { name: "Recent", value: "recent" },
+  { name: "Name", value: "name" },
+  { name: "Old", value: "old" },
+];
+
 export const CommunityPageFilters = [
   { name: "New Users", value: "new_users" },
   { name: "Old Users", value: "old_users" },

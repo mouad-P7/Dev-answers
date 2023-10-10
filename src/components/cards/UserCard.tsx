@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Tag from "@/components/shared/Tag";
 import { UserCardProps } from "@/types/props";
-import { getTopInteractedTags } from "@/lib/actions/tag.actions";
+import { getTopInteractedTags } from "@/lib/actions/tag.action";
 
 export default async function UserCard({
   id,

@@ -1,3 +1,9 @@
+export interface TagCardProps {
+  tag: { id: string; name: string };
+  description: string;
+  questionsNumber: number;
+}
+
 export interface UserCardProps {
   id: string;
   clerkId?: string;
