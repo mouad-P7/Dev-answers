@@ -7,6 +7,23 @@ import Tag from "@/server/database/tag.model";
 import User from "@/server/database/user.model";
 import { getAllQuestionsParams, postQuestionParams } from "./actions";
 
+export async function getQuestionById(questionId: string) {
+  try {
+    connectToDatabase();
+    const question = await Question.findById(questionId)
+      .populate({ path: "tags", model: Tag, select: "_id name" })
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id clerkId name picture",
+      });
+    return question;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function getAllQuestions(params: getAllQuestionsParams) {
   try {
     await connectToDatabase();

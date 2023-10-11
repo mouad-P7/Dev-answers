@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   experimental: {
     serverActions: true,
@@ -7,14 +8,8 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "*",
-      },
-      {
-        protocol: "http",
-        hostname: "*",
-      },
+      { protocol: "https", hostname: "*" },
+      { protocol: "http", hostname: "*" },
     ],
   },
 };
