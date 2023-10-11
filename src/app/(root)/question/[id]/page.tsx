@@ -3,6 +3,7 @@ import Tag from "@/components/shared/Tag";
 import { getQuestionById } from "@/server/actions/question.action";
 import { formatDate, formatNumber } from "@/lib/format";
 import { TagType } from "@/server/database/tag.model";
+import ParseHTML from "@/components/shared/ParseHTML";
 
 export default async function Question({ params }: { params: { id: string } }) {
   const question = await getQuestionById(params.id);
@@ -50,7 +51,7 @@ export default async function Question({ params }: { params: { id: string } }) {
             textClasses="small-regular text-dark400_light700"
           />
         </div>
-        <div className="">explanation</div>
+        <ParseHTML data={question.explanation} />
         <div className="flex-start gap-2">
           {question.tags.map((tag: TagType) => (
             <Tag key={tag._id} tag={{ id: tag._id, name: tag.name }} />
