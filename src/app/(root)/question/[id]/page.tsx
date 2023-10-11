@@ -4,6 +4,7 @@ import { getQuestionById } from "@/server/actions/question.action";
 import { formatDate, formatNumber } from "@/lib/format";
 import { TagType } from "@/server/database/tag.model";
 import ParseHTML from "@/components/shared/ParseHTML";
+import AnswerForm from "@/components/forms/AnswerForm";
 
 export default async function Question({ params }: { params: { id: string } }) {
   const question = await getQuestionById(params.id);
@@ -58,7 +59,7 @@ export default async function Question({ params }: { params: { id: string } }) {
           ))}
         </div>
       </div>
-      <div className="mt-4 flex flex-col gap-4">all answers</div>
+      <AnswerForm />
     </>
   );
 }
