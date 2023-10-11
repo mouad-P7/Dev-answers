@@ -7,6 +7,7 @@ import * as z from "zod";
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "@/context/ThemeProvider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +26,7 @@ import { postQuestion } from "@/server/actions/question.action";
 export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mode } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -163,6 +165,8 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
                       "codesample | bold italic forecolor | alignleft aligncenter |" +
                       "alignright alignjustify | bullist numlist",
                     content_style: "body { font-family:Inter; font-size:16px }",
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode === "dark" ? "dark" : "light",
                   }}
                 />
               </FormControl>

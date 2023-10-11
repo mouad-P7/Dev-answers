@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Editor } from "@tinymce/tinymce-react";
+import { useTheme } from "@/context/ThemeProvider";
 import {
   Form,
   FormField,
@@ -18,7 +19,8 @@ import { answerSchema } from "@/lib/schema";
 
 export default function AnswerForm() {
   const editorRef = useRef(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting] = useState(false);
+  const { mode } = useTheme();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof answerSchema>>({
@@ -58,7 +60,7 @@ export default function AnswerForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-3 flex w-full flex-col gap-10"
+          className="my-4 flex w-full flex-col gap-10"
         >
           <FormField
             control={form.control}
@@ -100,6 +102,8 @@ export default function AnswerForm() {
                         "alignright alignjustify | bullist numlist",
                       content_style:
                         "body { font-family:Inter; font-size:16px }",
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode === "dark" ? "dark" : "light",
                     }}
                   />
                 </FormControl>
