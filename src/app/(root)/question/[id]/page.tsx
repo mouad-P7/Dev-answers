@@ -1,3 +1,4 @@
+import { auth } from "@clerk/nextjs";
 import Metric from "@/components/shared/Metric";
 import Tag from "@/components/shared/Tag";
 import { getQuestionById } from "@/server/actions/question.action";
@@ -5,8 +6,12 @@ import { formatDate, formatNumber } from "@/lib/format";
 import { TagType } from "@/server/database/tag.model";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AnswerForm from "@/components/forms/AnswerForm";
+import { getUserById } from "@/server/actions/user.action";
 
 export default async function Question({ params }: { params: { id: string } }) {
+  const { userId: clerkId } = auth();
+  let mongoUser;
+  if (clerkId) mongoUser = await getUserById({ userId: clerkId });
   const question = await getQuestionById(params.id);
 
   return (
@@ -59,7 +64,11 @@ export default async function Question({ params }: { params: { id: string } }) {
           ))}
         </div>
       </div>
-      <AnswerForm />
+      <AnswerForm
+        question={question.content}
+        questionId={JSON.stringify(question._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 }

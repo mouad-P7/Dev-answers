@@ -1,6 +1,13 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/server/database/user.model";
 
+export interface postAnswerParams {
+  author: string;
+  content: string;
+  question: string;
+  path: string;
+}
+
 export interface getTopInteractedTagsParams {
   userId: string;
   limit?: number;

@@ -1,3 +1,9 @@
+export interface AnswerFormProps {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
+
 export interface TagCardProps {
   tag: { id: string; name: string };
   description: string;

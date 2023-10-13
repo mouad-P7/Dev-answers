@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Editor } from "@tinymce/tinymce-react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+import { postAnswer } from "@/server/actions/answer.action";
 import {
   Form,
   FormField,
@@ -16,11 +18,17 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { answerSchema } from "@/lib/schema";
+import { AnswerFormProps } from "@/types/props";
 
-export default function AnswerForm() {
+export default function AnswerForm({
+  question,
+  questionId,
+  authorId,
+}: AnswerFormProps) {
   const editorRef = useRef(null);
-  const [isSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { mode } = useTheme();
+  const pathname = usePathname();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof answerSchema>>({
@@ -31,10 +39,27 @@ export default function AnswerForm() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof answerSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof answerSchema>) {
+    setIsSubmitting(true);
+    try {
+      await postAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
+      form.reset();
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent("");
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+      console.log(values);
+    }
   }
 
   return (
