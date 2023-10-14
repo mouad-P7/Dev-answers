@@ -5,6 +5,7 @@ import { AnswerFilters } from "@/constants/filters";
 import { formatDate } from "@/lib/format";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
+// import Votes from "@/components/shared/Votes";
 
 export default async function AllAnswers({
   questionId,
@@ -39,11 +40,15 @@ export default async function AllAnswers({
                 isAuthor
                 textClasses="body-medium text-dark400_light700"
               />
-              <div className="flex-start gap-3">
-                <div className="">🔼</div>
-                <div className="">🔽</div>
-                <div className="">⭐</div>
-              </div>
+              {/* <Votes
+                type="answer"
+                itemId={JSON.stringify()}
+                userId={JSON.stringify()}
+                upvotes={}
+                hasUpVoted={}
+                downvotes={}
+                hasDownVoted={}
+              /> */}
             </div>
             <ParseHTML data={answer.content} />
           </div>

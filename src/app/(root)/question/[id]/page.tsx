@@ -8,6 +8,7 @@ import ParseHTML from "@/components/shared/ParseHTML";
 import AnswerForm from "@/components/forms/AnswerForm";
 import { getUserById } from "@/server/actions/user.action";
 import AllAnswers from "@/components/pages/question/AllAnswers";
+import Votes from "@/components/shared/Votes";
 
 export default async function Question({ params }: { params: { id: string } }) {
   const { userId: clerkId } = auth();
@@ -28,11 +29,16 @@ export default async function Question({ params }: { params: { id: string } }) {
             isAuthor
             textClasses="paragraph-semibold text-dark300_light700"
           />
-          <div className="flex-start gap-3">
-            <div className="">🔼</div>
-            <div className="">🔽</div>
-            <div className="">⭐</div>
-          </div>
+          <Votes
+            type="question"
+            itemId={JSON.stringify(question._id)}
+            userId={JSON.stringify(mongoUser._id)}
+            upvotes={question.upvotes.length}
+            hasUpVoted={question.upvotes.includes(mongoUser._id)}
+            downvotes={question.downvotes.length}
+            hasDownVoted={question.downvotes.includes(mongoUser._id)}
+            hasSaved={mongoUser?.saved.includes(question._id)}
+          />
         </div>
         <p className="h2-semibold text-dark200_light900">{question.title}</p>
         <div className="flex-start gap-2">

@@ -1,3 +1,14 @@
+export interface VotesProps {
+  type: string;
+  itemId: string;
+  userId: string;
+  upvotes: number;
+  hasUpVoted: boolean;
+  downvotes: number;
+  hasDownVoted: boolean;
+  hasSaved?: boolean;
+}
+
 export interface AllAnswersProps {
   questionId: string;
   userId: string;
