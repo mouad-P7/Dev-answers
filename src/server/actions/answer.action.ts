@@ -6,6 +6,19 @@ import { postAnswerParams } from "./actions";
 import Answer from "../database/answer.model";
 import Question from "../database/question.model";
 
+export async function getAllAnswers(questionId: string) {
+  try {
+    await connectToDatabase();
+    const answers = await Answer.find({ question: questionId })
+      .populate("author", "_id clerkId name picture")
+      .sort({ createdAt: -1 });
+    return { answers };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export async function postAnswer(params: postAnswerParams) {
   try {
     await connectToDatabase();

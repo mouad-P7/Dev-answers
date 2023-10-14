@@ -7,6 +7,7 @@ import { TagType } from "@/server/database/tag.model";
 import ParseHTML from "@/components/shared/ParseHTML";
 import AnswerForm from "@/components/forms/AnswerForm";
 import { getUserById } from "@/server/actions/user.action";
+import AllAnswers from "@/components/pages/question/AllAnswers";
 
 export default async function Question({ params }: { params: { id: string } }) {
   const { userId: clerkId } = auth();
@@ -28,9 +29,9 @@ export default async function Question({ params }: { params: { id: string } }) {
             textClasses="paragraph-semibold text-dark300_light700"
           />
           <div className="flex-start gap-3">
-            <div className="">up</div>
-            <div className="">down</div>
-            <div className="">star</div>
+            <div className="">🔼</div>
+            <div className="">🔽</div>
+            <div className="">⭐</div>
           </div>
         </div>
         <p className="h2-semibold text-dark200_light900">{question.title}</p>
@@ -64,6 +65,11 @@ export default async function Question({ params }: { params: { id: string } }) {
           ))}
         </div>
       </div>
+      <AllAnswers
+        questionId={question._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers={question.answers.length}
+      />
       <AnswerForm
         question={question.content}
         questionId={JSON.stringify(question._id)}

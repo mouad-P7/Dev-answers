@@ -1,3 +1,11 @@
+export interface AllAnswersProps {
+  questionId: string;
+  userId: string;
+  totalAnswers: number;
+  page?: number;
+  filter?: number;
+}
+
 export interface AnswerFormProps {
   question: string;
   questionId: string;
