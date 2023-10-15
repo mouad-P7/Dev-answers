@@ -1,6 +1,15 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/server/database/user.model";
 
+export interface voteQuestionParams {
+  action: string;
+  questionId: string;
+  userId: string;
+  hasUpVoted: boolean;
+  hasDownVoted: boolean;
+  path: string;
+}
+
 export interface postAnswerParams {
   author: string;
   content: string;

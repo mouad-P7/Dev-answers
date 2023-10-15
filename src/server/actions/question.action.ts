@@ -5,7 +5,50 @@ import { connectToDatabase } from "@/server/mongoose";
 import Question from "@/server/database/question.model";
 import Tag from "@/server/database/tag.model";
 import User from "@/server/database/user.model";
-import { getAllQuestionsParams, postQuestionParams } from "./actions";
+import {
+  getAllQuestionsParams,
+  postQuestionParams,
+  voteQuestionParams,
+} from "./actions";
+
+export async function voteQuestion(params: voteQuestionParams) {
+  try {
+    connectToDatabase();
+    const { action, questionId, userId, hasUpVoted, hasDownVoted, path } =
+      params;
+    let updateQuery = {};
+
+    if (action === "upvote") {
+      if (hasUpVoted) updateQuery = { $pull: { upvotes: userId } };
+      else if (hasDownVoted) {
+        updateQuery = {
+          $pull: { downvotes: userId },
+          $push: { upvotes: userId },
+        };
+      } else updateQuery = { $addToSet: { upvotes: userId } };
+    } else if (action === "downvote") {
+      if (hasDownVoted) updateQuery = { $pull: { downvotes: userId } };
+      else if (hasUpVoted) {
+        updateQuery = {
+          $pull: { upvotes: userId },
+          $push: { downvotes: userId },
+        };
+      } else updateQuery = { $addToSet: { downvotes: userId } };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+    if (!question) throw new Error("Question not found");
+
+    // Increment author's reputation
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function getQuestionById(questionId: string) {
   try {
