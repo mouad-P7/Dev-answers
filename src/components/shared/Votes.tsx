@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { VotesProps } from "@/types/props";
 import { formatNumber } from "@/lib/format";
+import { voteQuestion } from "@/server/actions/question.action";
 
 export default function Votes({
   type,
@@ -15,9 +17,37 @@ export default function Votes({
   hasDownVoted,
   hasSaved,
 }: VotesProps) {
+  const pathname = usePathname();
+
   async function handleSave() {}
 
-  async function handleVote(action: string) {}
+  async function handleVote(action: string) {
+    if (!userId) {
+      console.error("No userId");
+      return;
+    }
+    if (type === "question") {
+      await voteQuestion({
+        action,
+        questionId: JSON.parse(itemId),
+        userId: JSON.parse(userId),
+        hasUpVoted,
+        hasDownVoted,
+        path: pathname,
+      });
+      // show a toast
+    } else if (type === "answer") {
+      // await voteAnswer({
+      //   action,
+      //   questionId: JSON.parse(itemId),
+      //   userId: JSON.parse(userId),
+      //   hasUpVoted,
+      //   hasDownVoted,
+      //   path: pathname,
+      // });
+      // show a toast
+    }
+  }
 
   return (
     <div className="flex-start gap-3">
