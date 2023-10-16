@@ -1,6 +1,12 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/server/database/user.model";
 
+export interface saveQuestionParams {
+  questionId: string;
+  userId: string;
+  path: string;
+}
+
 export interface voteAnswerParams {
   action: string;
   answerId: string;

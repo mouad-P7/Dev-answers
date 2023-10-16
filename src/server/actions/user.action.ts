@@ -9,7 +9,28 @@ import {
   updateUserParams,
   deleteUserParams,
   getAllUsersParams,
+  saveQuestionParams,
 } from "./actions";
+
+export async function saveQuestion(params: saveQuestionParams) {
+  try {
+    connectToDatabase();
+    const { questionId, userId, path } = params;
+    const user = await User.findById(userId);
+    if (!user) throw new Error("User not found");
+    const hasSaved = user.saved.includes(questionId);
+
+    let updateQuery = {};
+    if (hasSaved) updateQuery = { $pull: { saved: questionId } };
+    else updateQuery = { $addToSet: { saved: questionId } };
+
+    await User.findByIdAndUpdate(userId, updateQuery, { new: true });
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function getAllUsers(params: getAllUsersParams) {
   try {

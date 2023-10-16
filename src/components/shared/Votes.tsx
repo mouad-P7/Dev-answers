@@ -7,6 +7,7 @@ import { VotesProps } from "@/types/props";
 import { formatNumber } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
 import { voteAnswer } from "@/server/actions/answer.action";
+import { saveQuestion } from "@/server/actions/user.action";
 
 export default function Votes({
   type,
@@ -20,7 +21,13 @@ export default function Votes({
 }: VotesProps) {
   const pathname = usePathname();
 
-  async function handleSave() {}
+  async function handleSave() {
+    await saveQuestion({
+      questionId: JSON.parse(itemId),
+      userId: JSON.parse(userId),
+      path: pathname,
+    });
+  }
 
   async function handleVote(action: string) {
     if (!userId) {
