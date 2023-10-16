@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import User from "@/server/database/user.model";
 import Question from "@/server/database/question.model";
+import Tag from "@/server/database/tag.model";
 import { connectToDatabase } from "@/server/mongoose";
 import {
   createUserParams,
@@ -11,6 +12,26 @@ import {
   getAllUsersParams,
   saveQuestionParams,
 } from "./actions";
+
+export async function getAllSavedQuestions(clerkId: string) {
+  try {
+    connectToDatabase();
+    const user = await User.findOne({ clerkId }).populate({
+      path: "saved",
+      options: { sort: { createdAt: -1 } },
+      populate: [
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
+      ],
+    });
+    if (!user) throw new Error("User not found");
+    const savedQuestions = user.saved;
+    return { savedQuestions };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function saveQuestion(params: saveQuestionParams) {
   try {
