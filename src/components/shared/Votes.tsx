@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { VotesProps } from "@/types/props";
 import { formatNumber } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
+import { voteAnswer } from "@/server/actions/answer.action";
 
 export default function Votes({
   type,
@@ -37,14 +38,14 @@ export default function Votes({
       });
       // show a toast
     } else if (type === "answer") {
-      // await voteAnswer({
-      //   action,
-      //   questionId: JSON.parse(itemId),
-      //   userId: JSON.parse(userId),
-      //   hasUpVoted,
-      //   hasDownVoted,
-      //   path: pathname,
-      // });
+      await voteAnswer({
+        action,
+        answerId: JSON.parse(itemId),
+        userId: JSON.parse(userId),
+        hasUpVoted,
+        hasDownVoted,
+        path: pathname,
+      });
       // show a toast
     }
   }

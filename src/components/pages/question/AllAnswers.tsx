@@ -5,7 +5,7 @@ import { AnswerFilters } from "@/constants/filters";
 import { formatDate } from "@/lib/format";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
-// import Votes from "@/components/shared/Votes";
+import Votes from "@/components/shared/Votes";
 
 export default async function AllAnswers({
   questionId,
@@ -40,15 +40,15 @@ export default async function AllAnswers({
                 isAuthor
                 textClasses="body-medium text-dark400_light700"
               />
-              {/* <Votes
+              <Votes
                 type="answer"
-                itemId={JSON.stringify()}
-                userId={JSON.stringify()}
-                upvotes={}
-                hasUpVoted={}
-                downvotes={}
-                hasDownVoted={}
-              /> */}
+                itemId={JSON.stringify(answer._id)}
+                userId={JSON.stringify(userId)}
+                upvotes={answer.upvotes.length}
+                hasUpVoted={answer.upvotes.includes(userId)}
+                downvotes={answer.downvotes.length}
+                hasDownVoted={answer.downvotes.includes(userId)}
+              />
             </div>
             <ParseHTML data={answer.content} />
           </div>
