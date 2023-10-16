@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { VotesProps } from "@/types/props";
 import { formatNumber } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
 import { voteAnswer } from "@/server/actions/answer.action";
 import { saveQuestion } from "@/server/actions/user.action";
+import { viewQuestion } from "@/server/actions/interaction.action";
 
 export default function Votes({
   type,
@@ -20,6 +22,14 @@ export default function Votes({
   hasSaved,
 }: VotesProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: JSON.parse(itemId),
+      userId: userId ? JSON.parse(userId) : undefined,
+    });
+  }, [itemId, userId, pathname, router]);
 
   async function handleSave() {
     await saveQuestion({
