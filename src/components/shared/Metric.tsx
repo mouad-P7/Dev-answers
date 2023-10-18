@@ -15,8 +15,8 @@ export default function Metric({
     <div className={`flex-start gap-1`}>
       <Image
         src={imgUrl}
-        width={16}
-        height={16}
+        width={17}
+        height={17}
         alt={alt}
         className={`object-contain ${href ? "rounded-full" : ""}`}
       />
