@@ -4,6 +4,25 @@ import User from "@/server/database/user.model";
 import Tag from "@/server/database/tag.model";
 import { connectToDatabase } from "@/server/mongoose";
 import { getTopInteractedTagsParams } from "./actions";
+import Question from "../database/question.model";
+
+export async function getTagById(tagId: string) {
+  try {
+    connectToDatabase();
+    const tag = await Tag.findById(tagId).populate({
+      path: "questions",
+      model: Question,
+      populate: [
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
+      ],
+    });
+    return { tag };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function getAllTags(params: any) {
   try {
