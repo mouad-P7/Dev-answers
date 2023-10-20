@@ -3,6 +3,7 @@ import UserData from "@/components/pages/profile/UserData";
 import StatCard from "@/components/cards/StatCard";
 import { getUserData } from "@/server/actions/user.action";
 import TopQuestionsTab from "@/components/pages/profile/TopQuestionsTab";
+import TopAnswersTab from "@/components/pages/profile/TopAnswersTab";
 
 export default async function Profile({ params }: { params: { id: string } }) {
   const { user, totalQuestions, totalAnswers } = await getUserData(params.id);
@@ -44,7 +45,9 @@ export default async function Profile({ params }: { params: { id: string } }) {
         <TabsContent value="top-posts">
           <TopQuestionsTab userId={user._id} />
         </TabsContent>
-        <TabsContent value="top-answers">Top Answers</TabsContent>
+        <TabsContent value="top-answers">
+          <TopAnswersTab userId={user._id} />
+        </TabsContent>
       </Tabs>
     </div>
   );
