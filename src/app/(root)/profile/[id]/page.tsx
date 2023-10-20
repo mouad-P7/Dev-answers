@@ -1,21 +1,32 @@
 import UserData from "@/components/pages/profile/UserData";
 import StatCard from "@/components/cards/StatCard";
+import { getUserData } from "@/server/actions/user.action";
 
-export default function Profile({ params }: { params: { id: string } }) {
+export default async function Profile({ params }: { params: { id: string } }) {
+  const { user, totalQuestions, totalAnswers } = await getUserData(params.id);
+
   return (
     <div className="flex flex-col gap-7">
-      <UserData />
-      <p className="paragraph-regular text-dark400_light800">
-        Launch your development career with project-based coaching - showcase
-        your skills with practical development experience and land the coding
-        career of your dreams. Check out jsmastery.pro.
-      </p>
+      <UserData
+        clerkId={user.clerkId}
+        name={user.name}
+        userName={user.userName}
+        picture={user.picture}
+        website={user.portfolioWebsite}
+        location={user.location}
+        joinedAt={user.joinedAt}
+        bio={user.bio}
+      />
       <p className="h3-semibold text-dark200_light900">Stats</p>
       <div className="flex-start flex-wrap gap-4">
-        <StatCard type="basic" questionsNum={156} answersNum={101} />
-        <StatCard type="badge" badgeName="gold" badgeNum={15} />
-        <StatCard type="badge" badgeName="silver" badgeNum={23} />
-        <StatCard type="badge" badgeName="bronze" badgeNum={38} />
+        <StatCard
+          type="basic"
+          questionsNum={totalQuestions}
+          answersNum={totalAnswers}
+        />
+        <StatCard type="badge" badgeName="gold" badgeNum={111} />
+        <StatCard type="badge" badgeName="silver" badgeNum={111} />
+        <StatCard type="badge" badgeName="bronze" badgeNum={111} />
       </div>
       <div>other data ctr</div>
     </div>

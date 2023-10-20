@@ -1,3 +1,11 @@
+export function formatDate2(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+  };
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+}
+
 export function formatDate(createdAt: Date): string {
   const now = new Date();
   const timeDifference = now.getTime() - createdAt.getTime();

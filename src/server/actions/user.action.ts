@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import User from "@/server/database/user.model";
 import Question from "@/server/database/question.model";
+import Answer from "@/server/database/answer.model";
 import Tag from "@/server/database/tag.model";
 import { connectToDatabase } from "@/server/mongoose";
 import {
@@ -12,6 +13,20 @@ import {
   getAllUsersParams,
   saveQuestionParams,
 } from "./actions";
+
+export async function getUserData(clerkId: string) {
+  try {
+    connectToDatabase();
+    const user = await User.findOne({ clerkId });
+    if (!user) throw new Error("User not found");
+    const totalQuestions = await Question.countDocuments({ author: user._id });
+    const totalAnswers = await Answer.countDocuments({ author: user._id });
+    return { user, totalQuestions, totalAnswers };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function getAllSavedQuestions(clerkId: string) {
   try {
