@@ -14,6 +14,20 @@ import {
   saveQuestionParams,
 } from "./actions";
 
+export async function getUserTopAnswers(userId: string) {
+  try {
+    connectToDatabase();
+    const topAnswers = await Answer.find({ author: userId })
+      .populate("question", "_id title")
+      .populate("author", "_id clerkId name picture")
+      .sort({ upvotes: -1 });
+    return topAnswers;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function getUserTopQuestions(userId: string) {
   try {
     connectToDatabase();
