@@ -6,7 +6,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FilterProps } from "@/types/props";
+
+interface FilterProps {
+  filters: { name: string; value: string }[];
+  containerClasses?: string;
+  otherClasses?: string;
+}
 
 export default function Filter({
   filters,

@@ -1,8 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import Tag from "@/components/shared/Tag";
-import { UserCardProps } from "@/types/props";
 import { getTopInteractedTags } from "@/server/actions/tag.action";
+
+interface UserCardProps {
+  id: string;
+  clerkId?: string;
+  picture: string;
+  name: string;
+  userName: string;
+}
 
 export default async function UserCard({
   id,

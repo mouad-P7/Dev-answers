@@ -1,11 +1,18 @@
 import { getAllAnswers } from "@/server/actions/answer.action";
-import { AllAnswersProps } from "@/types/props";
 import Filter from "@/components/shared/Filter";
 import { AnswerFilters } from "@/constants/filters";
 import { formatDate } from "@/lib/format";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import Votes from "@/components/shared/Votes";
+
+interface AllAnswersProps {
+  questionId: string;
+  userId: string;
+  totalAnswers: number;
+  page?: number;
+  filter?: number;
+}
 
 export default async function AllAnswers({
   questionId,

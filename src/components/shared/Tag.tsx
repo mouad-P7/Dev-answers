@@ -1,7 +1,10 @@
 import Link from "next/link";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { TagProps } from "@/types/props";
+
+interface TagProps {
+  tag: { id: string; name: string; num?: number };
+}
 
 export default function Tag({ tag }: TagProps) {
   return (

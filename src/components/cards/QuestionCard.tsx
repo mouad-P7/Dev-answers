@@ -1,8 +1,18 @@
 import Link from "next/link";
 import Tag from "../shared/Tag";
 import Metric from "@/components/shared/Metric";
-import { QuestionCardProps } from "@/types/props";
 import { formatDate, formatNumber } from "@/lib/format";
+
+interface QuestionCardProps {
+  id: string;
+  title: string;
+  tags: { id: string; name: string }[];
+  author: { id: string; name: string; picture: string };
+  upvotes: number;
+  views: number;
+  answers: number;
+  createdAt: Date;
+}
 
 export default function QuestionCard({
   id,
@@ -45,7 +55,7 @@ export default function QuestionCard({
           <Metric
             imgUrl="/assets/icons/message.svg"
             alt="message"
-            value={formatNumber(answers.length)}
+            value={formatNumber(answers)}
             title=" Answers"
             textClasses="small-medium text-dark400_light800"
           />

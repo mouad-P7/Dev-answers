@@ -1,6 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MetricProps } from "@/types/props";
+
+interface MetricProps {
+  imgUrl: string;
+  alt: string;
+  value: string | number;
+  title: string;
+  textClasses?: string;
+  href?: string;
+  isAuthor?: boolean;
+}
 
 export default function Metric({
   imgUrl,

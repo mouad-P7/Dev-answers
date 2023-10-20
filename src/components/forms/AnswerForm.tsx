@@ -18,7 +18,12 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { answerSchema } from "@/lib/schema";
-import { AnswerFormProps } from "@/types/props";
+
+interface AnswerFormProps {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
 
 export default function AnswerForm({
   question,

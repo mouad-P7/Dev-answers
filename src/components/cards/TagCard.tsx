@@ -1,5 +1,10 @@
 import Tag from "@/components/shared/Tag";
-import { TagCardProps } from "@/types/props";
+
+interface TagCardProps {
+  tag: { id: string; name: string };
+  description: string;
+  questionsNumber: number;
+}
 
 export default async function TagCard({
   tag,
@@ -7,7 +12,7 @@ export default async function TagCard({
   questionsNumber,
 }: TagCardProps) {
   return (
-    <div className="card-wrapper light-border background-light900_dark200 text-dark500_light800 flex-start h-56 w-full flex-col gap-4 rounded-lg p-6 xs:w-64 sm:p-7">
+    <div className="card-wrapper light-border background-light900_dark200 text-dark500_light700 flex-start h-56 w-full flex-col gap-4 rounded-lg p-6 xs:w-64 sm:p-7">
       <Tag tag={tag} />
       <p className="small-regular line-clamp-5">{description}</p>
       <div className="flex-start gap-2 self-start">

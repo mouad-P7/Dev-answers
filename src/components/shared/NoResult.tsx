@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { NoResultProps } from "@/types/props";
+
+interface NoResultProps {
+  title: string;
+  description: string;
+  link: string;
+  linkTitle: string;
+}
 
 export default function NoResult({
   title,

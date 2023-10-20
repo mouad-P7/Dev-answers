@@ -4,12 +4,22 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { VotesProps } from "@/types/props";
 import { formatNumber } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
 import { voteAnswer } from "@/server/actions/answer.action";
 import { saveQuestion } from "@/server/actions/user.action";
 import { viewQuestion } from "@/server/actions/interaction.action";
+
+interface VotesProps {
+  type: string;
+  itemId: string;
+  userId: string;
+  upvotes: number;
+  hasUpVoted: boolean;
+  downvotes: number;
+  hasDownVoted: boolean;
+  hasSaved?: boolean;
+}
 
 export default function Votes({
   type,
