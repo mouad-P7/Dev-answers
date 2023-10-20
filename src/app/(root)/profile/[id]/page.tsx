@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserData from "@/components/pages/profile/UserData";
 import StatCard from "@/components/cards/StatCard";
 import { getUserData } from "@/server/actions/user.action";
+import TopQuestionsTab from "@/components/pages/profile/TopQuestionsTab";
 
 export default async function Profile({ params }: { params: { id: string } }) {
   const { user, totalQuestions, totalAnswers } = await getUserData(params.id);
@@ -31,12 +32,18 @@ export default async function Profile({ params }: { params: { id: string } }) {
         <StatCard type="badge" badgeName="bronze" badgeNum={111} />
       </div>
 
-      <Tabs defaultValue="top-posts" className="w-[400px]">
-        <TabsList>
-          <TabsTrigger value="top-posts">Top Posts</TabsTrigger>
-          <TabsTrigger value="top-answers">Top Answers</TabsTrigger>
+      <Tabs defaultValue="top-posts" className="">
+        <TabsList className="background-light800_dark400 mb-4 min-h-[42px] p-1">
+          <TabsTrigger value="top-posts" className="tab">
+            Top Posts
+          </TabsTrigger>
+          <TabsTrigger value="top-answers" className="tab">
+            Top Answers
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="top-posts">Top Posts</TabsContent>
+        <TabsContent value="top-posts">
+          <TopQuestionsTab userId={user._id} />
+        </TabsContent>
         <TabsContent value="top-answers">Top Answers</TabsContent>
       </Tabs>
     </div>
