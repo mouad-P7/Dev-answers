@@ -25,7 +25,7 @@ export default async function Question({ params }: { params: { id: string } }) {
             alt="profile"
             value={question.author.name}
             title={`• asked ${formatDate(question.createdAt)}`}
-            href={`/profile/${question.author._id}`}
+            href={`/profile/${question.author.clerkId}`}
             isAuthor
             textClasses="paragraph-semibold text-dark300_light700"
           />

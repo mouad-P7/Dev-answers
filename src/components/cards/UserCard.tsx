@@ -13,6 +13,7 @@ interface UserCardProps {
 
 export default async function UserCard({
   id,
+  clerkId,
   picture,
   name,
   userName,
@@ -21,7 +22,10 @@ export default async function UserCard({
 
   return (
     <div className="card-wrapper text-dark200_light900 flex-center h-[280px] w-full flex-col gap-4 rounded-lg p-4 xs:w-64 sm:p-8">
-      <Link href={`/profile/${id}`} className="flex-center flex flex-col gap-3">
+      <Link
+        href={`/profile/${clerkId}`}
+        className="flex-center flex flex-col gap-3"
+      >
         <Image
           src={picture}
           alt="profile picture"

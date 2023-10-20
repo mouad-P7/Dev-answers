@@ -23,6 +23,7 @@ export default async function Community() {
             <UserCard
               key={user._id}
               id={user._id}
+              clerkId={user.clerkId}
               picture={user.picture}
               name={user.name}
               userName={user.userName}

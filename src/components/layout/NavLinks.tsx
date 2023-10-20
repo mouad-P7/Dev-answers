@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { SheetClose } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
 
 export default function NavLinks() {
   const pathname = usePathname();
+  const { userId } = useAuth();
 
   return (
     <section className="flex h-full flex-col gap-6 pt-16">
@@ -15,6 +17,12 @@ export default function NavLinks() {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
           pathname === item.route;
+
+        if (item.route === "/profile") {
+          if (userId) item.route = `${item.route}/${userId}`;
+          else return null;
+        }
+
         return (
           <SheetClose key={item.route}>
             <Link

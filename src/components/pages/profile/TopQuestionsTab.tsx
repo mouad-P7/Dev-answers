@@ -21,7 +21,7 @@ export default async function TopQuestionsTab({
           author={qst.author}
           upvotes={qst.upvotes.length}
           views={qst.views}
-          answers={qst.answers}
+          answers={qst.answers.length}
           createdAt={qst.createdAt}
         />
       ))}

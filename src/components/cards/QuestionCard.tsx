@@ -7,7 +7,7 @@ interface QuestionCardProps {
   id: string;
   title: string;
   tags: { id: string; name: string }[];
-  author: { id: string; name: string; picture: string };
+  author: { clerkId: string; name: string; picture: string };
   upvotes: number;
   views: number;
   answers: number;
@@ -40,7 +40,7 @@ export default function QuestionCard({
           alt="user"
           value={author.name}
           title={`• asked ${formatDate(createdAt)}`}
-          href={`/profile/${author.id}`}
+          href={`/profile/${author.clerkId}`}
           isAuthor
           textClasses="body-medium text-dark400_light700"
         />

@@ -41,7 +41,7 @@ export default async function Home() {
               author={qst.author}
               upvotes={qst.upvotes.length}
               views={qst.views}
-              answers={qst.answers}
+              answers={qst.answers.length}
               createdAt={qst.createdAt}
             />
           ))
