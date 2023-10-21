@@ -5,11 +5,47 @@ import { connectToDatabase } from "@/server/mongoose";
 import Question from "@/server/database/question.model";
 import Tag from "@/server/database/tag.model";
 import User from "@/server/database/user.model";
+import Answer from "@/server/database/answer.model";
+import Interaction from "@/server/database/interaction.model";
 import {
   getAllQuestionsParams,
   postQuestionParams,
   voteQuestionParams,
+  editQuestionByIdParams,
 } from "./actions";
+
+export async function editQuestionById(params: editQuestionByIdParams) {
+  try {
+    connectToDatabase();
+    const { questionId, title, content, path } = params;
+    const question = await Question.findById(questionId).populate("tags");
+    if (!question) throw new Error("Question not found");
+    question.title = title;
+    question.content = content;
+    await question.save();
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function deleteQuestionById(questionId: string, path: string) {
+  try {
+    connectToDatabase();
+    await Question.deleteOne({ _id: questionId });
+    await Answer.deleteMany({ question: questionId });
+    await Interaction.deleteMany({ question: questionId });
+    await Tag.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    );
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function voteQuestion(params: voteQuestionParams) {
   try {

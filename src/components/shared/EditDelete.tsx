@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SignedIn, useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { deleteQuestionById } from "@/server/actions/question.action";
 
 interface EditDeleteProps {
   type: "question" | "answer";
@@ -18,7 +19,7 @@ export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
 
   async function handleDeleteAction(type: "question" | "answer") {
     if (type === "question") {
-      // await deleteQuestionById();
+      await deleteQuestionById(typeId, pathname);
       // show toast
     } else if (type === "answer") {
       // await deleteAnswerById();

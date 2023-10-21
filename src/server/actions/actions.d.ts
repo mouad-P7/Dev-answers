@@ -1,6 +1,13 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/server/database/user.model";
 
+export interface editQuestionByIdParams {
+  questionId: string;
+  title: string;
+  content: string;
+  path: string;
+}
+
 export interface ViewQuestionParams {
   questionId: string;
   userId: string;
