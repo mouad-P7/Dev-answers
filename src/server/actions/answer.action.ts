@@ -3,8 +3,27 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/server/mongoose";
 import { postAnswerParams, voteAnswerParams } from "./actions";
-import Answer from "../database/answer.model";
-import Question from "../database/question.model";
+import Answer from "@/server/database/answer.model";
+import Question from "@/server/database/question.model";
+import Interaction from "@/server/database/interaction.model";
+
+export async function deleteAnswerById(answerId: string, path: string) {
+  try {
+    await connectToDatabase();
+    const answer = await Answer.findById(answerId);
+    if (!answer) throw new Error("Answer not found");
+    await answer.deleteOne({ _id: answerId });
+    await Question.updateMany(
+      { _id: answer.question },
+      { $pull: { answers: answerId } }
+    );
+    await Interaction.deleteMany({ answer: answerId });
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function voteAnswer(params: voteAnswerParams) {
   try {

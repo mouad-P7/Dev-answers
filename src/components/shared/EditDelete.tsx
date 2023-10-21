@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { SignedIn, useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { deleteQuestionById } from "@/server/actions/question.action";
+import { deleteAnswerById } from "@/server/actions/answer.action";
 
 interface EditDeleteProps {
   type: "question" | "answer";
@@ -22,7 +23,7 @@ export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
       await deleteQuestionById(typeId, pathname);
       // show toast
     } else if (type === "answer") {
-      // await deleteAnswerById();
+      await deleteAnswerById(typeId, pathname);
       // show toast
     }
   }
