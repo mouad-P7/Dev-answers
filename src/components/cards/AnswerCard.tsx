@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Metric from "@/components/shared/Metric";
 import { formatDate, formatNumber } from "@/lib/format";
+import EditDelete from "../shared/EditDelete";
 
 interface AnswerCardProps {
-  id: string;
+  answerId: string;
+  questionId: string;
   title: string;
   author: { clerkId: string; name: string; picture: string };
   upvotes: number;
@@ -11,7 +13,8 @@ interface AnswerCardProps {
 }
 
 export default function AnswerCard({
-  id,
+  answerId,
+  questionId,
   title,
   author,
   upvotes,
@@ -19,9 +22,15 @@ export default function AnswerCard({
 }: AnswerCardProps) {
   return (
     <div className="card-wrapper text-dark200_light900 flex w-full flex-col gap-3 rounded-lg p-4 sm:p-8">
-      <Link href={`/question/${id}`} className="h3-semibold line-clamp-2">
-        {title}
-      </Link>
+      <div className="flex-between gap-4">
+        <Link
+          href={`/question/${questionId}`}
+          className="h3-semibold line-clamp-2"
+        >
+          {title}
+        </Link>
+        <EditDelete type="answer" typeId={answerId} clerkId={author.clerkId} />
+      </div>
       <div className="flex-between flex-wrap gap-3">
         <Metric
           imgUrl={author.picture}

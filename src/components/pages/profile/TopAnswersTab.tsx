@@ -13,7 +13,8 @@ export default async function TopAnswersTab({ userId }: TopAnswersTabProps) {
       {topAnswers.map((answer) => (
         <AnswerCard
           key={answer._id}
-          id={answer.question._id}
+          answerId={answer._id}
+          questionId={answer.question._id}
           title={answer.question.title}
           author={answer.author}
           upvotes={answer.upvotes.length}

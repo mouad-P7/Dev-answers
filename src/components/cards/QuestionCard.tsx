@@ -2,6 +2,7 @@ import Link from "next/link";
 import Tag from "../shared/Tag";
 import Metric from "@/components/shared/Metric";
 import { formatDate, formatNumber } from "@/lib/format";
+import EditDelete from "../shared/EditDelete";
 
 interface QuestionCardProps {
   id: string;
@@ -26,9 +27,12 @@ export default function QuestionCard({
 }: QuestionCardProps) {
   return (
     <div className="card-wrapper text-dark200_light900 flex w-full flex-col gap-3 rounded-lg p-4 sm:p-8">
-      <Link href={`/question/${id}`} className="h3-semibold line-clamp-2">
-        {title}
-      </Link>
+      <div className="flex-between gap-4">
+        <Link href={`/question/${id}`} className="h3-semibold line-clamp-2">
+          {title}
+        </Link>
+        <EditDelete type="question" typeId={id} clerkId={author.clerkId} />
+      </div>
       <div className="flex-start gap-2">
         {tags.map((tag) => (
           <Tag key={tag.id} tag={tag} />
