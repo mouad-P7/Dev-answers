@@ -60,7 +60,7 @@ export default function UserData({
         />
       </div>
       <p className="paragraph-regular text-dark400_light800 mt-7">
-        {bio === "" ? bio : "No bio."}
+        {bio !== "" ? bio : "No bio."}
       </p>
     </div>
   );

@@ -260,17 +260,19 @@ export default function QuestionForm({
           )}
         />
 
-        <Button
-          type="submit"
-          className="primary-gradient w-fit !text-light-900"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>{type === "post" ? "Posting..." : "Editing..."}</>
-          ) : (
-            <>{type === "post" ? "Ask a Question" : "Edit Question"}</>
-          )}
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="primary-gradient w-fit !text-light-900"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>{type === "post" ? "Posting..." : "Editing..."}</>
+            ) : (
+              <>{type === "post" ? "Ask a Question" : "Edit Question"}</>
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );
