@@ -21,9 +21,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { questionSchema } from "@/lib/schema";
-import { postQuestion } from "@/server/actions/question.action";
+import {
+  postQuestion,
+  editQuestionById,
+} from "@/server/actions/question.action";
 
-export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
+interface QuestionFormProps {
+  type: "post" | "edit";
+  mongoUserId: string;
+  question?: string;
+}
+
+export default function QuestionForm({
+  type,
+  mongoUserId,
+  question,
+}: QuestionFormProps) {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mode } = useTheme();
@@ -31,12 +44,13 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
   const router = useRouter();
 
   // 1. Define your form.
+  const parsedQuestion = JSON.parse(question || "");
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: parsedQuestion.title || "",
+      explanation: parsedQuestion.explanation || "",
+      tags: parsedQuestion.tags.map((tag: any) => tag.name) || [],
     },
   });
 
@@ -44,14 +58,24 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
   async function onSubmit(values: z.infer<typeof questionSchema>) {
     setIsSubmitting(true);
     try {
-      await postQuestion({
-        title: values.title,
-        explanation: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(mongoUserId),
-        path: pathname,
-      });
-      router.push("/");
+      if (type === "post") {
+        await postQuestion({
+          title: values.title,
+          explanation: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(mongoUserId),
+          path: pathname,
+        });
+        router.push("/");
+      } else if (type === "edit") {
+        await editQuestionById({
+          questionId: parsedQuestion._id,
+          title: values.title,
+          explanation: values.explanation,
+          path: pathname,
+        });
+        router.push(`/question/${parsedQuestion._id}`);
+      }
     } catch (error) {
       // handle any error
     } finally {
@@ -131,44 +155,48 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
                 Detailed explanation of your problem?{" "}
                 <span className="text-primary-500">*</span>
               </FormLabel>
-              <FormControl className="mt-3.5">
-                <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
-                  onBlur={field.onBlur}
-                  onEditorChange={(content) => field.onChange(content)}
-                  onInit={(evt, editor) =>
-                    // @ts-ignore
-                    (editorRef.current = editor)
-                  }
-                  init={{
-                    height: 500,
-                    menubar: false,
-                    plugins: [
-                      "advlist",
-                      "autolink",
-                      "lists",
-                      "link",
-                      "image",
-                      "charmap",
-                      "preview",
-                      "anchor",
-                      "searchreplace",
-                      "visualblocks",
-                      "codesample",
-                      "fullscreen",
-                      "insertdatetime",
-                      "media",
-                      "table",
-                    ],
-                    toolbar:
-                      "undo redo | " +
-                      "codesample | bold italic forecolor | alignleft aligncenter |" +
-                      "alignright alignjustify | bullist numlist",
-                    content_style: "body { font-family:Inter; font-size:16px }",
-                    skin: mode === "dark" ? "oxide-dark" : "oxide",
-                    content_css: mode === "dark" ? "dark" : "light",
-                  }}
-                />
+              <FormControl>
+                <div className="mt-3.5 min-h-[508px]">
+                  <Editor
+                    apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                    onBlur={field.onBlur}
+                    onEditorChange={(content) => field.onChange(content)}
+                    initialValue={parsedQuestion.explanation || ""}
+                    onInit={(evt, editor) =>
+                      // @ts-ignore
+                      (editorRef.current = editor)
+                    }
+                    init={{
+                      height: 500,
+                      menubar: false,
+                      plugins: [
+                        "advlist",
+                        "autolink",
+                        "lists",
+                        "link",
+                        "image",
+                        "charmap",
+                        "preview",
+                        "anchor",
+                        "searchreplace",
+                        "visualblocks",
+                        "codesample",
+                        "fullscreen",
+                        "insertdatetime",
+                        "media",
+                        "table",
+                      ],
+                      toolbar:
+                        "undo redo | " +
+                        "codesample | bold italic forecolor | alignleft aligncenter |" +
+                        "alignright alignjustify | bullist numlist",
+                      content_style:
+                        "body { font-family:Inter; font-size:16px }",
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode === "dark" ? "dark" : "light",
+                    }}
+                  />
+                </div>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Introduce the problem and expand on what you put in the title.
@@ -190,6 +218,7 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
               <FormControl className="mt-3.5">
                 <>
                   <Input
+                    disabled={type === "edit"}
                     className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                     placeholder="Add tags..."
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
@@ -200,16 +229,22 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
                         <Badge
                           key={tag}
                           className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
-                          onClick={() => handleTagRemove(tag, field)}
+                          onClick={() =>
+                            type !== "edit"
+                              ? handleTagRemove(tag, field)
+                              : () => {}
+                          }
                         >
                           {tag}
-                          <Image
-                            src="/assets/icons/close.svg"
-                            alt="Close icon"
-                            width={12}
-                            height={12}
-                            className="cursor-pointer object-contain invert-0 dark:invert"
-                          />
+                          {type !== "edit" && (
+                            <Image
+                              src="/assets/icons/close.svg"
+                              alt="Close icon"
+                              width={12}
+                              height={12}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                            />
+                          )}
                         </Badge>
                       ))}
                     </div>
@@ -230,7 +265,11 @@ export default function QuestionForm({ mongoUserId }: { mongoUserId: string }) {
           className="primary-gradient w-fit !text-light-900"
           disabled={isSubmitting}
         >
-          {isSubmitting ? <>Posting...</> : <>Ask a Question</>}
+          {isSubmitting ? (
+            <>{type === "post" ? "Posting..." : "Editing..."}</>
+          ) : (
+            <>{type === "post" ? "Ask a Question" : "Edit Question"}</>
+          )}
         </Button>
       </form>
     </Form>

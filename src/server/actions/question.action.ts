@@ -17,11 +17,11 @@ import {
 export async function editQuestionById(params: editQuestionByIdParams) {
   try {
     connectToDatabase();
-    const { questionId, title, content, path } = params;
+    const { questionId, title, explanation, path } = params;
     const question = await Question.findById(questionId).populate("tags");
     if (!question) throw new Error("Question not found");
     question.title = title;
-    question.content = content;
+    question.explanation = explanation;
     await question.save();
     revalidatePath(path);
   } catch (error) {

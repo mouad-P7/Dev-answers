@@ -4,7 +4,7 @@ import { UserType } from "@/server/database/user.model";
 export interface editQuestionByIdParams {
   questionId: string;
   title: string;
-  content: string;
+  explanation: string;
   path: string;
 }
 
