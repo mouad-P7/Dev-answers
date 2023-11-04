@@ -44,13 +44,13 @@ export default function QuestionForm({
   const router = useRouter();
 
   // 1. Define your form.
-  const parsedQuestion = JSON.parse(question || "");
+  const parsedQuestion = question && JSON.parse(question || "");
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: parsedQuestion.title || "",
-      explanation: parsedQuestion.explanation || "",
-      tags: parsedQuestion.tags.map((tag: any) => tag.name) || [],
+      title: parsedQuestion?.title || "",
+      explanation: parsedQuestion?.explanation || "",
+      tags: parsedQuestion?.tags.map((tag: any) => tag.name) || [],
     },
   });
 
@@ -77,7 +77,7 @@ export default function QuestionForm({
         router.push(`/question/${parsedQuestion._id}`);
       }
     } catch (error) {
-      // handle any error
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -161,7 +161,7 @@ export default function QuestionForm({
                     apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
-                    initialValue={parsedQuestion.explanation || ""}
+                    initialValue={parsedQuestion?.explanation || ""}
                     onInit={(evt, editor) =>
                       // @ts-ignore
                       (editorRef.current = editor)
