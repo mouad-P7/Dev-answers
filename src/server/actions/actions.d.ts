@@ -1,6 +1,14 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/server/database/user.model";
 
+export interface getAllSavedQuestionsParams {
+  clerkId: string;
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+  filter?: string;
+}
+
 export interface editQuestionByIdParams {
   questionId: string;
   title: string;

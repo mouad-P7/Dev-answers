@@ -13,6 +13,7 @@ import {
   deleteUserParams,
   getAllUsersParams,
   saveQuestionParams,
+  getAllSavedQuestionsParams,
 } from "./actions";
 
 export async function getUserTopAnswers(userId: string) {
@@ -57,11 +58,20 @@ export async function getUserData(clerkId: string) {
   }
 }
 
-export async function getAllSavedQuestions(clerkId: string) {
+export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
   try {
     connectToDatabase();
+    const { clerkId, searchQuery } = params;
+    const query: FilterQuery<typeof Question> = {};
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { explanation: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
+      match: query,
       options: { sort: { createdAt: -1 } },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
@@ -70,7 +80,7 @@ export async function getAllSavedQuestions(clerkId: string) {
     });
     if (!user) throw new Error("User not found");
     const savedQuestions = user.saved;
-    return { savedQuestions };
+    return savedQuestions;
   } catch (error) {
     console.error(error);
     throw error;

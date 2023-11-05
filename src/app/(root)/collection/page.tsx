@@ -6,16 +6,25 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllSavedQuestions } from "@/server/actions/user.action";
 
-export default async function Collection() {
+interface SearchParamsProps {
+  searchParams: { [key: string]: string | undefined };
+}
+
+export default async function Collection({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
   if (!userId) return null;
-  const result = await getAllSavedQuestions(userId);
+  const savedQuestions = await getAllSavedQuestions({
+    clerkId: userId,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
       <p className="h3-bold sm:h2-bold">Saved Questions</p>
       <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch otherClasses="sm:w-full">Search a question...</LocalSearch>
+        <LocalSearch route="/collection" otherClasses="sm:w-full">
+          Search a question...
+        </LocalSearch>
         <Filter
           filters={HomePageFilters}
           containerClasses="lg:hidden"
@@ -23,8 +32,8 @@ export default async function Collection() {
         />
       </div>
       <div className="flex-start w-full flex-col gap-4">
-        {result.savedQuestions.length > 0 ? (
-          result.savedQuestions.map((qst: any) => (
+        {savedQuestions.length > 0 ? (
+          savedQuestions.map((qst: any) => (
             <QuestionCard
               key={qst.id}
               id={qst.id}
