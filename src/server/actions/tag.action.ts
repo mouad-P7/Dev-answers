@@ -6,6 +6,25 @@ import { connectToDatabase } from "@/server/mongoose";
 import { getTopInteractedTagsParams } from "./actions";
 import Question from "../database/question.model";
 
+export async function getPopularTags() {
+  try {
+    connectToDatabase();
+    let popularTags = await Tag.aggregate([
+      { $project: { name: 1, questionsCount: { $size: "$questions" } } },
+      { $sort: { questionsCount: -1 } },
+      { $limit: 5 },
+    ]);
+    popularTags = popularTags.map((tag) => ({
+      ...tag,
+      _id: tag._id.toString(),
+    }));
+    return popularTags;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export async function getTagById(tagId: string) {
   try {
     connectToDatabase();
