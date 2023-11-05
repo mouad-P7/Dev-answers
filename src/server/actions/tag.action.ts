@@ -1,9 +1,10 @@
 "use server";
 
+import { FilterQuery } from "mongoose";
 import User from "@/server/database/user.model";
 import Tag from "@/server/database/tag.model";
 import { connectToDatabase } from "@/server/mongoose";
-import { getTopInteractedTagsParams } from "./actions";
+import { getAllTagsParams, getTopInteractedTagsParams } from "./actions";
 import Question from "../database/question.model";
 
 export async function getPopularTags() {
@@ -43,11 +44,16 @@ export async function getTagById(tagId: string) {
   }
 }
 
-export async function getAllTags(params: any) {
+export async function getAllTags(params: getAllTagsParams) {
   try {
     connectToDatabase();
-    const tags = await Tag.find({});
-    return { tags };
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof Tag> = {};
+    if (searchQuery) {
+      query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
+    }
+    const tags = await Tag.find(query);
+    return tags;
   } catch (error) {
     console.log(error);
     throw error;
