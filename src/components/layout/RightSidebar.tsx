@@ -1,21 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "@/components/shared/Tag";
-
-const hotQuestions = [
-  {
-    id: 1,
-    title:
-      "Would it be appropriate to point out an error in another paper during a referee report?",
-  },
-  { id: 2, title: "How can an airconditioning machine exist?" },
-  { id: 3, title: "Interrogated every time crossing UK Border as citizen" },
-  { id: 4, title: "Low digit addition generator" },
-  {
-    id: 5,
-    title: "What is an example of 3 numbers that do not make up a vector?",
-  },
-];
+import { getHotQuestions } from "@/server/actions/question.action";
 
 const popularTags = [
   { id: "1", name: "javascript", num: 20152 },
@@ -28,7 +14,10 @@ const popularTags = [
   { id: "8", name: "machine learning", num: 9400 },
 ];
 
-export default function RightSidebar() {
+export default async function RightSidebar() {
+  const hotQuestions = await getHotQuestions();
+  console.log(hotQuestions);
+
   return (
     <aside className="background-light900_dark200 light-border custom-scrollbar text-dark500_light700 sticky right-0 top-0 flex h-screen w-[330px] flex-col gap-6 overflow-scroll border-l p-6 pt-28 shadow-light-300 dark:shadow-none max-xl:hidden">
       <section>
@@ -36,8 +25,8 @@ export default function RightSidebar() {
         <div className="flex-between flex-col gap-6">
           {hotQuestions.map((qst) => (
             <Link
-              key={qst.id}
-              href={`/question/${qst.id}`}
+              key={qst._id}
+              href={`/question/${qst._id}`}
               className="flex w-full cursor-pointer items-start justify-between gap-2"
             >
               <p className="body-medium">{qst.title}</p>

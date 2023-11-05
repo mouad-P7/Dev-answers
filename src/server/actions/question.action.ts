@@ -14,6 +14,19 @@ import {
   editQuestionByIdParams,
 } from "./actions";
 
+export async function getHotQuestions() {
+  try {
+    connectToDatabase();
+    const hotQuestions = Question.find({})
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5);
+    return hotQuestions;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function editQuestionById(params: editQuestionByIdParams) {
   try {
     connectToDatabase();
