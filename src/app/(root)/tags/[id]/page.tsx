@@ -5,22 +5,27 @@ import { getTagById } from "@/server/actions/tag.action";
 
 export default async function TagQuestions({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { [key: string]: string | undefined };
 }) {
-  const result = await getTagById(params.id);
+  const tag = await getTagById({
+    tagId: params.id,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
-      <p className="h3-bold sm:h2-bold">{result.tag.name}</p>
+      <p className="h3-bold sm:h2-bold">{tag.name}</p>
       <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch otherClasses="sm:w-full">
+        <LocalSearch route={`/tags/${params.id}`} otherClasses="sm:w-full">
           Search tag questions...
         </LocalSearch>
       </div>
       <div className="flex-start w-full flex-col gap-4">
-        {result.tag.questions.length > 0 ? (
-          result.tag.questions.map((qst: any) => (
+        {tag.questions.length > 0 ? (
+          tag.questions.map((qst: any) => (
             <QuestionCard
               key={qst.id}
               id={qst.id}

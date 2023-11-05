@@ -3,9 +3,13 @@
 import { FilterQuery } from "mongoose";
 import User from "@/server/database/user.model";
 import Tag from "@/server/database/tag.model";
-import { connectToDatabase } from "@/server/mongoose";
-import { getAllTagsParams, getTopInteractedTagsParams } from "./actions";
 import Question from "../database/question.model";
+import { connectToDatabase } from "@/server/mongoose";
+import {
+  getAllTagsParams,
+  getTagByIdParams,
+  getTopInteractedTagsParams,
+} from "./actions";
 
 export async function getPopularTags() {
   try {
@@ -26,18 +30,27 @@ export async function getPopularTags() {
   }
 }
 
-export async function getTagById(tagId: string) {
+export async function getTagById(params: getTagByIdParams) {
   try {
     connectToDatabase();
+    const { tagId, searchQuery } = params;
+    const query: FilterQuery<typeof Tag> = {};
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { explanation: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
     const tag = await Tag.findById(tagId).populate({
       path: "questions",
+      match: query,
       model: Question,
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
         { path: "author", model: User, select: "_id clerkId name picture" },
       ],
     });
-    return { tag };
+    return tag;
   } catch (error) {
     console.log(error);
     throw error;
