@@ -22,7 +22,9 @@ export default async function Home() {
         </Link>
       </div>
       <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch otherClasses="sm:w-full">Search a question...</LocalSearch>
+        <LocalSearch route="/" otherClasses="sm:w-full">
+          Search a question...
+        </LocalSearch>
         <Filter
           filters={HomePageFilters}
           containerClasses="lg:hidden"
