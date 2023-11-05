@@ -4,22 +4,26 @@ import UserCard from "@/components/cards/UserCard";
 import { CommunityPageFilters } from "@/constants/filters";
 import { getAllUsers } from "@/server/actions/user.action";
 
-export default async function Community() {
-  const result = await getAllUsers({});
+interface SearchParamsProps {
+  searchParams: { [key: string]: string | undefined };
+}
+
+export default async function Community({ searchParams }: SearchParamsProps) {
+  const users = await getAllUsers({ searchQuery: searchParams.q });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
       <p className="h3-bold sm:h2-bold w-full text-start">All Users</p>
       <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch otherClasses="sm:w-full">
+        <LocalSearch route="/community" otherClasses="sm:w-full">
           Search by username...
         </LocalSearch>
         <Filter filters={CommunityPageFilters} otherClasses="w-36 sm:w-40" />
       </div>
       {/* <CommunityFilter /> */}
       <div className="flex-center w-full flex-wrap gap-4">
-        {result.users.length > 0 ? (
-          result.users.map((user) => (
+        {users.length > 0 ? (
+          users.map((user) => (
             <UserCard
               key={user._id}
               id={user._id}

@@ -1,5 +1,6 @@
 "use server";
 
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import User from "@/server/database/user.model";
 import Question from "@/server/database/question.model";
@@ -99,8 +100,16 @@ export async function saveQuestion(params: saveQuestionParams) {
 export async function getAllUsers(params: getAllUsersParams) {
   try {
     connectToDatabase();
-    const users = await User.find({}).sort({ createdAt: -1 });
-    return { users };
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof User> = {};
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { userName: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+    const users = await User.find(query).sort({ createdAt: -1 });
+    return users;
   } catch (error) {
     console.error(error);
     throw error;
