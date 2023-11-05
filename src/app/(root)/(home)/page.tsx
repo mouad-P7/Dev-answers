@@ -8,8 +8,12 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllQuestions } from "@/server/actions/question.action";
 
-export default async function Home() {
-  const result = await getAllQuestions({});
+interface SearchParamsProps {
+  searchParams: { [key: string]: string | undefined };
+}
+
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const questions = await getAllQuestions({ searchQuery: searchParams.q });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
@@ -33,8 +37,8 @@ export default async function Home() {
       </div>
       <HomeFilter />
       <div className="flex-start w-full flex-col gap-4">
-        {result.questions.length > 0 ? (
-          result.questions.map((qst) => (
+        {questions.length > 0 ? (
+          questions.map((qst) => (
             <QuestionCard
               key={qst.id}
               id={qst.id}

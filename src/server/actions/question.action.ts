@@ -1,5 +1,6 @@
 "use server";
 
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/server/mongoose";
 import Question from "@/server/database/question.model";
@@ -119,11 +120,19 @@ export async function getQuestionById(questionId: string) {
 export async function getAllQuestions(params: getAllQuestionsParams) {
   try {
     await connectToDatabase();
-    const questions = await Question.find({})
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof Question> = {};
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { explanation: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+    const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
-    return { questions };
+    return questions;
   } catch (error) {
     console.error(error);
     throw error;
