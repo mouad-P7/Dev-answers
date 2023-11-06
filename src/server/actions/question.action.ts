@@ -120,7 +120,7 @@ export async function getQuestionById(questionId: string) {
 export async function getAllQuestions(params: getAllQuestionsParams) {
   try {
     await connectToDatabase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -128,10 +128,21 @@ export async function getAllQuestions(params: getAllQuestionsParams) {
         { explanation: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
+    let sortOptions = {};
+    if (!filter || filter === "newest") {
+      sortOptions = { createdAt: -1 };
+    } else if (filter && filter === "frequent") {
+      sortOptions = { views: -1 };
+    } else if (filter && filter === "unanswered") {
+      query.answers = { $size: 0 };
+    } else if (filter && filter === "recommended") {
+      // Add recomendation system later
+      return [];
+    }
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
     return questions;
   } catch (error) {
     console.error(error);

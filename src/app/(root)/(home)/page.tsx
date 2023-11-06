@@ -13,7 +13,10 @@ interface SearchParamsProps {
 }
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const questions = await getAllQuestions({ searchQuery: searchParams.q });
+  const questions = await getAllQuestions({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
