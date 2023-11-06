@@ -60,12 +60,22 @@ export async function getTagById(params: getTagByIdParams) {
 export async function getAllTags(params: getAllTagsParams) {
   try {
     connectToDatabase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
-    const tags = await Tag.find(query);
+    let sortOptions = {};
+    if (!filter || filter === "popular") {
+      sortOptions = { questions: -1 };
+    } else if (filter && filter === "recent") {
+      sortOptions = { createdAt: -1 };
+    } else if (filter && filter === "old") {
+      sortOptions = { createdAt: 1 };
+    } else if (filter && filter === "name") {
+      sortOptions = { name: 1 };
+    }
+    const tags = await Tag.find(query).sort(sortOptions);
     return tags;
   } catch (error) {
     console.log(error);

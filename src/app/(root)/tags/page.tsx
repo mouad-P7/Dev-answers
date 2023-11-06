@@ -9,7 +9,10 @@ interface SearchParamsProps {
 }
 
 export default async function Tags({ searchParams }: SearchParamsProps) {
-  const tags = await getAllTags({ searchQuery: searchParams.q });
+  const tags = await getAllTags({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
@@ -18,7 +21,11 @@ export default async function Tags({ searchParams }: SearchParamsProps) {
         <LocalSearch route="/tags" otherClasses="sm:w-full">
           Search by tag name...
         </LocalSearch>
-        <Filter filters={TagsPageFilters} otherClasses="w-36 sm:w-40" />
+        <Filter
+          filters={TagsPageFilters}
+          defaultValue="popular"
+          otherClasses="w-36 sm:w-40"
+        />
       </div>
       {/* <TagsFilter /> */}
       <div className="flex-center w-full flex-wrap gap-4">
