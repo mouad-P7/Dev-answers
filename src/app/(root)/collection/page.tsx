@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs";
-import { HomePageFilters } from "@/constants/filters";
+import { QuestionFilters } from "@/constants/filters";
 import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
 import QuestionCard from "@/components/cards/QuestionCard";
@@ -16,6 +16,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
   const savedQuestions = await getAllSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
 
   return (
@@ -26,7 +27,8 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
           Search a question...
         </LocalSearch>
         <Filter
-          filters={HomePageFilters}
+          filters={QuestionFilters}
+          defaultValue="most_recent"
           containerClasses="lg:hidden"
           otherClasses="w-36 sm:w-40"
         />

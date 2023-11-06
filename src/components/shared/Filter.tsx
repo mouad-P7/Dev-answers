@@ -14,12 +14,14 @@ import {
 
 interface FilterProps {
   filters: { name: string; value: string }[];
+  defaultValue: string;
   containerClasses?: string;
   otherClasses?: string;
 }
 
 export default function Filter({
   filters,
+  defaultValue,
   containerClasses,
   otherClasses,
 }: FilterProps) {
@@ -27,7 +29,7 @@ export default function Filter({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const query = searchParams.get("filter");
-  const [filter, setFilter] = useState(query || "old_users");
+  const [filter, setFilter] = useState(query || defaultValue);
 
   useEffect(() => {
     const newUrl = formUrlQuery(searchParams.toString(), "filter", filter);
@@ -37,8 +39,8 @@ export default function Filter({
   return (
     <div className={containerClasses}>
       <Select
-        onValueChange={(value) => setFilter(value || "old_users")}
-        defaultValue={filter}
+        onValueChange={(value) => setFilter(value || defaultValue)}
+        defaultValue={defaultValue}
       >
         <SelectTrigger className={otherClasses}>
           <SelectValue placeholder="Select a Filter" />

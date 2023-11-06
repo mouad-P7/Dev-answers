@@ -61,7 +61,7 @@ export async function getUserData(clerkId: string) {
 export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
   try {
     connectToDatabase();
-    const { clerkId, searchQuery } = params;
+    const { clerkId, searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -69,10 +69,22 @@ export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
         { explanation: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
+    let sortOptions = {};
+    if (!filter || filter === "most_recent") {
+      sortOptions = { createdAt: -1 };
+    } else if (filter && filter === "oldest") {
+      sortOptions = { createdAt: 1 };
+    } else if (filter && filter === "most_voted") {
+      sortOptions = { upvotes: -1 };
+    } else if (filter && filter === "most_viewed") {
+      sortOptions = { views: -1 };
+    } else if (filter && filter === "most_answered") {
+      sortOptions = { answers: -1 };
+    }
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       match: query,
-      options: { sort: { createdAt: -1 } },
+      options: { sort: sortOptions },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
         { path: "author", model: User, select: "_id clerkId name picture" },
@@ -126,7 +138,6 @@ export async function getAllUsers(params: getAllUsersParams) {
     } else if (filter && filter === "top_contributors") {
       sortOptions = { reputation: -1 };
     }
-    console.log(filter);
     const users = await User.find(query).sort(sortOptions);
     return users;
   } catch (error) {
