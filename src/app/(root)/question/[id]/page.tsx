@@ -10,7 +10,15 @@ import { getUserById } from "@/server/actions/user.action";
 import AllAnswers from "@/components/pages/question/AllAnswers";
 import Votes from "@/components/shared/Votes";
 
-export default async function Question({ params }: { params: { id: string } }) {
+interface QuestionProps {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+}
+
+export default async function Question({
+  params,
+  searchParams,
+}: QuestionProps) {
   const { userId: clerkId } = auth();
   let mongoUser;
   if (clerkId) mongoUser = await getUserById({ userId: clerkId });
@@ -75,6 +83,7 @@ export default async function Question({ params }: { params: { id: string } }) {
         questionId={question._id}
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
+        filter={searchParams.filter}
       />
       <AnswerForm
         question={question.content}

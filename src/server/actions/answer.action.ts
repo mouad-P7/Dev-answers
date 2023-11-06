@@ -2,7 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/server/mongoose";
-import { postAnswerParams, voteAnswerParams } from "./actions";
+import {
+  postAnswerParams,
+  voteAnswerParams,
+  getAllAnswersParams,
+} from "./actions";
 import Answer from "@/server/database/answer.model";
 import Question from "@/server/database/question.model";
 import Interaction from "@/server/database/interaction.model";
@@ -63,13 +67,24 @@ export async function voteAnswer(params: voteAnswerParams) {
   }
 }
 
-export async function getAllAnswers(questionId: string) {
+export async function getAllAnswers(params: getAllAnswersParams) {
   try {
     await connectToDatabase();
+    const { questionId, filter } = params;
+    let sortOptions = {};
+    if (!filter || filter === "highestUpvotes") {
+      sortOptions = { upvotes: -1 };
+    } else if (filter && filter === "lowestUpvotes") {
+      sortOptions = { upvotes: 1 };
+    } else if (filter && filter === "recent") {
+      sortOptions = { createdAt: -1 };
+    } else if (filter && filter === "old") {
+      sortOptions = { createdAt: 1 };
+    }
     const answers = await Answer.find({ question: questionId })
       .populate("author", "_id clerkId name picture")
-      .sort({ createdAt: -1 });
-    return { answers };
+      .sort(sortOptions);
+    return answers;
   } catch (error) {
     console.log(error);
     throw error;

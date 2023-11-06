@@ -11,7 +11,7 @@ interface AllAnswersProps {
   userId: string;
   totalAnswers: number;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
 
 export default async function AllAnswers({
@@ -21,7 +21,7 @@ export default async function AllAnswers({
   page,
   filter,
 }: AllAnswersProps) {
-  const result = await getAllAnswers(questionId);
+  const answers = await getAllAnswers({ questionId, filter });
 
   return (
     <div className="mt-11 flex flex-col gap-4">
@@ -29,10 +29,10 @@ export default async function AllAnswers({
         <p className="paragraph-medium primary-text-gradient">
           {totalAnswers} Answers
         </p>
-        <Filter filters={AnswerFilters} />
+        <Filter filters={AnswerFilters} defaultValue="highestUpvotes" />
       </div>
       <div>
-        {result.answers.map((answer) => (
+        {answers.map((answer) => (
           <div
             key={answer._id}
             className="light-border flex flex-col gap-4 border-b py-5"
