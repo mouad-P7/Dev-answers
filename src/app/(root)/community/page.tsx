@@ -9,7 +9,10 @@ interface SearchParamsProps {
 }
 
 export default async function Community({ searchParams }: SearchParamsProps) {
-  const users = await getAllUsers({ searchQuery: searchParams.q });
+  const users = await getAllUsers({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">

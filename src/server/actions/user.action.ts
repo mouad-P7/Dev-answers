@@ -110,7 +110,7 @@ export async function saveQuestion(params: saveQuestionParams) {
 export async function getAllUsers(params: getAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
       query.$or = [
@@ -118,7 +118,16 @@ export async function getAllUsers(params: getAllUsersParams) {
         { userName: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
-    const users = await User.find(query).sort({ createdAt: -1 });
+    let sortOptions = {};
+    if (!filter || filter === "old_users") {
+      sortOptions = { joinedAt: 1 };
+    } else if (filter && filter === "new_users") {
+      sortOptions = { joinedAt: -1 };
+    } else if (filter && filter === "top_contributors") {
+      sortOptions = { reputation: -1 };
+    }
+    console.log(filter);
+    const users = await User.find(query).sort(sortOptions);
     return users;
   } catch (error) {
     console.error(error);
