@@ -21,7 +21,11 @@ export default async function Community({ searchParams }: SearchParamsProps) {
         <LocalSearch route="/community" otherClasses="sm:w-full">
           Search by username...
         </LocalSearch>
-        <Filter filters={CommunityPageFilters} otherClasses="w-36 sm:w-40" />
+        <Filter
+          filters={CommunityPageFilters}
+          defaultValue="old_users"
+          otherClasses="w-36 sm:w-40"
+        />
       </div>
       {/* <CommunityFilter /> */}
       <div className="flex-center w-full flex-wrap gap-4">
