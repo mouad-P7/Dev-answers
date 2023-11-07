@@ -61,7 +61,10 @@ export async function getUserData(clerkId: string) {
 export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
   try {
     connectToDatabase();
-    const { clerkId, searchQuery, filter } = params;
+    const { clerkId, searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    console.log(" page: ", page, " pageSize: ", pageSize);
+    // handle page < 1 edge case
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -84,15 +87,17 @@ export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       match: query,
-      options: { sort: sortOptions },
+      options: { sort: sortOptions, limit: pageSize, skip },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
         { path: "author", model: User, select: "_id clerkId name picture" },
       ],
     });
+    const nbrSavedQuestions = await User.countDocuments(query);
+    const isNext = nbrSavedQuestions > skip + user.saved.length;
     if (!user) throw new Error("User not found");
     const savedQuestions = user.saved;
-    return savedQuestions;
+    return { savedQuestions, isNext };
   } catch (error) {
     console.error(error);
     throw error;
@@ -145,8 +150,8 @@ export async function getAllUsers(params: getAllUsersParams) {
       .skip(skip)
       .limit(pageSize)
       .sort(sortOptions);
-    const nbrQuestions = await Question.countDocuments(query);
-    const isNext = nbrQuestions > skip + users.length;
+    const nbrUsers = await User.countDocuments(query);
+    const isNext = nbrUsers > skip + users.length;
     return { users, isNext };
   } catch (error) {
     console.error(error);

@@ -5,6 +5,7 @@ import Filter from "@/components/shared/Filter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllSavedQuestions } from "@/server/actions/user.action";
+import Pagination from "@/components/shared/Pagination";
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };
@@ -13,10 +14,11 @@ interface SearchParamsProps {
 export default async function Collection({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
   if (!userId) return null;
-  const savedQuestions = await getAllSavedQuestions({
+  const { savedQuestions, isNext } = await getAllSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams?.page ? Number(searchParams.page) : 1,
   });
 
   return (
@@ -57,6 +59,10 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
           />
         )}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? Number(searchParams.page) : 1}
+        isNext={isNext}
+      />
     </div>
   );
 }
