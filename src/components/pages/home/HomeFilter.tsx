@@ -6,19 +6,24 @@ import { formUrlQuery, removeKeysFromQuery } from "@/lib/query";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 
-export default function HomeFilter({ route }: { route?: string }) {
+export default function HomeFilter({
+  defaultValue,
+  route,
+}: {
+  defaultValue: string;
+  route: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const query = searchParams.get("filter");
-  const [filter, setFilter] = useState(query || "newest");
+  const [filter, setFilter] = useState(query || defaultValue);
 
   useEffect(() => {
     if (filter) {
       const newUrl = formUrlQuery(searchParams.toString(), "filter", filter);
       router.push(newUrl, { scroll: false });
-    } else if (pathname === "/") {
-      // pathname === route for futur reusability
+    } else if (pathname === route) {
       const newUrl = removeKeysFromQuery(searchParams.toString(), ["filter"]);
       router.push(newUrl, { scroll: false });
     }
@@ -34,7 +39,7 @@ export default function HomeFilter({ route }: { route?: string }) {
               ? "bg-primary-100 text-primary-500"
               : "bg-light-800 text-light-500"
           }`}
-          onClick={() => setFilter(item.value.toLowerCase() || "newest")}
+          onClick={() => setFilter(item.value || defaultValue)}
         >
           {item.name}
         </Button>

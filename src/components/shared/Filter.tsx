@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+// import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { formUrlQuery } from "@/lib/query";
 import {
   Select,
@@ -27,21 +27,16 @@ export default function Filter({
 }: FilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const query = searchParams.get("filter");
-  const [filter, setFilter] = useState(query || defaultValue);
+  const query = searchParams.get("filter") || defaultValue;
 
-  useEffect(() => {
-    const newUrl = formUrlQuery(searchParams.toString(), "filter", filter);
+  function handleValueChange(value: string) {
+    const newUrl = formUrlQuery(searchParams.toString(), "filter", value);
     router.push(newUrl, { scroll: false });
-  }, [filter, pathname, router, searchParams, query]);
+  }
 
   return (
     <div className={containerClasses}>
-      <Select
-        onValueChange={(value) => setFilter(value || defaultValue)}
-        defaultValue={defaultValue}
-      >
+      <Select onValueChange={handleValueChange} defaultValue={query}>
         <SelectTrigger className={otherClasses}>
           <SelectValue placeholder="Select a Filter" />
         </SelectTrigger>

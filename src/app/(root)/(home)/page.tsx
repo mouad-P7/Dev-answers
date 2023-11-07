@@ -34,11 +34,12 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         </LocalSearch>
         <Filter
           filters={HomePageFilters}
+          defaultValue="newest"
           containerClasses="lg:hidden"
           otherClasses="w-36 sm:w-40"
         />
       </div>
-      <HomeFilter />
+      <HomeFilter defaultValue="newest" route="/" />
       <div className="flex-start w-full flex-col gap-4">
         {questions.length > 0 ? (
           questions.map((qst) => (
