@@ -3,15 +3,17 @@ import Filter from "@/components/shared/Filter";
 import TagCard from "@/components/cards/TagCard";
 import { TagsPageFilters } from "@/constants/filters";
 import { getAllTags } from "@/server/actions/tag.action";
+import Pagination from "@/components/shared/Pagination";
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };
 }
 
 export default async function Tags({ searchParams }: SearchParamsProps) {
-  const tags = await getAllTags({
+  const { tags, isNext } = await getAllTags({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams?.page ? Number(searchParams.page) : 1,
   });
 
   return (
@@ -42,6 +44,10 @@ export default async function Tags({ searchParams }: SearchParamsProps) {
           <p className="h3-bold">No tags yet</p>
         )}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? Number(searchParams.page) : 1}
+        isNext={isNext}
+      />
     </div>
   );
 }

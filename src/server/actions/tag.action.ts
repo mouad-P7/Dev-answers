@@ -60,7 +60,10 @@ export async function getTagById(params: getTagByIdParams) {
 export async function getAllTags(params: getAllTagsParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    console.log(" page: ", page, " pageSize: ", pageSize);
+    // handle page < 1 edge case
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
@@ -75,8 +78,13 @@ export async function getAllTags(params: getAllTagsParams) {
     } else if (filter && filter === "name") {
       sortOptions = { name: 1 };
     }
-    const tags = await Tag.find(query).sort(sortOptions);
-    return tags;
+    const tags = await Tag.find(query)
+      .skip(skip)
+      .limit(pageSize)
+      .sort(sortOptions);
+    const nbrTags = await Tag.countDocuments(query);
+    const isNext = nbrTags > skip + tags.length;
+    return { tags, isNext };
   } catch (error) {
     console.log(error);
     throw error;
