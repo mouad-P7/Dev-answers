@@ -122,7 +122,10 @@ export async function saveQuestion(params: saveQuestionParams) {
 export async function getAllUsers(params: getAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    console.log(" page: ", page, " pageSize: ", pageSize);
+    // handle page < 1 edge case
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
       query.$or = [
@@ -138,8 +141,13 @@ export async function getAllUsers(params: getAllUsersParams) {
     } else if (filter && filter === "top_contributors") {
       sortOptions = { reputation: -1 };
     }
-    const users = await User.find(query).sort(sortOptions);
-    return users;
+    const users = await User.find(query)
+      .skip(skip)
+      .limit(pageSize)
+      .sort(sortOptions);
+    const nbrQuestions = await Question.countDocuments(query);
+    const isNext = nbrQuestions > skip + users.length;
+    return { users, isNext };
   } catch (error) {
     console.error(error);
     throw error;

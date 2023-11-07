@@ -3,15 +3,17 @@ import Filter from "@/components/shared/Filter";
 import UserCard from "@/components/cards/UserCard";
 import { CommunityPageFilters } from "@/constants/filters";
 import { getAllUsers } from "@/server/actions/user.action";
+import Pagination from "@/components/shared/Pagination";
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };
 }
 
 export default async function Community({ searchParams }: SearchParamsProps) {
-  const users = await getAllUsers({
+  const { users, isNext } = await getAllUsers({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams?.page ? Number(searchParams.page) : 1,
   });
 
   return (
@@ -44,6 +46,10 @@ export default async function Community({ searchParams }: SearchParamsProps) {
           <p className="h3-bold">No users yet</p>
         )}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? Number(searchParams.page) : 1}
+        isNext={isNext}
+      />
     </div>
   );
 }
