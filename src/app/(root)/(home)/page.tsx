@@ -7,15 +7,17 @@ import HomeFilter from "@/components/pages/home/HomeFilter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllQuestions } from "@/server/actions/question.action";
+import Pagination from "@/components/shared/Pagination";
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };
 }
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const questions = await getAllQuestions({
+  const { questions, isNext } = await getAllQuestions({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams?.page ? Number(searchParams.page) : 1,
   });
 
   return (
@@ -41,8 +43,8 @@ export default async function Home({ searchParams }: SearchParamsProps) {
       </div>
       <HomeFilter defaultValue="newest" route="/" />
       <div className="flex-start w-full flex-col gap-4">
-        {questions.length > 0 ? (
-          questions.map((qst) => (
+        {questions && questions.length > 0 ? (
+          questions.map((qst: any) => (
             <QuestionCard
               key={qst.id}
               id={qst.id}
@@ -64,6 +66,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           />
         )}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? Number(searchParams.page) : 1}
+        isNext={isNext}
+      />
     </div>
   );
 }

@@ -120,7 +120,10 @@ export async function getQuestionById(questionId: string) {
 export async function getAllQuestions(params: getAllQuestionsParams) {
   try {
     await connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    console.log(" page: ", page, " pageSize: ", pageSize);
+    // handle page < 1 edge case
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -137,13 +140,17 @@ export async function getAllQuestions(params: getAllQuestionsParams) {
       query.answers = { $size: 0 };
     } else if (filter && filter === "recommended") {
       // Add recomendation system later
-      return [];
+      return {};
     }
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
+      .skip(skip)
+      .limit(pageSize)
       .sort(sortOptions);
-    return questions;
+    const nbrQuestions = await Question.countDocuments(query);
+    const isNext = nbrQuestions > skip + questions.length;
+    return { questions, isNext };
   } catch (error) {
     console.error(error);
     throw error;
