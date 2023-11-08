@@ -33,7 +33,9 @@ export async function getPopularTags() {
 export async function getTagById(params: getTagByIdParams) {
   try {
     connectToDatabase();
-    const { tagId, searchQuery } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    // handle page < 1 edge case
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [
@@ -44,13 +46,15 @@ export async function getTagById(params: getTagByIdParams) {
     const tag = await Tag.findById(tagId).populate({
       path: "questions",
       match: query,
+      options: { sort: { views: -1 }, limit: pageSize, skip },
       model: Question,
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
         { path: "author", model: User, select: "_id clerkId name picture" },
       ],
     });
-    return tag;
+    const isNext = tag.questions.length > skip;
+    return { tag, isNext };
   } catch (error) {
     console.log(error);
     throw error;

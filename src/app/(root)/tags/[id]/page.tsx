@@ -2,6 +2,7 @@ import LocalSearch from "@/components/shared/LocalSearch";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getTagById } from "@/server/actions/tag.action";
+import Pagination from "@/components/shared/Pagination";
 
 export default async function TagQuestions({
   params,
@@ -10,9 +11,10 @@ export default async function TagQuestions({
   params: { id: string };
   searchParams: { [key: string]: string | undefined };
 }) {
-  const tag = await getTagById({
+  const { tag, isNext } = await getTagById({
     tagId: params.id,
     searchQuery: searchParams.q,
+    page: searchParams?.page ? Number(searchParams.page) : 1,
   });
 
   return (
@@ -47,6 +49,10 @@ export default async function TagQuestions({
           />
         )}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? Number(searchParams.page) : 1}
+        isNext={isNext}
+      />
     </div>
   );
 }
