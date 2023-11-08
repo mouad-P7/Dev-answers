@@ -20,6 +20,8 @@ export interface getUserTopQuestionsParams {
 export interface getAllAnswersParams {
   questionId: string;
   filter?: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export interface getTagByIdParams {

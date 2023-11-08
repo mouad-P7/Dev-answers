@@ -84,6 +84,7 @@ export default async function Question({
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
         filter={searchParams.filter}
+        searchParams={searchParams}
       />
       <AnswerForm
         question={question.content}

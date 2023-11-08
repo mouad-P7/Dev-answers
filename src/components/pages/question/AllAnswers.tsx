@@ -5,6 +5,7 @@ import { formatDate } from "@/lib/format";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import Votes from "@/components/shared/Votes";
+import Pagination from "@/components/shared/Pagination";
 
 interface AllAnswersProps {
   questionId: string;
@@ -12,6 +13,7 @@ interface AllAnswersProps {
   totalAnswers: number;
   page?: number;
   filter?: string;
+  searchParams: { [key: string]: string | undefined };
 }
 
 export default async function AllAnswers({
@@ -20,8 +22,13 @@ export default async function AllAnswers({
   totalAnswers,
   page,
   filter,
+  searchParams,
 }: AllAnswersProps) {
-  const answers = await getAllAnswers({ questionId, filter });
+  const { answers, isNext } = await getAllAnswers({
+    questionId,
+    filter,
+    page: searchParams?.page ? Number(searchParams.page) : 1,
+  });
 
   return (
     <div className="mt-11 flex flex-col gap-4">
@@ -61,6 +68,11 @@ export default async function AllAnswers({
           </div>
         ))}
       </div>
+      <Pagination
+        pageNumber={searchParams?.page ? Number(searchParams.page) : 1}
+        isNext={isNext}
+        isScroll={false}
+      />
     </div>
   );
 }

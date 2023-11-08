@@ -70,7 +70,9 @@ export async function voteAnswer(params: voteAnswerParams) {
 export async function getAllAnswers(params: getAllAnswersParams) {
   try {
     await connectToDatabase();
-    const { questionId, filter } = params;
+    const { questionId, filter, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    // handle page < 1 edge case
     let sortOptions = {};
     if (!filter || filter === "highestUpvotes") {
       sortOptions = { upvotes: -1 };
@@ -83,8 +85,12 @@ export async function getAllAnswers(params: getAllAnswersParams) {
     }
     const answers = await Answer.find({ question: questionId })
       .populate("author", "_id clerkId name picture")
+      .skip(skip)
+      .limit(pageSize)
       .sort(sortOptions);
-    return answers;
+    const nbrAnswers = await Answer.countDocuments({ question: questionId });
+    const isNext = nbrAnswers > skip + answers.length;
+    return { answers, isNext };
   } catch (error) {
     console.log(error);
     throw error;
