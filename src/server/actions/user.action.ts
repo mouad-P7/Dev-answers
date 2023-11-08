@@ -15,16 +15,24 @@ import {
   saveQuestionParams,
   getAllSavedQuestionsParams,
   getUserTopQuestionsParams,
+  getUserTopAnswersParams,
 } from "./actions";
 
-export async function getUserTopAnswers(userId: string) {
+export async function getUserTopAnswers(params: getUserTopAnswersParams) {
   try {
     connectToDatabase();
+    const { userId, page = 1, pageSize = 1 } = params;
+    const skip = (page - 1) * pageSize;
+    // handle page < 1 edge case
     const topAnswers = await Answer.find({ author: userId })
       .populate("question", "_id title")
       .populate("author", "_id clerkId name picture")
+      .skip(skip)
+      .limit(pageSize)
       .sort({ upvotes: -1 });
-    return topAnswers;
+    const nbrTopAnswers = await Answer.countDocuments({ author: userId });
+    const isNext = nbrTopAnswers > skip + topAnswers.length;
+    return { topAnswers, isNext };
   } catch (error) {
     console.error(error);
     throw error;

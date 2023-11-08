@@ -1,6 +1,14 @@
 import { Schema } from "mongoose";
 import { UserType } from "@/server/database/user.model";
 
+export interface getUserTopAnswersParams {
+  userId: string;
+  searchQuery?: string;
+  filter?: string;
+  page?: number;
+  pageSize?: number;
+}
+
 export interface getUserTopQuestionsParams {
   userId: string;
   searchQuery?: string;

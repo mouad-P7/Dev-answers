@@ -51,7 +51,7 @@ export default async function Profile({ params, searchParams }: ProfileParams) {
           <TopQuestionsTab userId={user._id} searchParams={searchParams} />
         </TabsContent>
         <TabsContent value="top-answers">
-          <TopAnswersTab userId={user._id} />
+          <TopAnswersTab userId={user._id} searchParams={searchParams} />
         </TabsContent>
       </Tabs>
     </div>
