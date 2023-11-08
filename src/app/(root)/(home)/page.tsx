@@ -3,7 +3,7 @@ import { HomePageFilters } from "@/constants/filters";
 import { Button } from "@/components/ui/button";
 import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
-import HomeFilter from "@/components/pages/home/HomeFilter";
+// import HomeFilter from "@/components/pages/home/HomeFilter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllQuestions } from "@/server/actions/question.action";
@@ -37,11 +37,11 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         <Filter
           filters={HomePageFilters}
           defaultValue="newest"
-          containerClasses="lg:hidden"
+          // containerClasses="lg:hidden"
           otherClasses="w-36 sm:w-40"
         />
       </div>
-      <HomeFilter defaultValue="newest" route="/" />
+      {/* <HomeFilter defaultValue="newest" route="/" /> */}
       <div className="flex-start w-full flex-col gap-4">
         {questions && questions.length > 0 ? (
           questions.map((qst: any) => (
