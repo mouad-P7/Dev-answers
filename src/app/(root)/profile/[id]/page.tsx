@@ -5,7 +5,12 @@ import { getUserData } from "@/server/actions/user.action";
 import TopQuestionsTab from "@/components/pages/profile/TopQuestionsTab";
 import TopAnswersTab from "@/components/pages/profile/TopAnswersTab";
 
-export default async function Profile({ params }: { params: { id: string } }) {
+interface ProfileParams {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+}
+
+export default async function Profile({ params, searchParams }: ProfileParams) {
   const { user, totalQuestions, totalAnswers } = await getUserData(params.id);
 
   return (
@@ -43,7 +48,7 @@ export default async function Profile({ params }: { params: { id: string } }) {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="top-posts">
-          <TopQuestionsTab userId={user._id} />
+          <TopQuestionsTab userId={user._id} searchParams={searchParams} />
         </TabsContent>
         <TabsContent value="top-answers">
           <TopAnswersTab userId={user._id} />

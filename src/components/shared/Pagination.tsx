@@ -7,9 +7,14 @@ import { formUrlQuery } from "@/lib/query";
 interface PaginationProps {
   pageNumber: number;
   isNext: boolean | undefined;
+  isScroll?: boolean;
 }
 
-export default function Pagination({ pageNumber, isNext }: PaginationProps) {
+export default function Pagination({
+  pageNumber,
+  isNext,
+  isScroll = true,
+}: PaginationProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -21,7 +26,7 @@ export default function Pagination({ pageNumber, isNext }: PaginationProps) {
       "page",
       nextPageNumber.toString()
     );
-    router.push(newUrl);
+    router.push(newUrl, { scroll: isScroll });
   }
 
   if (!isNext && pageNumber < 1) return null;

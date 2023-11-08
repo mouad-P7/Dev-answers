@@ -14,6 +14,7 @@ import {
   getAllUsersParams,
   saveQuestionParams,
   getAllSavedQuestionsParams,
+  getUserTopQuestionsParams,
 } from "./actions";
 
 export async function getUserTopAnswers(userId: string) {
@@ -30,14 +31,21 @@ export async function getUserTopAnswers(userId: string) {
   }
 }
 
-export async function getUserTopQuestions(userId: string) {
+export async function getUserTopQuestions(params: getUserTopQuestionsParams) {
   try {
     connectToDatabase();
+    const { userId, page = 1, pageSize = 2 } = params;
+    const skip = (page - 1) * pageSize;
+    // handle page < 1 edge case
     const topQuestions = await Question.find({ author: userId })
       .populate("tags", "_id name")
       .populate("author", "_id clerkId name picture")
+      .skip(skip)
+      .limit(pageSize)
       .sort({ views: -1, upvotes: -1 });
-    return topQuestions;
+    const nbrTopQuestions = await Question.countDocuments({ author: userId });
+    const isNext = nbrTopQuestions > skip + topQuestions.length;
+    return { topQuestions, isNext };
   } catch (error) {
     console.error(error);
     throw error;
