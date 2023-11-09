@@ -19,8 +19,11 @@ export default function GlobalResult() {
       setResult([]);
       setIsLoading(true);
       try {
-        const res = await globalSearch({ query: global, type });
-        setResult(JSON.parse(res));
+        const data = await globalSearch({
+          globalQuery: global,
+          typeFilter: type?.toLowerCase(),
+        });
+        setResult(JSON.parse(data));
       } catch (error) {
         console.error(error);
         throw error;
@@ -66,7 +69,7 @@ export default function GlobalResult() {
                 result.map((item: any, i: number) => (
                   <Link
                     key={i}
-                    href={renderLink(item.type, item._id)}
+                    href={renderLink(item.type, item.id)}
                     className="flex flex-col gap-1 px-3 py-1.5 hover:bg-light-700/50"
                   >
                     <p className="paragraph-semibold line-clamp-1">
