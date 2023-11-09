@@ -1,3 +1,10 @@
+export const GlobalSearchFilters = [
+  { name: "Questions", value: "question" },
+  { name: "Answers", value: "answer" },
+  { name: "Users", value: "user" },
+  { name: "Tags", value: "tag" },
+];
+
 export const QuestionFilters = [
   { name: "Most Recent", value: "most_recent" },
   { name: "Oldest", value: "oldest" },
