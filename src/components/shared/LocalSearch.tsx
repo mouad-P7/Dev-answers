@@ -30,7 +30,7 @@ export default function LocalSearch({
         const newUrl = removeKeysFromQuery(searchParams.toString(), ["q"]);
         router.push(newUrl, { scroll: false });
       }
-    }, 1000); // 1s delay
+    }, 500); // 0.5s delay
 
     return () => clearTimeout(delayDebounce);
   }, [search, route, pathname, router, searchParams, query]);
@@ -51,7 +51,7 @@ export default function LocalSearch({
         placeholder={String(children)}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="paragraph-regular no-focus placeholder background-light800_darkgradient border-none shadow-none outline-none"
+        className="paragraph-regular no-focus placeholder background-light800_darkgradient text-dark400_light700 border-none shadow-none outline-none"
       />
     </div>
   );
