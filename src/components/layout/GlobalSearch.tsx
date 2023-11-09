@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ export default function GlobalSearch() {
   const query = searchParams.get("q");
   const [search, setSearch] = useState(query || "");
   const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -32,8 +33,22 @@ export default function GlobalSearch() {
     return () => clearTimeout(delayDebounce);
   }, [search, pathname, router, searchParams, query]);
 
+  useEffect(() => {
+    function handleOutsideClick(event: any) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setIsOpen(false);
+        setSearch("");
+      }
+    }
+    setIsOpen(false);
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [pathname]);
+
   return (
-    <div className="relative w-full max-w-[600px] max-lg:hidden">
+    <div className="relative w-full max-w-[600px] max-lg:hidden" ref={ref}>
       <div className="background-light800_darkgradient relative flex min-h-[50px] grow cursor-pointer items-center gap-1 rounded-xl px-3">
         <Image
           src="/assets/icons/search.svg"
