@@ -33,9 +33,9 @@ export default async function Profile({ params, searchParams }: ProfileParams) {
           questionsNum={totalQuestions}
           answersNum={totalAnswers}
         />
-        <StatCard type="badge" badgeName="gold" badgeNum={111} />
+        {/* <StatCard type="badge" badgeName="gold" badgeNum={111} />
         <StatCard type="badge" badgeName="silver" badgeNum={111} />
-        <StatCard type="badge" badgeName="bronze" badgeNum={111} />
+        <StatCard type="badge" badgeName="bronze" badgeNum={111} /> */}
       </div>
 
       <Tabs defaultValue="top-posts" className="">

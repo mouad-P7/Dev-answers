@@ -54,10 +54,10 @@ export async function deleteQuestionById(questionId: string, path: string) {
       { questions: questionId },
       { $pull: { questions: questionId } }
     );
-    const question = await Question.findById(questionId);
-    await User.findOneAndUpdate(question.author, {
-      $inc: { reputation: -1 },
-    });
+    // const question = await Question.findById(questionId);
+    // await User.findOneAndUpdate(question.author, {
+    //   $inc: { reputation: -1 },
+    // });
     revalidatePath(path);
   } catch (error) {
     console.error(error);
@@ -94,27 +94,27 @@ export async function voteQuestion(params: voteQuestionParams) {
       new: true,
     });
     if (!question) throw new Error("Question not found");
-    if (action === "upvote") {
-      // Increment author's reputation
-      await User.findByIdAndUpdate(userId, {
-        $inc: { reputation: hasUpVoted ? -1 : 1 },
-      });
-      if (userId !== question.author) {
-        await User.findByIdAndUpdate(question.author, {
-          $inc: { reputation: hasUpVoted ? -10 : 10 },
-        });
-      }
-    } else if (action === "downvote") {
-      // Increment author's reputation
-      await User.findByIdAndUpdate(userId, {
-        $inc: { reputation: hasDownVoted ? -1 : 1 },
-      });
-      if (userId !== question.author) {
-        await User.findByIdAndUpdate(question.author, {
-          $inc: { reputation: hasDownVoted ? -10 : 10 },
-        });
-      }
-    }
+    // if (action === "upvote") {
+    //   // Increment author's reputation
+    //   await User.findByIdAndUpdate(userId, {
+    //     $inc: { reputation: hasUpVoted ? -1 : 1 },
+    //   });
+    //   if (userId !== question.author) {
+    //     await User.findByIdAndUpdate(question.author, {
+    //       $inc: { reputation: hasUpVoted ? -10 : 10 },
+    //     });
+    //   }
+    // } else if (action === "downvote") {
+    //   // Increment author's reputation
+    //   await User.findByIdAndUpdate(userId, {
+    //     $inc: { reputation: hasDownVoted ? -1 : 1 },
+    //   });
+    //   if (userId !== question.author) {
+    //     await User.findByIdAndUpdate(question.author, {
+    //       $inc: { reputation: hasDownVoted ? -10 : 10 },
+    //     });
+    //   }
+    // }
     revalidatePath(path);
   } catch (error) {
     console.error(error);
@@ -203,13 +203,13 @@ export async function postQuestion(params: postQuestionParams) {
       $push: { tags: { $each: tagDocuments } },
     });
     // Update author's reputation
-    await Interaction.create({
-      user: author,
-      action: "postQuestion",
-      question,
-      tags: tagDocuments,
-    });
-    await User.findByIdAndUpdate(author, { $inc: { reputation: 1 } });
+    // await Interaction.create({
+    //   user: author,
+    //   action: "postQuestion",
+    //   question,
+    //   tags: tagDocuments,
+    // });
+    // await User.findByIdAndUpdate(author, { $inc: { reputation: 1 } });
     revalidatePath(path);
   } catch (error) {
     console.log(error);
