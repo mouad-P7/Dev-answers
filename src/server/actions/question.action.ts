@@ -54,6 +54,10 @@ export async function deleteQuestionById(questionId: string, path: string) {
       { questions: questionId },
       { $pull: { questions: questionId } }
     );
+    const question = await Question.findById(questionId);
+    await User.findOneAndUpdate(question.author, {
+      $inc: { reputation: -1 },
+    });
     revalidatePath(path);
   } catch (error) {
     console.error(error);
@@ -205,7 +209,7 @@ export async function postQuestion(params: postQuestionParams) {
       question,
       tags: tagDocuments,
     });
-    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 1 } });
     revalidatePath(path);
   } catch (error) {
     console.log(error);

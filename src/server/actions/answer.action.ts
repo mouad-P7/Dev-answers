@@ -23,6 +23,9 @@ export async function deleteAnswerById(answerId: string, path: string) {
       { $pull: { answers: answerId } }
     );
     await Interaction.deleteMany({ answer: answerId });
+    await User.findOneAndUpdate(answer.author, {
+      $inc: { reputation: -2 },
+    });
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -138,7 +141,7 @@ export async function postAnswer(params: postAnswerParams) {
       answer: newAnswer._id,
       tags: question.tags,
     });
-    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 2 } });
 
     revalidatePath(path);
   } catch (error) {
