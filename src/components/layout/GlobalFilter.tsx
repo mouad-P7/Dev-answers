@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { GlobalSearchFilters } from "@/constants/filters";
 import { formUrlQuery } from "@/lib/query";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ export default function GlobalFilter() {
   const query = searchParams.get("type");
   const [type, setType] = useState(query || "");
 
-  function handleClick(itemValue: string) {
+  function addTypeFilter(itemValue: string) {
     if (type === itemValue) {
       setType("");
       const newUrl = formUrlQuery(searchParams.toString(), "type", null);
@@ -38,11 +39,19 @@ export default function GlobalFilter() {
               ? "primary-gradient text-light-900"
               : "background-light700_dark300 hover:text-primary-500"
           }`}
-          onClick={() => handleClick(item.value)}
+          onClick={() => addTypeFilter(item.value)}
         >
           {item.name}
         </Button>
       ))}
+      <Button
+        disabled={type === ""}
+        title="remove filter"
+        className="p-1 hover:text-primary-500"
+        onClick={() => setType("")}
+      >
+        <CrossCircledIcon width={25} height={25} />
+      </Button>
     </div>
   );
 }

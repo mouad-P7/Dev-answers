@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { ReloadIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import GlobalFilter from "./GlobalFilter";
 import { globalSearch } from "@/server/actions/general.action";
 
@@ -44,7 +44,7 @@ export default function GlobalResult() {
   }
 
   return (
-    <div className="shadow-light100_darknone text-dark400_light900 background-light800_dark400 absolute mt-2 max-h-[500px] rounded-xl">
+    <div className="shadow-light100_darknone text-dark400_light900 background-light800_dark400 absolute mt-2 max-h-[500px] w-full rounded-xl">
       <div className="flex-start gap-4 border-b p-3">
         <p className="base-semibold text-dark200_light800">Type:</p>
         <GlobalFilter />
@@ -54,11 +54,9 @@ export default function GlobalResult() {
         <div className="flex flex-col">
           {isLoading ? (
             <div className="flex-start flex-col">
-              <Image
-                src="/assets/icons/reload.svg"
-                alt="Loading..."
-                height={40}
+              <ReloadIcon
                 width={40}
+                height={40}
                 className="animate-spin text-primary-500"
               />
               <p className="body-regular mt-3">Searching all database...</p>
@@ -80,7 +78,11 @@ export default function GlobalResult() {
                 ))
               ) : (
                 <div className="flex-start flex-col">
-                  {/* <Image/> */}
+                  <ExclamationTriangleIcon
+                    width={40}
+                    height={40}
+                    className="text-primary-500"
+                  />
                   <p className="body-regular mt-3">No result found</p>
                 </div>
               )}
