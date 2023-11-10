@@ -20,13 +20,13 @@ import { Button } from "@/components/ui/button";
 import { answerSchema } from "@/lib/schema";
 
 interface AnswerFormProps {
-  question: string;
+  // questionContent: string;
   questionId: string;
   authorId: string;
 }
 
 export default function AnswerForm({
-  question,
+  // questionContent
   questionId,
   authorId,
 }: AnswerFormProps) {

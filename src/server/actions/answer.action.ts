@@ -121,7 +121,11 @@ export async function postAnswer(params: postAnswerParams) {
     await connectToDatabase();
     const { author, content, questionId, path } = params;
     // Add the answer to the question's answers array
-    const newAnswer = await Answer.create({ content, author, questionId });
+    const newAnswer = await Answer.create({
+      content,
+      author,
+      question: questionId,
+    });
     const question = await Question.findByIdAndUpdate(questionId, {
       $push: { answers: newAnswer._id },
     });
@@ -131,6 +135,7 @@ export async function postAnswer(params: postAnswerParams) {
       user: author,
       action: "postAnswer",
       question: questionId,
+      answer: newAnswer._id,
       tags: question.tags,
     });
     await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
