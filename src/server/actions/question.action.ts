@@ -92,6 +92,14 @@ export async function voteQuestion(params: voteQuestionParams) {
     if (!question) throw new Error("Question not found");
 
     // Increment author's reputation
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: action === "upvote" ? 1 : -1 },
+    });
+    if (userId !== question.author) {
+      await User.findByIdAndUpdate(question.author, {
+        $inc: { reputation: action === "upvote" ? 10 : -10 },
+      });
+    }
 
     revalidatePath(path);
   } catch (error) {
@@ -180,10 +188,14 @@ export async function postQuestion(params: postQuestionParams) {
     await Question.findByIdAndUpdate(question._id, {
       $push: { tags: { $each: tagDocuments } },
     });
-
-    // Create an interaction record for the user's ask_question action
-    // Increment author's reputation by +5 for creating a question
-
+    // Update author's reputation
+    await Interaction.create({
+      user: author,
+      action: "postQuestion",
+      question,
+      tags: tagDocuments,
+    });
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
     revalidatePath(path);
   } catch (error) {
     console.log(error);
