@@ -10,6 +10,7 @@ import {
 import Answer from "@/server/database/answer.model";
 import Question from "@/server/database/question.model";
 import Interaction from "@/server/database/interaction.model";
+import User from "@/server/database/user.model";
 
 export async function deleteAnswerById(answerId: string, path: string) {
   try {
@@ -33,8 +34,8 @@ export async function voteAnswer(params: voteAnswerParams) {
   try {
     await connectToDatabase();
     const { action, answerId, userId, hasUpVoted, hasDownVoted, path } = params;
-    let updateQuery = {};
 
+    let updateQuery = {};
     if (action === "upvote") {
       if (hasUpVoted) updateQuery = { $pull: { upvotes: userId } };
       else if (hasDownVoted) {
@@ -57,9 +58,27 @@ export async function voteAnswer(params: voteAnswerParams) {
       new: true,
     });
     if (!answer) throw new Error("Answer not found");
-
-    // Increment author's reputation
-
+    if (action === "upvote") {
+      // Increment author's reputation
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasUpVoted ? -2 : 2 },
+      });
+      if (userId !== answer.author) {
+        await User.findByIdAndUpdate(answer.author, {
+          $inc: { reputation: hasUpVoted ? -10 : 10 },
+        });
+      }
+    } else if (action === "downvote") {
+      // Increment author's reputation
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasDownVoted ? -2 : 2 },
+      });
+      if (userId !== answer.author) {
+        await User.findByIdAndUpdate(answer.author, {
+          $inc: { reputation: hasDownVoted ? -10 : 10 },
+        });
+      }
+    }
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -100,15 +119,21 @@ export async function getAllAnswers(params: getAllAnswersParams) {
 export async function postAnswer(params: postAnswerParams) {
   try {
     await connectToDatabase();
-    const { author, content, question, path } = params;
-    // Create the answer
-    const newAnswer = await Answer.create({ content, author, question });
+    const { author, content, questionId, path } = params;
     // Add the answer to the question's answers array
-    await Question.findByIdAndUpdate(question, {
+    const newAnswer = await Answer.create({ content, author, questionId });
+    const question = await Question.findByIdAndUpdate(questionId, {
       $push: { answers: newAnswer._id },
     });
 
-    // TODO: Add interaction...
+    // Update author's reputation
+    await Interaction.create({
+      user: author,
+      action: "postAnswer",
+      question: questionId,
+      tags: question.tags,
+    });
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {

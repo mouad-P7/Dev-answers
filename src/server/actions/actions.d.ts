@@ -91,7 +91,7 @@ export interface voteQuestionParams {
 export interface postAnswerParams {
   author: string;
   content: string;
-  question: string;
+  questionId: string;
   path: string;
 }
 

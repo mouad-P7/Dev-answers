@@ -50,7 +50,7 @@ export default function AnswerForm({
       await postAnswer({
         content: values.answer,
         author: JSON.parse(authorId),
-        question: JSON.parse(questionId),
+        questionId: JSON.parse(questionId),
         path: pathname,
       });
       form.reset();

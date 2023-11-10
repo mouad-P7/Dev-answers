@@ -90,17 +90,27 @@ export async function voteQuestion(params: voteQuestionParams) {
       new: true,
     });
     if (!question) throw new Error("Question not found");
-
-    // Increment author's reputation
-    await User.findByIdAndUpdate(userId, {
-      $inc: { reputation: action === "upvote" ? 1 : -1 },
-    });
-    if (userId !== question.author) {
-      await User.findByIdAndUpdate(question.author, {
-        $inc: { reputation: action === "upvote" ? 10 : -10 },
+    if (action === "upvote") {
+      // Increment author's reputation
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasUpVoted ? -1 : 1 },
       });
+      if (userId !== question.author) {
+        await User.findByIdAndUpdate(question.author, {
+          $inc: { reputation: hasUpVoted ? -10 : 10 },
+        });
+      }
+    } else if (action === "downvote") {
+      // Increment author's reputation
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasDownVoted ? -1 : 1 },
+      });
+      if (userId !== question.author) {
+        await User.findByIdAndUpdate(question.author, {
+          $inc: { reputation: hasDownVoted ? -10 : 10 },
+        });
+      }
     }
-
     revalidatePath(path);
   } catch (error) {
     console.error(error);
