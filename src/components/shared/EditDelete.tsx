@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,8 +18,10 @@ interface EditDeleteProps {
 export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
   const { userId } = useAuth();
   const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleDeleteAction(type: "question" | "answer") {
+    setIsLoading(true);
     if (type === "question") {
       await deleteQuestionById(typeId, pathname);
       // show toast
@@ -26,6 +29,7 @@ export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
       await deleteAnswerById(typeId, pathname);
       // show toast
     }
+    setIsLoading(false);
   }
 
   return (
@@ -44,7 +48,11 @@ export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
               </Button>
             </Link>
           )}
-          <Button className="p-0" onClick={() => handleDeleteAction(type)}>
+          <Button
+            disabled={isLoading}
+            className="p-0"
+            onClick={() => handleDeleteAction(type)}
+          >
             <Image
               src="/assets/icons/trash.svg"
               alt="delete"
