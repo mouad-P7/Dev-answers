@@ -23,7 +23,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
-      <p className="h3-bold sm:h2-bold">Saved Questions</p>
+      <p className="h3-bold sm:h2-bold w-full">Saved Questions</p>
       <div className="flex w-full items-center justify-between gap-5">
         <LocalSearch route="/collection" otherClasses="sm:w-full">
           Search a question...
