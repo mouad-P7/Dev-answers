@@ -21,7 +21,7 @@ export default async function UserCard({
   const interactedTags = await getTopInteractedTags({ userId: id });
 
   return (
-    <div className="card-wrapper text-dark200_light900 flex-center h-[280px] w-full flex-col gap-4 rounded-lg p-4 xs:w-64 sm:p-8">
+    <div className="card-wrapper text-dark200_light900 flex-center h-[280px] w-full flex-col gap-4 rounded-lg p-4 xs:w-[20rem]">
       <Link
         href={`/profile/${clerkId}`}
         className="flex-center flex flex-col gap-3"
