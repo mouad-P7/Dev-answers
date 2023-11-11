@@ -48,7 +48,9 @@ export default async function Question({
             hasSaved={mongoUser?.saved.includes(question._id)}
           />
         </div>
-        <p className="h2-semibold text-dark200_light900">{question.title}</p>
+        <p className="h2-semibold text-dark200_light900 line-clamp-2">
+          {question.title}
+        </p>
         <div className="flex-start gap-2">
           <Metric
             imgUrl="/assets/icons/like.svg"
