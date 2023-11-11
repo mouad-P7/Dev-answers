@@ -19,7 +19,7 @@ export default async function TagQuestions({
 
   return (
     <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
-      <p className="h3-bold sm:h2-bold">{tag.name}</p>
+      <p className="h3-bold sm:h2-bold w-full">{tag.name}</p>
       <div className="flex w-full items-center justify-between gap-5">
         <LocalSearch route={`/tags/${params.id}`} otherClasses="sm:w-full">
           Search tag questions...

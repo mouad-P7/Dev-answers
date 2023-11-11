@@ -5,7 +5,7 @@ const childSkeleton = " bg-gray-100/100 dark:bg-gray-900/100 ";
 export default function Loading() {
   return (
     <div className="text-dark100_light900 flex w-full flex-col gap-6">
-      <p className="h3-bold sm:h2-bold">Saved Questions</p>
+      <Skeleton className="h-[26px] w-[250px]" />
       <div className="flex w-full items-center justify-between gap-5">
         <Skeleton className="h-[50px] grow" />
         <Skeleton className="h-[40px] w-[144px]" />
