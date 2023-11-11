@@ -14,7 +14,7 @@ export default async function Profile({ params, searchParams }: ProfileParams) {
   const { user, totalQuestions, totalAnswers } = await getUserData(params.id);
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className="flex flex-col gap-5">
       <UserData
         clerkId={user.clerkId}
         name={user.name}
@@ -27,7 +27,7 @@ export default async function Profile({ params, searchParams }: ProfileParams) {
       />
 
       <p className="h3-semibold text-dark200_light900">Stats</p>
-      <div className="flex-start flex-wrap gap-4">
+      <div className="flex-start light-border flex-wrap gap-4 border-b pb-4">
         <StatCard
           type="basic"
           questionsNum={totalQuestions}

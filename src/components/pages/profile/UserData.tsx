@@ -24,7 +24,7 @@ export default function UserData({
   bio,
 }: UserDataProps) {
   return (
-    <div className="relative">
+    <div className="light-border relative border-b">
       <EditButton
         clerkId={clerkId}
         otherClasses="absolute right-0 top-0 hidden lg:block"
@@ -41,8 +41,10 @@ export default function UserData({
           <EditButton clerkId={clerkId} otherClasses="p-2 xs:p-4 lg:hidden" />
         </div>
         <div className="flex shrink flex-col gap-3 xs:p-1">
-          <p className="h1-bold text-dark100_light900">{name}</p>
-          <p className="paragraph-regular text-dark200_light800">@{userName}</p>
+          <p className="h1-bold text-dark100_light900 line-clamp-2">{name}</p>
+          <p className="paragraph-regular text-dark200_light800 line-clamp-1">
+            @{userName}
+          </p>
           <div className="hidden sm:block">
             <ProfileMetric
               website={website}
@@ -59,7 +61,7 @@ export default function UserData({
           joinedAt={joinedAt}
         />
       </div>
-      <p className="paragraph-regular text-dark400_light800 mt-7">
+      <p className="paragraph-regular text-dark400_light800 my-4">
         {bio !== "" ? bio : "No bio."}
       </p>
     </div>

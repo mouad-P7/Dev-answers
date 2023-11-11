@@ -9,6 +9,7 @@ interface MetricProps {
   textClasses?: string;
   href?: string;
   isAuthor?: boolean;
+  target?: string;
 }
 
 export default function Metric({
@@ -19,6 +20,7 @@ export default function Metric({
   textClasses,
   href,
   isAuthor,
+  target,
 }: MetricProps) {
   const metricContent = (
     <div className={`flex-start gap-1`}>
@@ -41,7 +43,7 @@ export default function Metric({
   return (
     <>
       {href ? (
-        <Link href={href} className="flex-center">
+        <Link href={href} target={target} className="flex-center">
           {metricContent}
         </Link>
       ) : (

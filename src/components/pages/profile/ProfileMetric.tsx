@@ -18,7 +18,9 @@ export default function ProfileMetric({
         <Metric
           imgUrl="/assets/icons/link.svg"
           alt="link"
-          value={website}
+          href={website}
+          value="Portfolio"
+          target="_blank"
           title=""
           textClasses="paragraph-medium text-[#1DA1F2]"
         />

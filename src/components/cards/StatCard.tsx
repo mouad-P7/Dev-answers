@@ -8,7 +8,7 @@ interface StatProps {
 function Stat({ number, title }: StatProps) {
   return (
     <div className="">
-      <p className="paragraph-semibold text-dark200_light900">
+      <p className="paragraph-semibold text-dark200_light900 text-center">
         {formatNumber(number || 0)}
       </p>
       <p className="body-medium text-dark400_light700">{title}</p>
@@ -33,7 +33,7 @@ export default function StatCard({
   badgeNum,
 }: StatCardProps) {
   return (
-    <div className="flex-center background-light900_dark200 h-[90px] grow gap-7 px-7 py-5 xs:grow-0">
+    <div className="flex-center background-light900_dark200 h-[80px] grow gap-7 rounded-lg px-6 py-4 xs:grow-0">
       {type === "basic" && (
         <>
           <Stat number={questionsNum} title="Questions" />
