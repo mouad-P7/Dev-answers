@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Editor } from "@tinymce/tinymce-react";
 import { usePathname } from "next/navigation";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useTheme } from "@/context/ThemeProvider";
 import { postAnswer } from "@/server/actions/answer.action";
 import {
@@ -20,18 +21,19 @@ import { Button } from "@/components/ui/button";
 import { answerSchema } from "@/lib/schema";
 
 interface AnswerFormProps {
-  // questionContent: string;
+  questionExplanation: string;
   questionId: string;
   authorId: string;
 }
 
 export default function AnswerForm({
-  // questionContent
+  questionExplanation,
   questionId,
   authorId,
 }: AnswerFormProps) {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const { mode } = useTheme();
   const pathname = usePathname();
 
@@ -67,6 +69,32 @@ export default function AnswerForm({
     }
   }
 
+  async function generateAIAnswer() {
+    if (!authorId) return;
+    setIsSubmittingAI(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: "POST",
+          body: JSON.stringify({ questionExplanation }),
+        }
+      );
+      const AIAnswer = await response.json();
+      const formattedAnswer = AIAnswer.reply.replace(/\n/g, "<br />");
+      // format ```language to code block
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
+      }
+      // Toast...
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsSubmittingAI(false);
+    }
+  }
+
   return (
     <>
       <div className="mt-6 flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -75,16 +103,26 @@ export default function AnswerForm({
         </p>
         <Button
           className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
-          onClick={() => {}}
+          disabled={isSubmittingAI}
+          onClick={generateAIAnswer}
         >
-          <Image
-            src="/assets/icons/stars.svg"
-            alt="star"
-            width={12}
-            height={12}
-            className="object-contain"
-          />
-          Generate an AI Answer
+          {isSubmittingAI ? (
+            <>
+              <ReloadIcon className="animate-spin text-primary-500" />
+              Generating...
+            </>
+          ) : (
+            <>
+              <Image
+                src="/assets/icons/stars.svg"
+                alt="star"
+                width={12}
+                height={12}
+                className="object-contain"
+              />
+              Generate AI Answer
+            </>
+          )}
         </Button>
       </div>
       <Form {...form}>

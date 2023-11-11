@@ -87,7 +87,7 @@ export default async function Question({
         searchParams={searchParams}
       />
       <AnswerForm
-        // questionContent=JSON.stringify({question.content)}
+        questionExplanation={question.explanation}
         questionId={JSON.stringify(question._id)}
         authorId={JSON.stringify(mongoUser._id)}
       />
