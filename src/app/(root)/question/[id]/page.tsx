@@ -40,11 +40,11 @@ export default async function Question({
           <Votes
             type="question"
             itemId={JSON.stringify(question._id)}
-            userId={JSON.stringify(mongoUser._id)}
+            userId={JSON.stringify(mongoUser?._id)}
             upvotes={question.upvotes.length}
-            hasUpVoted={question.upvotes.includes(mongoUser._id)}
+            hasUpVoted={question.upvotes.includes(mongoUser?._id)}
             downvotes={question.downvotes.length}
-            hasDownVoted={question.downvotes.includes(mongoUser._id)}
+            hasDownVoted={question.downvotes.includes(mongoUser?._id)}
             hasSaved={mongoUser?.saved.includes(question._id)}
           />
         </div>
@@ -83,7 +83,7 @@ export default async function Question({
       </div>
       <AllAnswers
         questionId={question._id}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswers={question.answers.length}
         filter={searchParams.filter}
         searchParams={searchParams}
@@ -91,7 +91,7 @@ export default async function Question({
       <AnswerForm
         questionExplanation={question.explanation}
         questionId={JSON.stringify(question._id)}
-        authorId={JSON.stringify(mongoUser._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
       />
     </>
   );
