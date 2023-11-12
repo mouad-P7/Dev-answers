@@ -21,7 +21,7 @@ import {
 export async function getUserTopAnswers(params: getUserTopAnswersParams) {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 1 } = params;
+    const { userId, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
     // handle page < 1 edge case
     const topAnswers = await Answer.find({ author: userId })
@@ -42,7 +42,7 @@ export async function getUserTopAnswers(params: getUserTopAnswersParams) {
 export async function getUserTopQuestions(params: getUserTopQuestionsParams) {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 2 } = params;
+    const { userId, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
     // handle page < 1 edge case
     const topQuestions = await Question.find({ author: userId })
@@ -77,9 +77,8 @@ export async function getUserData(clerkId: string) {
 export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
   try {
     connectToDatabase();
-    const { clerkId, searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { clerkId, searchQuery, filter, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
-    console.log(" page: ", page, " pageSize: ", pageSize);
     // handle page < 1 edge case
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
@@ -143,9 +142,8 @@ export async function saveQuestion(params: saveQuestionParams) {
 export async function getAllUsers(params: getAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
-    console.log(" page: ", page, " pageSize: ", pageSize);
     // handle page < 1 edge case
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {

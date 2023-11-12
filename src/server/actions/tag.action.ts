@@ -33,7 +33,7 @@ export async function getPopularTags() {
 export async function getTagById(params: getTagByIdParams) {
   try {
     connectToDatabase();
-    const { tagId, searchQuery, page = 1, pageSize = 2 } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
     // handle page < 1 edge case
     const query: FilterQuery<typeof Tag> = {};
@@ -64,9 +64,8 @@ export async function getTagById(params: getTagByIdParams) {
 export async function getAllTags(params: getAllTagsParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
-    console.log(" page: ", page, " pageSize: ", pageSize);
     // handle page < 1 edge case
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {

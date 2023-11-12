@@ -92,7 +92,7 @@ export async function voteAnswer(params: voteAnswerParams) {
 export async function getAllAnswers(params: getAllAnswersParams) {
   try {
     await connectToDatabase();
-    const { questionId, filter, page = 1, pageSize = 2 } = params;
+    const { questionId, filter, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
     // handle page < 1 edge case
     let sortOptions = {};
