@@ -1,7 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const childSkeleton = " bg-gray-100/100 dark:bg-gray-900/100 ";
-
 export default function loading() {
   return (
     <>
@@ -12,7 +10,7 @@ export default function loading() {
             Full Name <span className="text-primary-500">*</span>
           </p>
           <Skeleton className="light-border-2 mt-3.5 h-[56px] w-full border p-4">
-            <Skeleton className={`h-[20px] w-[180px] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[20px] w-[180px]" />
           </Skeleton>
         </div>
 
@@ -21,7 +19,7 @@ export default function loading() {
             Username <span className="text-primary-500">*</span>
           </p>
           <Skeleton className="light-border-2 mt-3.5 h-[56px] w-full border p-4">
-            <Skeleton className={`h-[20px] w-[150px] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[20px] w-[150px]" />
           </Skeleton>
         </div>
 
@@ -30,21 +28,21 @@ export default function loading() {
             Portfolio Link
           </p>
           <Skeleton className="light-border-2 mt-3.5 h-[56px] w-full border p-4">
-            <Skeleton className={`h-[20px] w-[240px] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[20px] w-[240px]" />
           </Skeleton>
         </div>
 
         <div className="flex w-full flex-col">
           <p className="paragraph-semibold text-dark400_light800">Location</p>
           <Skeleton className="light-border-2 mt-3.5 h-[56px] w-full border p-4">
-            <Skeleton className={`h-[20px] w-[240px] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[20px] w-[240px]" />
           </Skeleton>
         </div>
 
         <div className="flex w-full flex-col">
           <p className="paragraph-semibold text-dark400_light800">Bio</p>
           <Skeleton className="light-border-2 mt-3.5 h-[56px] w-full border p-4">
-            <Skeleton className={`h-[20px] w-full ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[20px] w-full" />
           </Skeleton>
         </div>
 

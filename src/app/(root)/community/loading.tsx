@@ -1,7 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const childSkeleton = " bg-gray-100/100 dark:bg-gray-900/100 ";
-
 export default function Loading() {
   return (
     <div className="text-dark100_light900 flex w-full flex-col gap-6">
@@ -16,15 +14,13 @@ export default function Loading() {
             key={item}
             className="flex-center h-[280px] w-full flex-col gap-4 rounded-lg p-4 xs:w-[20rem]"
           >
-            <Skeleton
-              className={`h-[100px] w-[100px] rounded-full ${childSkeleton}`}
-            />
-            <Skeleton className={`h-6 w-[256px] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[100px] w-[100px] rounded-full" />
+            <Skeleton className="childSkeleton h-6 w-[256px]" />
             <div className="flex-center flex gap-3">
               {[1, 2, 3].map((item) => (
                 <Skeleton
                   key={item}
-                  className={`h-[30px] w-[85px] ${childSkeleton}`}
+                  className="childSkeleton h-[30px] w-[85px]"
                 />
               ))}
             </div>

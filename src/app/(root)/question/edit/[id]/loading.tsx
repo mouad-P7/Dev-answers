@@ -1,7 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const childSkeleton = " bg-gray-100/100 dark:bg-gray-900/100 ";
-
 export default function Loading() {
   return (
     <>
@@ -12,9 +10,7 @@ export default function Loading() {
             Question Title <span className="text-primary-500">*</span>
           </p>
           <Skeleton className="light-border-2 mt-3.5 h-[56px] w-full border p-4">
-            <Skeleton
-              className={`h-[20px] w-full max-w-[550px] ${childSkeleton}`}
-            />
+            <Skeleton className="childSkeleton h-[20px] w-full max-w-[550px]" />
           </Skeleton>
           <p className="body-regular mt-2.5 text-light-500">
             Be specific and imagine you&apos;re asking a question to another
@@ -28,13 +24,13 @@ export default function Loading() {
             <span className="text-primary-500">*</span>
           </p>
           <Skeleton className="mt-3.5 flex h-[500px] w-full flex-col gap-4 p-4">
-            <Skeleton className={`h-[16px] w-[50%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[25%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[10%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-full ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[85%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[85%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[10%] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[16px] w-[50%]" />
+            <Skeleton className="childSkeleton h-[16px] w-[25%]" />
+            <Skeleton className="childSkeleton h-[16px] w-[10%]" />
+            <Skeleton className="childSkeleton h-[16px] w-full" />
+            <Skeleton className="childSkeleton h-[16px] w-[85%]" />
+            <Skeleton className="childSkeleton h-[16px] w-[85%]" />
+            <Skeleton className="childSkeleton h-[16px] w-[10%]" />
           </Skeleton>
           <p className="body-regular mt-2.5 text-light-500">
             Introduce the problem and expand on what you put in the title.

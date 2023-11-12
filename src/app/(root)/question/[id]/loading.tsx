@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const childSkeleton = " bg-gray-100/100 dark:bg-gray-900/100 ";
-
 export default function Loading() {
   return (
     <>
@@ -21,11 +19,11 @@ export default function Loading() {
 
         <Skeleton className="h-[18px] w-[300px]" />
         <Skeleton className="flex w-full flex-col gap-3 p-4">
-          <Skeleton className={`h-[16px] w-[50%] ${childSkeleton}`} />
-          <Skeleton className={`h-[16px] w-[25%] ${childSkeleton}`} />
-          <Skeleton className={`h-[16px] w-full ${childSkeleton}`} />
-          <Skeleton className={`h-[16px] w-[85%] ${childSkeleton}`} />
-          <Skeleton className={`h-[16px] w-[10%] ${childSkeleton}`} />
+          <Skeleton className="childSkeleton h-[16px] w-[50%]" />
+          <Skeleton className="childSkeleton h-[16px] w-[25%]" />
+          <Skeleton className="childSkeleton h-[16px] w-full" />
+          <Skeleton className="childSkeleton h-[16px] w-[85%]" />
+          <Skeleton className="childSkeleton h-[16px] w-[10%]" />
         </Skeleton>
         <div className="flex-start gap-2">
           {[1, 2, 3].map((item) => (
@@ -48,11 +46,11 @@ export default function Loading() {
             <Skeleton className="h-[25px] w-[135px]" />
           </div>
           <Skeleton className="flex w-full flex-col gap-3 p-4">
-            <Skeleton className={`h-[16px] w-[50%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[25%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-full ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[85%] ${childSkeleton}`} />
-            <Skeleton className={`h-[16px] w-[10%] ${childSkeleton}`} />
+            <Skeleton className="childSkeleton h-[16px] w-[50%]" />
+            <Skeleton className="childSkeleton h-[16px] w-[25%]" />
+            <Skeleton className="childSkeleton h-[16px] w-full" />
+            <Skeleton className="childSkeleton h-[16px] w-[85%]" />
+            <Skeleton className="childSkeleton h-[16px] w-[10%]" />
           </Skeleton>
         </div>
       </div>
