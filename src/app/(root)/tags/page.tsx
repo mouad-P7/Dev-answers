@@ -36,7 +36,6 @@ export default async function Tags({ searchParams }: SearchParamsProps) {
             <TagCard
               key={tag._id}
               tag={{ id: tag._id, name: tag.name }}
-              description="Test often abbreviated as JS, is a programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS"
               questionsNumber={tag.questions.length}
             />
           ))
