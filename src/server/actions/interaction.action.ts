@@ -9,7 +9,7 @@ export async function viewQuestion(params: ViewQuestionParams) {
   try {
     await connectToDatabase();
     const { questionId, userId } = params;
-    if (!userId) throw new Error("User not found");
+    if (!userId) return console.log("User not found");
 
     // Update view count for the question
     await Question.findByIdAndUpdate(questionId, { $inc: { views: 1 } });
