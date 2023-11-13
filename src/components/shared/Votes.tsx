@@ -4,11 +4,12 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { formatNumber } from "@/lib/format";
+import { formatNumber, capitalize } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
 import { voteAnswer } from "@/server/actions/answer.action";
 import { saveQuestion } from "@/server/actions/user.action";
 import { viewQuestion } from "@/server/actions/interaction.action";
+import { useToast } from "@/components/ui/use-toast";
 
 interface VotesProps {
   type: string;
@@ -33,6 +34,7 @@ export default function Votes({
 }: VotesProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     viewQuestion({
@@ -42,17 +44,30 @@ export default function Votes({
   }, [itemId, userId, pathname, router]);
 
   async function handleSave() {
+    if (!userId) {
+      return toast({
+        title: "Please Log In",
+        description: `You must be logged in to save question.`,
+      });
+    }
     await saveQuestion({
       questionId: JSON.parse(itemId),
       userId: JSON.parse(userId),
       path: pathname,
     });
+    toast({
+      title: `Question ${
+        !hasSaved ? "Saved in" : "Removed from"
+      } your collection`,
+    });
   }
 
   async function handleVote(action: string) {
     if (!userId) {
-      console.error("No userId");
-      return;
+      return toast({
+        title: "Please Log In",
+        description: `You must be logged in to ${action} ${type}.`,
+      });
     }
     if (type === "question") {
       await voteQuestion({
@@ -63,7 +78,6 @@ export default function Votes({
         hasDownVoted,
         path: pathname,
       });
-      // show a toast
     } else if (type === "answer") {
       await voteAnswer({
         action,
@@ -73,7 +87,17 @@ export default function Votes({
         hasDownVoted,
         path: pathname,
       });
-      // show a toast
+    }
+    if (action === "upvote") {
+      return toast({
+        title: `${capitalize(type)} Upvote ${hasUpVoted ? "Removed" : "Added"}`,
+      });
+    } else if (action === "downvote") {
+      return toast({
+        title: `${capitalize(type)} Downvote ${
+          hasDownVoted ? "Removed" : "Added"
+        }`,
+      });
     }
   }
 
