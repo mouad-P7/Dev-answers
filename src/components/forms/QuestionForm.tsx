@@ -25,6 +25,8 @@ import {
   postQuestion,
   editQuestionById,
 } from "@/server/actions/question.action";
+import { useToast } from "@/components/ui/use-toast";
+import { capitalize } from "@/lib/format";
 
 interface QuestionFormProps {
   type: "post" | "edit";
@@ -42,6 +44,7 @@ export default function QuestionForm({
   const { mode } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   // 1. Define your form.
   const parsedQuestion = question && JSON.parse(question || "");
@@ -66,6 +69,10 @@ export default function QuestionForm({
           author: JSON.parse(mongoUserId),
           path: pathname,
         });
+        toast({
+          title: "Question Posted",
+          description: `Your question has been successfully posted`,
+        });
         router.push("/");
       } else if (type === "edit") {
         await editQuestionById({
@@ -74,10 +81,18 @@ export default function QuestionForm({
           explanation: values.explanation,
           path: pathname,
         });
+        toast({
+          title: "Question Edited",
+          description: `Your question has been successfully edited`,
+        });
         router.push(`/question/${parsedQuestion._id}`);
       }
     } catch (error) {
       console.log(error);
+      toast({
+        title: `Question not ${capitalize(type)}ed`,
+        description: `Your question has not been ${type}ed.\n Try again.`,
+      });
     } finally {
       setIsSubmitting(false);
     }
