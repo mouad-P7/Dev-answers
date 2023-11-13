@@ -10,9 +10,21 @@ import {
 } from "@/components/ui/menubar";
 import { useTheme } from "@/context/ThemeProvider";
 import { themes } from "@/constants/index";
+import { useToast } from "../ui/use-toast";
 
 export default function Theme() {
   const { mode, setMode } = useTheme();
+  const { toast } = useToast();
+
+  function handleThemeSwitch(newTheme: string) {
+    setMode(newTheme);
+    if (newTheme !== "system") localStorage.theme = newTheme;
+    else localStorage.removeItem("theme");
+    toast({
+      title: `Switch to ${newTheme} mode`,
+      description: `Your theme has been successfully set to ${newTheme} mode`,
+    });
+  }
 
   return (
     <Menubar className="relative border-none bg-transparent shadow-none">
@@ -41,11 +53,7 @@ export default function Theme() {
             <MenubarItem
               key={item.value}
               className="flex items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400"
-              onClick={() => {
-                setMode(item.value);
-                if (item.value !== "system") localStorage.theme = item.value;
-                else localStorage.removeItem("theme");
-              }}
+              onClick={() => handleThemeSwitch(item.value)}
             >
               <Image
                 src={item.icon}
