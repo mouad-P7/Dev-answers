@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { answerSchema } from "@/lib/schema";
+import { useToast } from "@/components/ui/use-toast";
 
 interface AnswerFormProps {
   questionExplanation: string;
@@ -36,6 +37,7 @@ export default function AnswerForm({
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const { mode } = useTheme();
   const pathname = usePathname();
+  const { toast } = useToast();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof answerSchema>>({
@@ -55,6 +57,10 @@ export default function AnswerForm({
         questionId: JSON.parse(questionId),
         path: pathname,
       });
+      toast({
+        title: "Answer Posted",
+        description: "Your answer has been successfully posted",
+      });
       form.reset();
       if (editorRef.current) {
         const editor = editorRef.current as any;
@@ -62,7 +68,11 @@ export default function AnswerForm({
       }
     } catch (error) {
       console.error(error);
-      throw error;
+      toast({
+        title: "Answer not Posted",
+        description: "Your answer has not been posted.\n Try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
       console.log(values);
@@ -87,9 +97,18 @@ export default function AnswerForm({
         const editor = editorRef.current as any;
         editor.setContent(formattedAnswer);
       }
-      // Toast...
+      toast({
+        title: "AI Answer Generated",
+        description:
+          "The AI has successfully generated an answer based on your query.",
+      });
     } catch (error) {
       console.log({ error });
+      toast({
+        title: "AI Answer Is Not Generated",
+        description: "The AI answer has not been generated.\n Try Again.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmittingAI(false);
     }

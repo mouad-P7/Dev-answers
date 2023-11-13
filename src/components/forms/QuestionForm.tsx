@@ -92,6 +92,7 @@ export default function QuestionForm({
       toast({
         title: `Question not ${capitalize(type)}ed`,
         description: `Your question has not been ${type}ed.\n Try again.`,
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);

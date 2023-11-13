@@ -69,6 +69,7 @@ export default function ProfileForm({ user, clerkId }: ProfileFormProps) {
       toast({
         title: "Profile not Updated",
         description: `Your profile information has not been updated.\n Try again.`,
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
