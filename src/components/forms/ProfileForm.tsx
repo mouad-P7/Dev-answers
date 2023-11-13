@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { profileSchema } from "@/lib/schema";
 import { updateUser } from "@/server/actions/user.action";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ProfileFormProps {
   user: string;
@@ -28,10 +29,10 @@ export default function ProfileForm({ user, clerkId }: ProfileFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   // 1. Define your form.
   const parsedUser = JSON.parse(user || "");
-  console.log(parsedUser);
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -58,9 +59,17 @@ export default function ProfileForm({ user, clerkId }: ProfileFormProps) {
         },
         path: pathname,
       });
+      toast({
+        title: "Profile Updated",
+        description: `Your profile information has been successfully updated`,
+      });
       router.back();
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Profile not Updated",
+        description: `Your profile information has not been updated.\n Try again.`,
+      });
     } finally {
       setIsSubmitting(false);
     }
