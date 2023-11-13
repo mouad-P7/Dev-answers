@@ -8,6 +8,8 @@ import { SignedIn, useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { deleteQuestionById } from "@/server/actions/question.action";
 import { deleteAnswerById } from "@/server/actions/answer.action";
+import { useToast } from "@/components/ui/use-toast";
+import { capitalize } from "@/lib/format";
 
 interface EditDeleteProps {
   type: "question" | "answer";
@@ -19,16 +21,20 @@ export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
   const { userId } = useAuth();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   async function handleDeleteAction(type: "question" | "answer") {
     setIsLoading(true);
     if (type === "question") {
       await deleteQuestionById(typeId, pathname);
-      // show toast
     } else if (type === "answer") {
       await deleteAnswerById(typeId, pathname);
-      // show toast
     }
+    toast({
+      title: `${capitalize(type)} Deleted`,
+      description: `Your ${type} has successfully been deleted.`,
+      variant: "destructive",
+    });
     setIsLoading(false);
   }
 
