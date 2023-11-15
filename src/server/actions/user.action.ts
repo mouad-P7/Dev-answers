@@ -6,6 +6,7 @@ import User from "@/server/database/user.model";
 import Question from "@/server/database/question.model";
 import Answer from "@/server/database/answer.model";
 import Tag from "@/server/database/tag.model";
+import Interaction from "@/server/database/interaction.model";
 import { connectToDatabase } from "@/server/mongoose";
 import {
   createUserParams,
@@ -126,12 +127,34 @@ export async function saveQuestion(params: saveQuestionParams) {
     const user = await User.findById(userId);
     if (!user) throw new Error("User not found");
     const hasSaved = user.saved.includes(questionId);
-
     let updateQuery = {};
     if (hasSaved) updateQuery = { $pull: { saved: questionId } };
     else updateQuery = { $addToSet: { saved: questionId } };
-
     await User.findByIdAndUpdate(userId, updateQuery, { new: true });
+
+    const question = await Question.findById(questionId);
+    // Create interaction
+    if (hasSaved) {
+      await Interaction.findOneAndDelete({
+        user: userId,
+        action: "save-question",
+        question: questionId,
+      });
+    } else {
+      const existingInteraction = await Interaction.findOne({
+        user: userId,
+        action: "save-question",
+        question: questionId,
+      });
+      if (existingInteraction)
+        return console.log("User has already saved this question.");
+      await Interaction.create({
+        user: userId,
+        action: "save-question",
+        question: questionId,
+        tags: question?.tags.map((item: any) => item.toString()),
+      });
+    }
     revalidatePath(path);
   } catch (error) {
     console.error(error);

@@ -59,7 +59,7 @@ export async function voteAnswer(params: voteAnswerParams) {
 
     const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
       new: true,
-    });
+    }).populate("question");
     if (!answer) throw new Error("Answer not found");
     // if (action === "upvote") {
     //   // Increment author's reputation
@@ -82,6 +82,20 @@ export async function voteAnswer(params: voteAnswerParams) {
     //     });
     //   }
     // }
+    const existingInteraction = await Interaction.findOne({
+      user: userId,
+      action: "vote-answer",
+      answer: answerId,
+    });
+    if (existingInteraction)
+      return console.log("User has already voted this answer.");
+    // Create interaction
+    await Interaction.create({
+      user: userId,
+      action: "vote-answer",
+      answer: answerId,
+      tags: answer.question?.tags.map((tag: any) => tag.toString()),
+    });
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -129,7 +143,7 @@ export async function postAnswer(params: postAnswerParams) {
       author,
       question: questionId,
     });
-    await Question.findByIdAndUpdate(questionId, {
+    const question = await Question.findByIdAndUpdate(questionId, {
       $push: { answers: newAnswer._id },
     });
 
@@ -143,6 +157,13 @@ export async function postAnswer(params: postAnswerParams) {
     // });
     // await User.findByIdAndUpdate(author, { $inc: { reputation: 2 } });
 
+    // Create interaction
+    await Interaction.create({
+      user: author,
+      action: "post-answer",
+      answer: newAnswer._id,
+      tags: question?.tags.map((item: any) => item.toString()),
+    });
     revalidatePath(path);
   } catch (error) {
     console.log(error);

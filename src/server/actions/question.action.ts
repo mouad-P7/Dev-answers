@@ -70,8 +70,8 @@ export async function voteQuestion(params: voteQuestionParams) {
     connectToDatabase();
     const { action, questionId, userId, hasUpVoted, hasDownVoted, path } =
       params;
-    let updateQuery = {};
 
+    let updateQuery = {};
     if (action === "upvote") {
       if (hasUpVoted) updateQuery = { $pull: { upvotes: userId } };
       else if (hasDownVoted) {
@@ -115,6 +115,20 @@ export async function voteQuestion(params: voteQuestionParams) {
     //     });
     //   }
     // }
+    const existingInteraction = await Interaction.findOne({
+      user: userId,
+      action: "vote-question",
+      question: questionId,
+    });
+    if (existingInteraction)
+      return console.log("User has already voted this question.");
+    // Create interaction
+    await Interaction.create({
+      user: userId,
+      action: "vote-question",
+      question: questionId,
+      tags: question?.tags.map((tag: any) => tag.toString()),
+    });
     revalidatePath(path);
   } catch (error) {
     console.error(error);
@@ -209,6 +223,14 @@ export async function postQuestion(params: postQuestionParams) {
     //   tags: tagDocuments,
     // });
     // await User.findByIdAndUpdate(author, { $inc: { reputation: 1 } });
+
+    // Create interaction
+    await Interaction.create({
+      user: author,
+      action: "post-question",
+      question: question._id,
+      tags: tagDocuments,
+    });
     revalidatePath(path);
   } catch (error) {
     console.log(error);

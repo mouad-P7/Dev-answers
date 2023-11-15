@@ -10,21 +10,22 @@ export async function viewQuestion(params: ViewQuestionParams) {
     await connectToDatabase();
     const { questionId, userId } = params;
     if (!userId) return console.log("User not found");
-
-    // Update view count for the question
-    await Question.findByIdAndUpdate(questionId, { $inc: { views: 1 } });
     const existingInteraction = await Interaction.findOne({
       user: userId,
       action: "view",
       question: questionId,
     });
     if (existingInteraction) return console.log("User has already viewed.");
-
+    // Update view count for the question
+    const question = await Question.findByIdAndUpdate(questionId, {
+      $inc: { views: 1 },
+    });
     // Create interaction
     await Interaction.create({
       user: userId,
       action: "view",
       question: questionId,
+      tags: question?.tags.map((tag: any) => tag.toString()),
     });
   } catch (error) {
     console.error(error);
