@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { auth } from "@clerk/nextjs";
 import { HomePageFilters } from "@/constants/filters";
 import { Button } from "@/components/ui/button";
 import LocalSearch from "@/components/shared/LocalSearch";
@@ -14,7 +15,11 @@ interface SearchParamsProps {
 }
 
 export default async function Home({ searchParams }: SearchParamsProps) {
+  let { userId } = auth();
+  if (!userId) userId = null;
+
   const { questions, isNext } = await getAllQuestions({
+    clerkId: userId,
     searchQuery: searchParams.q,
     filter: searchParams.filter,
     page: searchParams?.page ? Number(searchParams.page) : 1,
@@ -59,8 +64,14 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           ))
         ) : (
           <NoResult
-            title="There’s no question to show"
-            description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
+            title={
+              userId ? "There’s no question to show" : "You're not Logged In!"
+            }
+            description={
+              userId
+                ? "Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our Plateform could be the next big thing others learn from. Get involved! 💡"
+                : "Please Log In to see the best questions for you! 💡"
+            }
             link="/ask-question"
             linkTitle="Ask a Question"
           />

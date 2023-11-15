@@ -134,6 +134,7 @@ export interface postQuestionParams {
 }
 
 export interface getAllQuestionsParams {
+  clerkId: string | null;
   page?: number;
   pageSize?: number;
   searchQuery?: string;

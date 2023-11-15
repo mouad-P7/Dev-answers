@@ -1,6 +1,6 @@
 "use server";
 
-import { FilterQuery } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/server/mongoose";
 import Question from "@/server/database/question.model";
@@ -156,7 +156,7 @@ export async function getQuestionById(questionId: string) {
 export async function getAllQuestions(params: getAllQuestionsParams) {
   try {
     await connectToDatabase();
-    const { searchQuery, filter, page = 1, pageSize = 15 } = params;
+    const { clerkId, searchQuery, filter, page = 1, pageSize = 15 } = params;
     const skip = (page - 1) * pageSize;
     // handle page < 1 edge case
     const query: FilterQuery<typeof Question> = {};
@@ -169,12 +169,32 @@ export async function getAllQuestions(params: getAllQuestionsParams) {
     let sortOptions = {};
     if (!filter || filter === "newest") {
       sortOptions = { createdAt: -1 };
-    } else if (filter && filter === "frequent") {
+    } else if (filter === "frequent") {
       sortOptions = { views: -1 };
-    } else if (filter && filter === "unanswered") {
+    } else if (filter === "unanswered") {
       query.answers = { $size: 0 };
-    } else if (filter && filter === "recommended") {
-      // Add recomendation system later
+    } else if (filter === "recommended" && clerkId) {
+      const user = await User.findOne({ clerkId });
+      if (!user) throw new Error("user not found");
+      const userInteractions = await Interaction.find({ user: user._id });
+      const allTagObjectIds = userInteractions.reduce<
+        Array<typeof Interaction>
+      >((tagIds, interaction) => {
+        return tagIds.concat(interaction.tags || []);
+      }, []);
+      const allTagIds = allTagObjectIds.map((item: any) => item.toString());
+      const uniqueTagIds = allTagIds.filter(
+        (item, index) => allTagIds.indexOf(item) === index
+      );
+      const uniqueTagObjectIds = uniqueTagIds.map(
+        (item: any) => new Types.ObjectId(item)
+      );
+      query.$and = [
+        { tags: { $in: uniqueTagObjectIds } },
+        { author: { $ne: user._id } },
+      ];
+      // sortOptions = {};
+    } else {
       return {};
     }
     const questions = await Question.find(query)
