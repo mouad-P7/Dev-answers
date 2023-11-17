@@ -26,7 +26,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   });
 
   return (
-    <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
+    <div className="text-dark100_light900 flex-start w-full flex-col gap-4">
       <div className="flex-between w-full">
         <p className="h3-bold sm:h2-bold">All Questions</p>
         <Link href="/ask-question">
@@ -35,8 +35,8 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           </Button>
         </Link>
       </div>
-      <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch route="/" otherClasses="sm:w-full">
+      <div className="flex w-full items-center justify-between gap-5 max-xs:flex-col max-xs:items-end max-xs:gap-2">
+        <LocalSearch route="/" otherClasses="w-full">
           Search a question...
         </LocalSearch>
         <Filter
@@ -64,12 +64,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           ))
         ) : (
           <NoResult
-            title={
-              userId ? "There’s no question to show" : "You're not Logged In!"
-            }
+            title={userId ? "Question not found." : "You're not Logged In!"}
             description={
               userId
-                ? "Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our Plateform could be the next big thing others learn from. Get involved! 💡"
+                ? "🚀 Ask a Question and kickstart the discussion. Get involved! 💡"
                 : "Please Log In to see the best questions for you! 💡"
             }
             link="/ask-question"

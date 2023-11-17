@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { formatNumber, capitalize } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
@@ -35,6 +36,8 @@ export default function Votes({
   const pathname = usePathname();
   const router = useRouter();
   const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
+  const [isVoting, setIsVoting] = useState(false);
 
   useEffect(() => {
     viewQuestion({
@@ -44,7 +47,9 @@ export default function Votes({
   }, [itemId, userId, pathname, router]);
 
   async function handleSave() {
+    setIsSaving(true);
     if (!userId) {
+      setIsSaving(false);
       return toast({
         title: "Please Log In",
         description: `You must be logged in to save question.`,
@@ -60,10 +65,13 @@ export default function Votes({
         !hasSaved ? "Saved in" : "Removed from"
       } your collection`,
     });
+    setIsSaving(false);
   }
 
   async function handleVote(action: string) {
+    setIsVoting(true);
     if (!userId) {
+      setIsVoting(false);
       return toast({
         title: "Please Log In",
         description: `You must be logged in to ${action} ${type}.`,
@@ -89,28 +97,41 @@ export default function Votes({
       });
     }
     if (action === "upvote") {
-      return toast({
+      toast({
         title: `${capitalize(type)} Upvote ${hasUpVoted ? "Removed" : "Added"}`,
       });
     } else if (action === "downvote") {
-      return toast({
+      toast({
         title: `${capitalize(type)} Downvote ${
           hasDownVoted ? "Removed" : "Added"
         }`,
       });
     }
+    setIsVoting(false);
   }
 
   return (
     <div className="flex-start gap-3">
       <div className="flex-start gap-1">
-        <Button className="p-0" onClick={() => handleVote("upvote")}>
-          <Image
-            src={`/assets/icons/${hasUpVoted ? "upvoted" : "upvote"}.svg`}
-            alt="upvote"
-            width={18}
-            height={18}
-          />
+        <Button
+          disabled={isVoting}
+          className="p-0"
+          onClick={() => handleVote("upvote")}
+        >
+          {isVoting ? (
+            <ReloadIcon
+              className="animate-spin text-primary-500"
+              width={18}
+              height={18}
+            />
+          ) : (
+            <Image
+              src={`/assets/icons/${hasUpVoted ? "upvoted" : "upvote"}.svg`}
+              alt="upvote"
+              width={18}
+              height={18}
+            />
+          )}
         </Button>
         <div className="flex-center background-light700_dark400 h-5 w-5 rounded-sm">
           <p className="subtle-medium text-dark400_light900">
@@ -119,13 +140,27 @@ export default function Votes({
         </div>
       </div>
       <div className="flex-start gap-1">
-        <Button className="p-0" onClick={() => handleVote("downvote")}>
-          <Image
-            src={`/assets/icons/${hasDownVoted ? "downvoted" : "downvote"}.svg`}
-            alt="downvote"
-            width={18}
-            height={18}
-          />
+        <Button
+          disabled={isVoting}
+          className="p-0"
+          onClick={() => handleVote("downvote")}
+        >
+          {isVoting ? (
+            <ReloadIcon
+              className="animate-spin text-primary-500"
+              width={18}
+              height={18}
+            />
+          ) : (
+            <Image
+              src={`/assets/icons/${
+                hasDownVoted ? "downvoted" : "downvote"
+              }.svg`}
+              alt="downvote"
+              width={18}
+              height={18}
+            />
+          )}
         </Button>
         <div className="flex-center background-light700_dark400 h-5 w-5 rounded-sm">
           <p className="subtle-medium text-dark400_light900">
@@ -135,13 +170,27 @@ export default function Votes({
       </div>
       {type === "question" ? (
         <div className="flex-start">
-          <Button className="p-0" onClick={() => handleSave()}>
-            <Image
-              src={`/assets/icons/${hasSaved ? "star-filled" : "star-red"}.svg`}
-              alt="star"
-              width={18}
-              height={18}
-            />
+          <Button
+            disabled={isSaving}
+            className="p-0"
+            onClick={() => handleSave()}
+          >
+            {isSaving ? (
+              <ReloadIcon
+                className="animate-spin text-primary-500"
+                width={18}
+                height={18}
+              />
+            ) : (
+              <Image
+                src={`/assets/icons/${
+                  hasSaved ? "star-filled" : "star-red"
+                }.svg`}
+                alt="star"
+                width={18}
+                height={18}
+              />
+            )}
           </Button>
         </div>
       ) : null}

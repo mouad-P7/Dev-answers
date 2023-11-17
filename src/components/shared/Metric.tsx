@@ -23,7 +23,7 @@ export default function Metric({
   target,
 }: MetricProps) {
   const metricContent = (
-    <div className={`flex-start gap-1`}>
+    <div className={`flex items-start gap-1`}>
       <Image
         src={imgUrl}
         width={17}
@@ -31,8 +31,8 @@ export default function Metric({
         alt={alt}
         className={`object-contain ${href ? "rounded-full" : ""}`}
       />
-      <p className={`flex items-center gap-1 ${textClasses}`}>
-        {value}
+      <p className={`flex flex-wrap items-center gap-1 ${textClasses}`}>
+        <span className="line-clamp-1">{value}</span>
         {isAuthor && (
           <span className="small-regular line-clamp-1"> {title}</span>
         )}

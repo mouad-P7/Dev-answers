@@ -22,8 +22,11 @@ export default function MobileNavbar() {
           className="invert-colors sm:hidden"
         />
       </SheetTrigger>
-      <SheetContent side="left">
-        <Link href="/" className="flex-center gap-1">
+      <SheetContent
+        side="left"
+        className="background-light900_dark200 w-[240px] p-3"
+      >
+        <Link href="/" className="flex-start gap-1 px-3 py-4">
           <Image
             src="/assets/images/site-logo.svg"
             alt="Dev Answers"
@@ -34,8 +37,8 @@ export default function MobileNavbar() {
             Dev <span className="text-primary-500">Answers</span>
           </p>
         </Link>
-        <div>
-          <SheetClose>
+        <div className="flex flex-col gap-8">
+          <SheetClose asChild>
             <NavLinks />
           </SheetClose>
           <SignedOut>

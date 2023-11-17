@@ -17,10 +17,10 @@ export default async function Tags({ searchParams }: SearchParamsProps) {
   });
 
   return (
-    <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
+    <div className="text-dark100_light900 flex-start w-full flex-col gap-4">
       <p className="h3-bold sm:h2-bold w-full text-start">Tags</p>
-      <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch route="/tags" otherClasses="sm:w-full">
+      <div className="flex w-full items-center justify-between gap-5 max-xs:flex-col max-xs:items-end max-xs:gap-2">
+        <LocalSearch route="/tags" otherClasses="w-full">
           Search by tag name...
         </LocalSearch>
         <Filter
@@ -40,7 +40,7 @@ export default async function Tags({ searchParams }: SearchParamsProps) {
             />
           ))
         ) : (
-          <p className="h3-bold">No tags yet</p>
+          <p className="h3-bold">Tag not found.</p>
         )}
       </div>
       <Pagination

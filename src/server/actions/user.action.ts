@@ -146,8 +146,11 @@ export async function saveQuestion(params: saveQuestionParams) {
         action: "save-question",
         question: questionId,
       });
-      if (existingInteraction)
-        return console.log("User has already saved this question.");
+      if (existingInteraction) {
+        console.log("User has already saved this question.");
+        revalidatePath(path);
+        return;
+      }
       await Interaction.create({
         user: userId,
         action: "save-question",

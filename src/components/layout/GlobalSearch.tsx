@@ -48,7 +48,7 @@ export default function GlobalSearch() {
   }, [pathname]);
 
   return (
-    <div className="relative w-full max-w-[600px] max-lg:hidden" ref={ref}>
+    <div className="relative max-w-[800px] grow max-lg:hidden" ref={ref}>
       <div className="background-light800_darkgradient relative flex min-h-[50px] grow cursor-pointer items-center gap-1 rounded-xl px-3">
         <Image
           src="/assets/icons/search.svg"

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { SignedIn, useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { deleteQuestionById } from "@/server/actions/question.action";
@@ -59,12 +60,20 @@ export default function EditDelete({ type, typeId, clerkId }: EditDeleteProps) {
             className="p-0"
             onClick={() => handleDeleteAction(type)}
           >
-            <Image
-              src="/assets/icons/trash.svg"
-              alt="delete"
-              width={14}
-              height={14}
-            />
+            {isLoading ? (
+              <ReloadIcon
+                className="animate-spin text-red-500"
+                width={14}
+                height={14}
+              />
+            ) : (
+              <Image
+                src="/assets/icons/trash.svg"
+                alt="delete"
+                width={14}
+                height={14}
+              />
+            )}
           </Button>
         </div>
       )}

@@ -9,7 +9,7 @@ export default async function RightSidebar() {
   const popularTags = await getPopularTags();
 
   return (
-    <aside className="background-light900_dark200 light-border custom-scrollbar text-dark500_light700 sticky right-0 top-0 flex h-screen w-[330px] flex-col gap-6 overflow-scroll border-l p-6 pt-28 shadow-light-300 dark:shadow-none max-xl:hidden">
+    <aside className="background-light900_dark200 light-border custom-scrollbar text-dark500_light700 sticky right-0 top-0 flex h-screen w-[330px] flex-col gap-6 overflow-scroll border-l p-6 pt-24 shadow-light-300 dark:shadow-none max-xl:hidden">
       <section>
         <p className="h3-bold pb-6">Hot Questions</p>
         <div className="flex-between flex-col gap-6">

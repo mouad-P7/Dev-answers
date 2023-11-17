@@ -17,10 +17,10 @@ export default async function Community({ searchParams }: SearchParamsProps) {
   });
 
   return (
-    <div className="text-dark100_light900 flex-start w-full flex-col gap-6">
+    <div className="text-dark100_light900 flex-start w-full flex-col gap-4">
       <p className="h3-bold sm:h2-bold w-full text-start">All Users</p>
-      <div className="flex w-full items-center justify-between gap-5">
-        <LocalSearch route="/community" otherClasses="sm:w-full">
+      <div className="flex w-full items-center justify-between gap-5 max-xs:flex-col max-xs:items-end max-xs:gap-2">
+        <LocalSearch route="/community" otherClasses="w-full">
           Search by username...
         </LocalSearch>
         <Filter
@@ -43,7 +43,7 @@ export default async function Community({ searchParams }: SearchParamsProps) {
             />
           ))
         ) : (
-          <p className="h3-bold">No users yet</p>
+          <p className="h3-bold">User not found.</p>
         )}
       </div>
       <Pagination

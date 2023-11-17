@@ -87,8 +87,11 @@ export async function voteAnswer(params: voteAnswerParams) {
       action: "vote-answer",
       answer: answerId,
     });
-    if (existingInteraction)
-      return console.log("User has already voted this answer.");
+    if (existingInteraction) {
+      console.log("User has already voted this answer.");
+      revalidatePath(path);
+      return;
+    }
     // Create interaction
     await Interaction.create({
       user: userId,

@@ -53,10 +53,10 @@ export default async function Question({
         </p>
         <div className="flex-start gap-2">
           <Metric
-            imgUrl="/assets/icons/like.svg"
-            alt="Upvotes"
-            value={formatNumber(question.upvotes.length)}
-            title="Votes"
+            imgUrl="/assets/icons/clock-2.svg"
+            alt="clock"
+            value={`asked ${formatDate(question.createdAt)}`}
+            title=""
             textClasses="small-regular text-dark400_light700"
           />
           <Metric
@@ -65,6 +65,7 @@ export default async function Question({
             value={formatNumber(question.answers.length)}
             title=" Answers"
             textClasses="small-regular text-dark400_light700"
+            isAuthor
           />
           <Metric
             imgUrl="/assets/icons/eye.svg"
@@ -72,6 +73,7 @@ export default async function Question({
             value={formatNumber(question.views)}
             title=" Views"
             textClasses="small-regular text-dark400_light700"
+            isAuthor
           />
         </div>
         <ParseHTML data={question.explanation} />

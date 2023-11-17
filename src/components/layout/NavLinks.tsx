@@ -12,7 +12,7 @@ export default function NavLinks() {
   const { userId } = useAuth();
 
   return (
-    <section className="flex h-full flex-col gap-6 pt-16">
+    <section className="flex h-full flex-col gap-4 pt-3">
       {sidebarLinks.map((item) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
@@ -24,14 +24,14 @@ export default function NavLinks() {
         }
 
         return (
-          <SheetClose key={item.route}>
+          <SheetClose asChild key={item.route}>
             <Link
               href={item.route}
               className={`${
                 isActive
                   ? "primary-gradient rounded-lg text-light-900"
                   : "text-dark300_light900"
-              } flex items-center justify-start gap-4 bg-transparent p-4`}
+              } flex items-center justify-start gap-4 bg-transparent p-3`}
             >
               <Image
                 src={item.imgURL}

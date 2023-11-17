@@ -12,8 +12,8 @@ export default function LeftSidebar() {
   const { userId } = useAuth();
 
   return (
-    <aside className="background-light900_dark200 light-border custom-scrollbar sticky left-0 top-0 flex h-screen flex-col gap-4 overflow-scroll border-r p-6 pt-28 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px]">
-      <section className="flex flex-1 flex-col gap-6 ">
+    <aside className="background-light900_dark200 light-border custom-scrollbar sticky left-0 top-0 flex h-screen w-[72px] flex-col gap-4 overflow-scroll border-r p-3 pt-24 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[230px]">
+      <section className="flex flex-1 flex-col gap-4">
         {sidebarLinks.map((item) => {
           const isActive =
             (pathname.includes(item.route) && item.route.length > 1) ||
@@ -32,7 +32,7 @@ export default function LeftSidebar() {
                 isActive
                   ? "primary-gradient rounded-lg text-light-900"
                   : "text-dark300_light900"
-              } flex items-center justify-start gap-4 bg-transparent p-4`}
+              } flex items-center justify-start bg-transparent p-3 lg:gap-4`}
             >
               <Image
                 src={item.imgURL}

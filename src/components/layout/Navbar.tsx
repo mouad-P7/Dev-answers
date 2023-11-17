@@ -7,7 +7,7 @@ import GlobalSearch from "./GlobalSearch";
 
 export default function Navbar() {
   return (
-    <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 px-6 py-4 shadow-light-300 dark:shadow-none">
+    <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-6 px-6 py-4 shadow-light-300 dark:shadow-none">
       <Link href="/" className="flex-center gap-1">
         <Image
           src="/assets/images/site-logo.svg"
@@ -20,7 +20,7 @@ export default function Navbar() {
         </p>
       </Link>
       <GlobalSearch />
-      <div className="flex-between gap-5">
+      <div className="flex-end gap-3">
         <Theme />
         <SignedIn>
           <UserButton
