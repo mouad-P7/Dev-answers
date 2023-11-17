@@ -36,11 +36,11 @@ export default function ProfileForm({ user, clerkId }: ProfileFormProps) {
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: parsedUser.name || "",
-      userName: parsedUser.userName || "",
-      portfolioWebsite: parsedUser.portfolioWebsite || "",
-      location: parsedUser.location || "",
-      bio: parsedUser.bio || "",
+      name: parsedUser.name,
+      userName: parsedUser.userName,
+      portfolioWebsite: parsedUser.portfolioWebsite,
+      location: parsedUser.location,
+      bio: parsedUser.bio,
     },
   });
 

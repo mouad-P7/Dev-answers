@@ -3,9 +3,9 @@ import * as z from "zod";
 export const profileSchema = z.object({
   name: z.string().min(5).max(30),
   userName: z.string().min(5).max(30),
-  portfolioWebsite: z.string().url(),
-  location: z.string().min(5).max(50),
-  bio: z.string().min(5).max(130),
+  portfolioWebsite: z.string().url().optional(),
+  location: z.string().min(5).max(50).optional(),
+  bio: z.string().min(5).max(130).optional(),
 });
 
 export const questionSchema = z.object({
