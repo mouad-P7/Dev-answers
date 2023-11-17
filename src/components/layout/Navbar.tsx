@@ -23,13 +23,15 @@ export default function Navbar() {
       <div className="flex-end gap-3">
         <Theme />
         <SignedIn>
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: { avatarBox: "h-10 w-10" },
-              variables: { colorPrimary: "#ff7000" },
-            }}
-          />
+          <div className="h-10 w-10">
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: { avatarBox: "h-10 w-10" },
+                variables: { colorPrimary: "#ff7000" },
+              }}
+            />
+          </div>
         </SignedIn>
         <MobileNavbar />
       </div>

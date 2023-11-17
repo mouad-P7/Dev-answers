@@ -25,7 +25,7 @@ export default async function Community({ searchParams }: SearchParamsProps) {
         </LocalSearch>
         <Filter
           filters={CommunityPageFilters}
-          defaultValue="old_users"
+          defaultValue="new_users"
           otherClasses="w-36 sm:w-40"
         />
       </div>

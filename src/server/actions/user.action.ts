@@ -179,12 +179,12 @@ export async function getAllUsers(params: getAllUsersParams) {
       ];
     }
     let sortOptions = {};
-    if (!filter || filter === "old_users") {
-      sortOptions = { joinedAt: 1 };
-    } else if (filter && filter === "new_users") {
+    if (!filter || filter === "new_users") {
       sortOptions = { joinedAt: -1 };
+    } else if (filter === "old_users") {
+      sortOptions = { joinedAt: 1 };
     }
-    // } else if (filter && filter === "top_contributors") {
+    // } else if (filter === "top_contributors") {
     //   sortOptions = { reputation: -1 };
     // }
     const users = await User.find(query)

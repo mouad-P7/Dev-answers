@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Tag from "@/components/shared/Tag";
-import { getTopInteractedTags } from "@/server/actions/tag.action";
+// import { getTopInteractedTags } from "@/server/actions/tag.action";
 
 interface UserCardProps {
   id: string;
@@ -18,10 +18,11 @@ export default async function UserCard({
   name,
   userName,
 }: UserCardProps) {
-  const interactedTags = await getTopInteractedTags({ userId: id });
+  // const interactedTags = await getTopInteractedTags({ userId: id });
+  const interactedTags: any[] = [];
 
   return (
-    <div className="card-wrapper text-dark200_light900 flex-center h-[280px] w-full flex-col gap-4 rounded-lg p-4 xs:w-[20rem]">
+    <div className="card-wrapper text-dark200_light900 flex-center max-h-[280px] w-full flex-col gap-4 rounded-lg p-4 xs:w-[20rem]">
       <Link
         href={`/profile/${clerkId}`}
         className="flex-center flex flex-col gap-3"
