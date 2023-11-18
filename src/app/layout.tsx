@@ -23,7 +23,9 @@ export default function GlobalLayout({
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider>
-            <main>{children}</main>
+            <main className="background-light850_dark100 h-[100vh]">
+              {children}
+            </main>
           </ThemeProvider>
         </body>
       </html>
