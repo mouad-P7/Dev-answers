@@ -33,8 +33,8 @@ export default function ParseHTML({ data }: { data: string }) {
   }, []);
 
   return (
-    <div>
-      <div>{parse(data)}</div>
+    <div className="text-dark300_light700 markdown w-full min-w-full">
+      {parse(data)}
     </div>
   );
 }
