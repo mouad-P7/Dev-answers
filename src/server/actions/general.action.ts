@@ -10,7 +10,7 @@ import { globalSearchParams } from "./actions";
 const SearchableTypes = ["question", "answer", "user", "tag"];
 const modelsAndTypes = [
   { model: Question, searchField: "title", type: "question" },
-  { model: Answer, searchField: "explanation", type: "answer" },
+  { model: Answer, searchField: "content", type: "answer" },
   { model: User, searchField: "name", type: "user" },
   { model: Tag, searchField: "name", type: "tag" },
 ];
@@ -22,25 +22,22 @@ export async function globalSearch(params: globalSearchParams) {
     const regexQuery = { $regex: globalQuery, $options: "i" };
     let results = [];
     const typeLower = typeFilter?.toLowerCase();
-    // GLOBAL SEARCH
     if (!typeLower || !SearchableTypes.includes(typeLower)) {
+      // GLOBAL SEARCH
       for (const { model, searchField, type } of modelsAndTypes) {
         const queryResults = await model
           .find({ [searchField]: regexQuery })
           .limit(2);
         results.push(
           ...queryResults.map((item) => ({
-            title:
-              type === "answer"
-                ? `Answers containing ${globalQuery}`
-                : item[searchField],
+            title: item[searchField],
             type,
             id:
               type === "user"
                 ? item.clerkid
                 : type === "answer"
-                ? item.question
-                : item._id,
+                  ? item.question
+                  : item._id,
           }))
         );
       }
@@ -61,8 +58,8 @@ export async function globalSearch(params: globalSearchParams) {
           typeFilter === "user"
             ? item.clerkId
             : typeFilter === "answer"
-            ? item.question
-            : item._id,
+              ? item.question
+              : item._id,
       }));
     }
     return JSON.stringify(results);

@@ -13,17 +13,17 @@ export default function GlobalFilter() {
   const query = searchParams.get("type");
   const [type, setType] = useState(query || "");
 
-  function addTypeFilter(itemValue: string) {
+  function addTypeFilter(itemValue: string | null) {
     if (type === itemValue) {
       setType("");
       const newUrl = formUrlQuery(searchParams.toString(), "type", null);
       router.push(newUrl, { scroll: false });
     } else {
-      setType(itemValue);
+      setType(itemValue || "");
       const newUrl = formUrlQuery(
         searchParams.toString(),
         "type",
-        itemValue.toLowerCase()
+        itemValue?.toLowerCase() || null
       );
       router.push(newUrl, { scroll: false });
     }
@@ -46,9 +46,12 @@ export default function GlobalFilter() {
       ))}
       <Button
         disabled={type === ""}
-        title="remove filter"
+        title="remove filters"
         className="p-1 hover:text-primary-500"
-        onClick={() => setType("")}
+        onClick={() => {
+          setType("");
+          addTypeFilter(null);
+        }}
       >
         <CrossCircledIcon width={25} height={25} />
       </Button>
