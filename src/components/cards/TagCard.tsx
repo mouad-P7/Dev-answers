@@ -8,7 +8,7 @@ interface TagCardProps {
 
 export default async function TagCard({ tag, questionsNumber }: TagCardProps) {
   return (
-    <div className="card-wrapper light-border background-light900_dark200 text-dark500_light700 flex-start w-full flex-col gap-4 rounded-lg p-4 xs:w-40">
+    <div className="card-wrapper light-border background-light900_dark200 text-dark500_light700 flex-start w-full flex-col gap-3 rounded-lg p-3 xs:w-40">
       <Tag tag={tag} />
       <div className="flex-center gap-2">
         <p className="body-semibold primary-text-gradient">

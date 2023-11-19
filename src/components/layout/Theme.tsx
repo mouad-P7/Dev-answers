@@ -10,20 +10,14 @@ import {
 } from "@/components/ui/menubar";
 import { useTheme } from "@/context/ThemeProvider";
 import { themes } from "@/constants/index";
-import { useToast } from "../ui/use-toast";
 
 export default function Theme() {
   const { mode, setMode } = useTheme();
-  const { toast } = useToast();
 
   function handleThemeSwitch(newTheme: string) {
     setMode(newTheme);
     if (newTheme !== "system") localStorage.theme = newTheme;
     else localStorage.removeItem("theme");
-    toast({
-      title: `Switch to ${newTheme} mode`,
-      description: `Your theme has been successfully set to ${newTheme} mode`,
-    });
   }
 
   return (

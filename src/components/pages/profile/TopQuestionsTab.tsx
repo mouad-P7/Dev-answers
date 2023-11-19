@@ -1,7 +1,6 @@
 import { getUserTopQuestions } from "@/server/actions/user.action";
 import QuestionCard from "@/components/cards/QuestionCard";
 import Pagination from "@/components/shared/Pagination";
-import NoResult from "@/components/shared/NoResult";
 
 interface TopQuestionsTabProps {
   userId: string;
@@ -35,12 +34,9 @@ export default async function TopQuestionsTab({
             />
           ))
         ) : (
-          <NoResult
-            title="You have not posted any question!"
-            description=""
-            link="/ask-question"
-            linkTitle="Go ask a question."
-          />
+          <p className="paragraph-medium text-dark200_light900">
+            You have not posted any question!
+          </p>
         )}
       </div>
       <div className="mt-4">

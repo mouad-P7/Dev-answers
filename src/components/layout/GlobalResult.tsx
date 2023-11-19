@@ -44,7 +44,7 @@ export default function GlobalResult() {
   }
 
   return (
-    <div className="shadow-light100_darknone text-dark400_light900 background-light800_dark400 absolute mt-2 max-h-[500px] w-full rounded-xl">
+    <div className="shadow-light100_darknone text-dark400_light900 background-light800_dark400 absolute mt-2 max-h-[520px] w-full overflow-y-scroll rounded-xl">
       <div className="flex-start gap-4 border-b p-3">
         <p className="base-semibold text-dark200_light800">Type:</p>
         <GlobalFilter />
@@ -68,7 +68,7 @@ export default function GlobalResult() {
                   <Link
                     key={i}
                     href={renderLink(item.type, item.id)}
-                    className="flex flex-col gap-1 px-3 py-1.5 hover:bg-light-700/50"
+                    className="flex flex-col px-3 py-1.5 hover:bg-light-700/50"
                   >
                     <p className="paragraph-semibold line-clamp-1">
                       {item.title}

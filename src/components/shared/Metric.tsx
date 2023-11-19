@@ -23,7 +23,7 @@ export default function Metric({
   target,
 }: MetricProps) {
   const metricContent = (
-    <div className={`flex items-start gap-1`}>
+    <div className={`flex-start gap-1`}>
       <Image
         src={imgUrl}
         width={17}

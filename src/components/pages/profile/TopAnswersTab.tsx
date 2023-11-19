@@ -1,7 +1,6 @@
 import { getUserTopAnswers } from "@/server/actions/user.action";
 import AnswerCard from "@/components/cards/AnswerCard";
 import Pagination from "@/components/shared/Pagination";
-import NoResult from "@/components/shared/NoResult";
 
 interface TopAnswersTabProps {
   userId: string;
@@ -33,12 +32,9 @@ export default async function TopAnswersTab({
             />
           ))
         ) : (
-          <NoResult
-            title="You have not posted any answer!"
-            description="Go find a question to answer to help grow the community 💡"
-            link="/"
-            linkTitle="Go to home page"
-          />
+          <p className="paragraph-medium text-dark200_light900">
+            You have not posted any answer!
+          </p>
         )}
       </div>
       <div className="mt-4">
