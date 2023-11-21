@@ -15,7 +15,7 @@ export default async function TagCard({ tag, questionsNumber }: TagCardProps) {
           {formatNumber(questionsNumber)}
         </p>
         <p className="small-medium text-dark400_light500">
-          {questionsNumber === 1 ? "Question" : "Questions"}
+          {questionsNumber <= 1 ? "Question" : "Questions"}
         </p>
       </div>
     </div>
