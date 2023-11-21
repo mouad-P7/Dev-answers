@@ -4,6 +4,16 @@ import StatCard from "@/components/cards/StatCard";
 import { getUserData } from "@/server/actions/user.action";
 import TopQuestionsTab from "@/components/pages/profile/TopQuestionsTab";
 import TopAnswersTab from "@/components/pages/profile/TopAnswersTab";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { user } = await getUserData(params.id);
+  return { title: `${user.name} | Dev Answers` };
+}
 
 interface ProfileParams {
   params: { id: string };

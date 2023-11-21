@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Dev Answers",
   description: "Platform for asking and answering programming questions.",
+  icons: { icon: "/assets/images/site-logo.svg" },
 };
 
 export default function GlobalLayout({

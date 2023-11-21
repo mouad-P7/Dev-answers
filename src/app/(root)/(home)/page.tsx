@@ -9,6 +9,11 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllQuestions } from "@/server/actions/question.action";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Dev Answers",
+};
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };

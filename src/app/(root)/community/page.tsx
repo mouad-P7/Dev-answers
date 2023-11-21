@@ -4,6 +4,11 @@ import UserCard from "@/components/cards/UserCard";
 import { CommunityPageFilters } from "@/constants/filters";
 import { getAllUsers } from "@/server/actions/user.action";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Community | Dev Answers",
+};
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };

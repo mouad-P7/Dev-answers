@@ -3,6 +3,11 @@ import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/server/actions/user.action";
 import { getQuestionById } from "@/server/actions/question.action";
 import QuestionForm from "@/components/forms/QuestionForm";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Edit Question | Dev Answers",
+};
 
 export default async function EditQuestion({
   params,

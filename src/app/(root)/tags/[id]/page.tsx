@@ -3,6 +3,16 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import { getTagById } from "@/server/actions/tag.action";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { tag } = await getTagById({ tagId: params.id });
+  return { title: `${tag.name} | Dev Answers` };
+}
 
 export default async function TagQuestions({
   params,

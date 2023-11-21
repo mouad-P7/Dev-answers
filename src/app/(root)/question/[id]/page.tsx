@@ -9,6 +9,11 @@ import AnswerForm from "@/components/forms/AnswerForm";
 import { getUserById } from "@/server/actions/user.action";
 import AllAnswers from "@/components/pages/question/AllAnswers";
 import Votes from "@/components/shared/Votes";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Question | Dev Answers",
+};
 
 interface QuestionProps {
   params: { id: string };

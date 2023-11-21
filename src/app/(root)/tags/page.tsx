@@ -4,6 +4,11 @@ import TagCard from "@/components/cards/TagCard";
 import { TagsPageFilters } from "@/constants/filters";
 import { getAllTags } from "@/server/actions/tag.action";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tags | Dev Answers",
+};
 
 interface SearchParamsProps {
   searchParams: { [key: string]: string | undefined };
