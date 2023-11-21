@@ -3,6 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import LeftSidebar from "@/components/layout/LeftSidebar";
 import RightSidebar from "@/components/layout/RightSidebar";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/layout/Footer";
 
 export default function RootLayout({
   children,
@@ -19,6 +20,7 @@ export default function RootLayout({
         </section>
         <RightSidebar />
       </div>
+      <Footer />
       <Toaster />
     </div>
   );
