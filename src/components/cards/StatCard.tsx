@@ -33,7 +33,7 @@ export default function StatCard({
   badgeNum,
 }: StatCardProps) {
   return (
-    <div className="flex-center background-light900_dark200 h-[80px] grow gap-7 rounded-lg px-6 py-4 xs:grow-0">
+    <div className="flex-center background-light900_dark200 h-[80px] grow gap-7 rounded-lg px-6 py-4 shadow-light-300 dark:shadow-none xs:grow-0">
       {type === "basic" && (
         <>
           <Stat number={questionsNum} title="Questions" />
