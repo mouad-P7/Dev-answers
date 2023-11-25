@@ -60,6 +60,10 @@ body {
   .childSkeleton {
     @apply bg-gray-100/100 dark:bg-gray-900/100 !important;
   }
+
+  .link-hover {
+    @apply hover:bg-gray-100 hover:dark:bg-gray-700;
+  }
 }
 
 .no-focus {
