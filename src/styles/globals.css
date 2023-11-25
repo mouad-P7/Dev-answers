@@ -91,18 +91,26 @@ body {
   height: 3px;
   border-radius: 2px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #ffffff;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 50px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Dark mode scrollbar styles */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #444;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #333;
 }
 
 /* Markdown Start */
