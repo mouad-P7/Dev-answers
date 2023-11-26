@@ -8,8 +8,8 @@ Platform to share programming questions and answers.
 
 ### Frontend:
 
-HTML - CSS - Tailwindcss - TypeScript - React - Nextjs
+HTML - CSS - Tailwindcss - TypeScript - Reactjs - Nextjs
 
 ### Backend:
 
-TypeScript - Mongodb - Mongoose - Clerk
+TypeScript - SQL - Mongodb - Mongoose - Clerk
