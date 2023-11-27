@@ -1,6 +1,7 @@
 "use server";
 
 import { FilterQuery } from "mongoose";
+import escapeStringRegExp from "escape-string-regexp";
 import User from "@/server/database/user.model";
 import Tag from "@/server/database/tag.model";
 import Question from "../database/question.model";
@@ -38,9 +39,10 @@ export async function getTagById(params: getTagByIdParams) {
     // handle page < 1 edge case
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
+      const escapedSearchQuery = escapeStringRegExp(searchQuery);
       query.$or = [
-        { title: { $regex: new RegExp(searchQuery, "i") } },
-        { explanation: { $regex: new RegExp(searchQuery, "i") } },
+        { title: { $regex: new RegExp(escapedSearchQuery, "i") } },
+        { explanation: { $regex: new RegExp(escapedSearchQuery, "i") } },
       ];
     }
     const tag = await Tag.findById(tagId).populate({
@@ -69,7 +71,8 @@ export async function getAllTags(params: getAllTagsParams) {
     // handle page < 1 edge case
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
-      query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
+      const escapedSearchQuery = escapeStringRegExp(searchQuery);
+      query.$or = [{ name: { $regex: new RegExp(escapedSearchQuery, "i") } }];
     }
     let sortOptions = {};
     if (!filter || filter === "popular") {

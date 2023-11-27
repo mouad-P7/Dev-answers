@@ -2,6 +2,7 @@
 
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
+import escapeStringRegExp from "escape-string-regexp";
 import User from "@/server/database/user.model";
 import Question from "@/server/database/question.model";
 import Answer from "@/server/database/answer.model";
@@ -83,9 +84,10 @@ export async function getAllSavedQuestions(params: getAllSavedQuestionsParams) {
     // handle page < 1 edge case
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
+      const escapedSearchQuery = escapeStringRegExp(searchQuery);
       query.$or = [
-        { title: { $regex: new RegExp(searchQuery, "i") } },
-        { explanation: { $regex: new RegExp(searchQuery, "i") } },
+        { title: { $regex: new RegExp(escapedSearchQuery, "i") } },
+        { explanation: { $regex: new RegExp(escapedSearchQuery, "i") } },
       ];
     }
     let sortOptions = {};
@@ -173,9 +175,10 @@ export async function getAllUsers(params: getAllUsersParams) {
     // handle page < 1 edge case
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
+      const escapedSearchQuery = escapeStringRegExp(searchQuery);
       query.$or = [
-        { name: { $regex: new RegExp(searchQuery, "i") } },
-        { userName: { $regex: new RegExp(searchQuery, "i") } },
+        { name: { $regex: new RegExp(escapedSearchQuery, "i") } },
+        { userName: { $regex: new RegExp(escapedSearchQuery, "i") } },
       ];
     }
     let sortOptions = {};

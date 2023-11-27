@@ -1,5 +1,6 @@
 "use server";
 
+import escapeStringRegexp from "escape-string-regexp";
 import { connectToDatabase } from "@/server/mongoose";
 import Answer from "@/server/database/answer.model";
 import Question from "@/server/database/question.model";
@@ -19,7 +20,8 @@ export async function globalSearch(params: globalSearchParams) {
   try {
     await connectToDatabase();
     const { globalQuery, typeFilter } = params;
-    const regexQuery = { $regex: globalQuery, $options: "i" };
+    const escapedGlobalQuery = escapeStringRegexp(globalQuery || "");
+    const regexQuery = { $regex: escapedGlobalQuery, $options: "i" };
     let results = [];
     const typeLower = typeFilter?.toLowerCase();
     if (!typeLower || !SearchableTypes.includes(typeLower)) {

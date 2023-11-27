@@ -2,6 +2,7 @@
 
 import { FilterQuery, Types } from "mongoose";
 import { revalidatePath } from "next/cache";
+import escapeStringRegExp from "escape-string-regexp";
 import { connectToDatabase } from "@/server/mongoose";
 import Question from "@/server/database/question.model";
 import Tag from "@/server/database/tag.model";
@@ -164,9 +165,10 @@ export async function getAllQuestions(params: getAllQuestionsParams) {
     // handle page < 1 edge case
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
+      const escapedSearchQuery = escapeStringRegExp(searchQuery);
       query.$or = [
-        { title: { $regex: new RegExp(searchQuery, "i") } },
-        { explanation: { $regex: new RegExp(searchQuery, "i") } },
+        { title: { $regex: new RegExp(escapedSearchQuery, "i") } },
+        { explanation: { $regex: new RegExp(escapedSearchQuery, "i") } },
       ];
     }
     let sortOptions = {};
