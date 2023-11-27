@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { formatNumber, capitalize } from "@/lib/format";
 import { voteQuestion } from "@/server/actions/question.action";
 import { voteAnswer } from "@/server/actions/answer.action";
-import { saveQuestion } from "@/server/actions/user.action";
 import { viewQuestion } from "@/server/actions/interaction.action";
 import { useToast } from "@/components/ui/use-toast";
+import SaveQuestion from "./SaveQuestion";
 
 interface VotesProps {
   type: string;
@@ -36,7 +36,6 @@ export default function Votes({
   const pathname = usePathname();
   const router = useRouter();
   const { toast } = useToast();
-  const [isSaving, setIsSaving] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
 
   useEffect(() => {
@@ -45,28 +44,6 @@ export default function Votes({
       userId: userId ? JSON.parse(userId) : undefined,
     });
   }, [itemId, userId, pathname, router]);
-
-  async function handleSave() {
-    setIsSaving(true);
-    if (!userId) {
-      setIsSaving(false);
-      return toast({
-        title: "Please Log In",
-        description: `You must be logged in to save question.`,
-      });
-    }
-    await saveQuestion({
-      questionId: JSON.parse(itemId),
-      userId: JSON.parse(userId),
-      path: pathname,
-    });
-    toast({
-      title: `Question ${
-        !hasSaved ? "Saved in" : "Removed from"
-      } your collection`,
-    });
-    setIsSaving(false);
-  }
 
   async function handleVote(action: string) {
     setIsVoting(true);
@@ -169,30 +146,7 @@ export default function Votes({
         </div>
       </div>
       {type === "question" ? (
-        <div className="flex-start">
-          <Button
-            disabled={isSaving}
-            className="p-0"
-            onClick={() => handleSave()}
-          >
-            {isSaving ? (
-              <ReloadIcon
-                className="animate-spin text-primary-500"
-                width={18}
-                height={18}
-              />
-            ) : (
-              <Image
-                src={`/assets/icons/${
-                  hasSaved ? "star-filled" : "star-red"
-                }.svg`}
-                alt="star"
-                width={18}
-                height={18}
-              />
-            )}
-          </Button>
-        </div>
+        <SaveQuestion userId={userId} questionId={itemId} hasSaved={hasSaved} />
       ) : null}
     </div>
   );

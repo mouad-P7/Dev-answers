@@ -4,7 +4,10 @@ import LocalSearch from "@/components/shared/LocalSearch";
 import Filter from "@/components/shared/Filter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
-import { getAllSavedQuestions } from "@/server/actions/user.action";
+import {
+  getAllSavedQuestions,
+  getUserById,
+} from "@/server/actions/user.action";
 import Pagination from "@/components/shared/Pagination";
 import type { Metadata } from "next";
 
@@ -19,6 +22,7 @@ interface SearchParamsProps {
 export default async function Collection({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
   if (!userId) return null;
+  const mongoUser = await getUserById({ userId });
   const { savedQuestions, isNext } = await getAllSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
@@ -45,6 +49,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
           savedQuestions.map((qst: any) => (
             <QuestionCard
               key={qst.id}
+              mongoUser={mongoUser}
               id={qst.id}
               title={qst.title}
               tags={qst.tags}

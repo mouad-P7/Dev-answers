@@ -3,9 +3,11 @@ import Tag from "../shared/Tag";
 import Metric from "@/components/shared/Metric";
 import { formatDate, formatNumber } from "@/lib/format";
 import EditDelete from "../shared/EditDelete";
+import SaveQuestion from "@/components/shared/SaveQuestion";
 
 interface QuestionCardProps {
   id: string;
+  mongoUser?: any;
   title: string;
   tags: { id: string; name: string }[];
   author: { clerkId: string; name: string; picture: string };
@@ -17,6 +19,7 @@ interface QuestionCardProps {
 
 export default function QuestionCard({
   id,
+  mongoUser,
   title,
   tags,
   author,
@@ -32,6 +35,11 @@ export default function QuestionCard({
           {title}
         </Link>
         <EditDelete type="question" typeId={id} clerkId={author.clerkId} />
+        <SaveQuestion
+          userId={JSON.stringify(mongoUser?._id)}
+          questionId={JSON.stringify(id)}
+          hasSaved={mongoUser?.saved.includes(id)}
+        />
       </div>
       <div className="flex-start gap-2">
         {tags.map((tag) => (
