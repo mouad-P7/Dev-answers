@@ -16,6 +16,7 @@ import {
   FormItem,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { answerSchema } from "@/lib/schema";
@@ -194,6 +195,9 @@ export default function AnswerForm({
                     }}
                   />
                 </FormControl>
+                <FormDescription className="body-regular mt-2.5 text-light-500">
+                  Answer the problem in details. Minimum 50 characters.
+                </FormDescription>
                 <FormMessage className="text-red-500" />
               </FormItem>
             )}
