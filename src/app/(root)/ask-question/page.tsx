@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/server/actions/user.action";
 import QuestionForm from "@/components/forms/QuestionForm";
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
 
 export default async function AskQuestion() {
   const { userId } = auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) return null;
   const mongoUser = await getUserById({ userId });
 
   return (
