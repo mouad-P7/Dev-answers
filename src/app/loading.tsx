@@ -61,30 +61,6 @@ export default function Loading() {
               </Skeleton>
             ))}
           </section>
-          <section className="flex flex-col gap-3">
-            <div className="small-medium btn-secondary min-h-[41px] w-full rounded-lg p-3 text-center shadow-none">
-              <Image
-                src="/assets/icons/account.svg"
-                alt="log in"
-                width={20}
-                height={20}
-                className="invert-colors lg:hidden"
-              />
-              <span className="primary-text-gradient max-lg:hidden">
-                Log In
-              </span>
-            </div>
-            <div className="small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] w-full rounded-lg border p-3 text-center shadow-none">
-              <Image
-                src="/assets/icons/sign-up.svg"
-                alt="sign up"
-                width={20}
-                height={20}
-                className="invert-colors lg:hidden"
-              />
-              <span className="max-lg:hidden">Sign Up</span>
-            </div>
-          </section>
         </Skeleton>
 
         <section className="flex-center min-h-screen flex-1 flex-col gap-4">
