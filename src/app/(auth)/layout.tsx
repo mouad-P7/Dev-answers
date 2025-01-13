@@ -6,7 +6,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex-center h-full w-full bg-[url('/assets/images/auth-light.png')] bg-contain bg-center dark:bg-[url('/assets/images/auth-dark.png')]">
+    <div className="flex-center h-full w-full bg-contain bg-center bg-auth-light dark:bg-auth-dark">
       {children}
     </div>
   );

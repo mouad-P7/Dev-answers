@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { remoteFiles } from "@/constants";
 import { LinkedInLogoIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export default function Footer() {
@@ -25,7 +26,7 @@ export default function Footer() {
             <p className="base-medium">Developed By:</p>
             <div className="flex-center gap-2">
               <Image
-                src="/assets/images/profile.jpg"
+                src={remoteFiles.profile}
                 alt="Profile"
                 width={50}
                 height={50}

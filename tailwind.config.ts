@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { remoteFiles } from "./src/constants/index";
 
 const config: Config = {
   darkMode: ["class"],
@@ -47,8 +48,8 @@ const config: Config = {
         "dark-200": "2px 0px 20px 0px #2724240a",
       },
       backgroundImage: {
-        "auth-dark": "url('/assets/images/auth-dark.png')",
-        "auth-light": "url('/assets/images/auth-light.png')",
+        "auth-dark": `url(${remoteFiles.auth_dark})`,
+        "auth-light": `url(${remoteFiles.auth_light})`,
       },
       screens: {
         xs: "420px",

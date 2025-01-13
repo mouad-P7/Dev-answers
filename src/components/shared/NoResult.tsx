@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { remoteFiles } from "@/constants";
 
 interface NoResultProps {
   title: string;
@@ -18,14 +19,14 @@ export default function NoResult({
   return (
     <div className="flex w-full flex-col items-center justify-center sm:mt-10">
       <Image
-        src="/assets/images/light-illustration.png"
+        src={remoteFiles.light_illustration}
         alt="No result illustration"
         width={270}
         height={200}
         className="block object-contain dark:hidden"
       />
       <Image
-        src="/assets/images/dark-illustration.png"
+        src={remoteFiles.dark_illustration}
         alt="No result illustration"
         width={270}
         height={200}
